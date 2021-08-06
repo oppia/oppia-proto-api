@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.structure;
+
+option java_package = "org.oppia.v1.structure";
+option java_multiple_files = true;
+
+message TopicSummaryStructureVersion {
+  int32 version = 1;
+}
+
+message RevisionCardStructureVersion {
+  int32 version = 1;
+}
+
+message ConceptCardStructureVersion {
+  int32 version = 1;
+}
+
+message ExplorationStructureVersion {
+  int32 version = 1;
+}
+
+message QuestionStructureVersion {
+  int32 version = 1;
+}
+
+// This version implies interaction compatibility since interactions are tightly defined in the structures.
+message StateStructureVersion {
+  int32 version = 1;
+}
+
+message LanguageStructuresVersion {
+  int32 version = 1;
+}
+
+message ImageStructureVersion {
+  int32 version = 1;
+}

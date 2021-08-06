@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.structure;
+
+import "proto/v1/structure/image.proto";
+import "proto/v1/structure/versions.proto";
+
+option java_package = "org.oppia.v1.structure";
+option java_multiple_files = true;
+
+message TopicSummary {
+  TopicSummaryStructureVersion structure_version = 1;
+
+  string id = 2;
+  string name = 3;
+  string description = 4;
+  oneof download_type {
+    int32 download_size_bytes = 5;
+    int32 update_size_bytes = 6;
+  }
+  repeated StorySummary story_summaries = 7;
+  repeated int32 subtopic_indexes = 8;
+  Thumbnail thumbnail = 9; // TODO
+  bool is_published = 10;
+  int32 model_version = 11;
+}
+
+// Structure version corresponds to TopicSummaryStructureVersion.
+message StorySummary {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  Thumbnail thumbnail = 4; // TODO
+  repeated ChapterSummary chapters = 5;
+  int32 model_version = 6;
+}
+
+// Structure version corresponds to TopicSummaryStructureVersion.
+message ChapterSummary {
+  Thumbnail thumbnail = 1; // TODO
+  string title = 2;
+  string exploration_id = 3;
+  int32 model_version = 4;
+}
+
+// Structure version corresponds to TopicSummaryStructureVersion.
+message SubtopicSummary {
+  int32 index = 1;
+  repeated SkillSummary skill_summaries = 2;
+  int32 model_version = 3;
+}
+
+// Structure version corresponds to TopicSummaryStructureVersion.
+message SkillSummary {
+  string id = 1;
+  string name = 2;
+  int32 model_version = 4;
+}

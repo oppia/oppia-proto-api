@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.structure;
+
+import "proto/v1/structure/image.proto";
+import "proto/v1/structure/languages.proto";
+import "proto/v1/structure/versions.proto";
+
+option java_package = "org.oppia.v1.structure";
+option java_multiple_files = true;
+
+message ConceptCard {
+  ConceptCardStructureVersion structure_version = 1;
+
+  string skill_id = 2;
+  string description = 3;
+  SubtitledHtml explanation = 4;
+  repeated WorkedExample worked_examples = 5;
+  RecordedVoiceovers recorded_voiceovers = 6;
+  WrittenTranslations written_translations = 7;
+  ReferencedImageList referenced_image_list = 8;
+
+  // Structure version corresponds to ConceptCardStructureVersion.
+  message WorkedExample {
+    SubtitledHtml question = 1;
+    SubtitledHtml explanation = 2;
+  }
+}

@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.structure;
+
+import "proto/v1/structure/versions.proto";
+
+option java_package = "org.oppia.v1.structure";
+option java_multiple_files = true;
+
+// Structure corresponds to LanguageStructuresVersion.
+enum LanguageCode {
+  LANGUAGE_CODE_UNSPECIFIED = 0;
+  ENGLISH = 1;
+  ARABIC = 2;
+  HINDI = 3;
+  HINGLISH = 4;
+}
+
+message SubtitledHtml {
+  LanguageStructuresVersion structure_version = 1;
+
+  string content_id = 2;
+  string html = 3;
+}
+
+message RecordedVoiceovers {
+  LanguageStructuresVersion structure_version = 1;
+
+  repeated VoiceoverContentMapping voiceover_language_mapping = 2;
+}
+
+// Structure corresponds to LanguageStructuresVersion.
+message VoiceoverContentMapping {
+  LanguageCode language_code = 1;
+  map<string, Voiceover> voiceover_content_mapping = 2;
+}
+
+// Structure corresponds to LanguageStructuresVersion.
+message Voiceover {
+  string filename = 1;
+  int32 file_size_bytes = 2;
+  reserved 3; // needs_update
+  float duration_secs = 4;
+}
+
+message WrittenTranslations {
+  LanguageStructuresVersion structure_version = 1;
+
+  repeated WrittenTranslationContentMapping translation_language_mapping = 2;
+}
+
+// Structure corresponds to LanguageStructuresVersion.
+message WrittenTranslationContentMapping {
+  LanguageCode language_code = 1;
+  map<string, WrittenTranslation> translation_content_mapping = 2;
+}
+
+// Structure corresponds to LanguageStructuresVersion.
+message WrittenTranslation {
+  oneof data_format {
+    WrittenTranslatableHtml translatable_html = 1;
+    WrittenTranslatableUnicode translatable_unicode = 2;
+    WrittenTranslatableSetOfNormalizedString translatable_set_of_normalized_string = 3;
+    WrittenTranslatableSetOfUnicodeString translatable_set_of_unicode_string = 4;
+  }
+}
+
+// Structure corresponds to LanguageStructuresVersion.
+message WrittenTranslatableHtml {
+  string translation_html = 1;
+}
+
+// Structure corresponds to LanguageStructuresVersion.
+message WrittenTranslatableUnicode {
+  string translation_unicode = 1;
+}
+
+// Structure corresponds to LanguageStructuresVersion.
+message WrittenTranslatableSetOfNormalizedString {
+  repeated string translations = 1;
+}
+
+// Structure corresponds to LanguageStructuresVersion.
+message WrittenTranslatableSetOfUnicodeString {
+  repeated string unicode_translations = 1;
+}

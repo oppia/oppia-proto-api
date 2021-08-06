@@ -1,0 +1,455 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.structure;
+
+import "proto/v1/structure/languages.proto";
+import "proto/v1/structure/objects.proto";
+import "proto/v1/structure/versions.proto";
+
+option java_package = "org.oppia.v1.structure";
+option java_multiple_files = true;
+
+message State {
+  StateStructureVersion structure_version = 1;
+
+  SubtitledHtml content = 2;
+  InteractionInstance interaction = 3;
+  RecordedVoiceovers recorded_voiceovers = 4;
+  WrittenTranslations written_translations = 5;
+}
+
+// Structure corresponds to StateStructureVersion.
+message InteractionInstance {
+  oneof interaction_type {
+    ContinueInstance continue = 1;
+    FractionInputInstance fraction_input = 2;
+    ItemSelectionInputInstance item_selection_input = 3;
+    MultipleChoiceInputInstance multiple_choice_input = 4;
+    NumericInputInstance numeric_input = 5;
+    TextInputInstance text_input = 6;
+    DragAndDropSortInputInstance drag_and_drop_sort_input = 7;
+    ImageClickInputInstance image_click_input = 8;
+    RatioExpressionInputInstance ratio_expression_input = 9;
+    EndExplorationInstance end_exploration = 10;
+  }
+}
+
+// Answer type: none (N/A since no answers are submitted for this interaction).
+// Structure corresponds to StateStructureVersion.
+message ContinueInstance {
+  CustomizationArgs customization_args = 1;
+  Outcome default_outcome = 2;
+
+  // Continue interactions cannot have custom answer groups, and do not support
+  // solutions. Users cannot receive hints since only one answer is possible
+  // (clicking the button).
+
+  message CustomizationArgs {
+    // Note that while the continue interaction has a default button text
+    // defined, it's not used in the app since the default string needs to come
+    // through the app's strings so that it can be translated.
+    SubtitledHtml button_text = 1;
+  }
+}
+
+// Answer type: Fraction.
+// Structure corresponds to StateStructureVersion.
+message FractionInputInstance {
+  CustomizationArgs customization_args = 1;
+  repeated AnswerGroup answer_groups = 2;
+  Outcome default_outcome = 3;
+  repeated Hint hints = 4;
+  Solution solution = 5;
+
+  message CustomizationArgs {
+    bool requires_simplest_form = 1;
+    bool allow_improper_fractions = 2;
+    bool allow_nonzero_integer_part = 3;
+    SubtitledHtml custom_placeholder = 4;
+  }
+  message Solution {
+    BaseSolution base_solution = 1;
+    Fraction correct_answer = 2;
+  }
+  message AnswerGroup {
+    BaseAnswerGroup base_answer_group = 1;
+    repeated RuleSpec rule_specs = 2;
+  }
+  message RuleSpec {
+    oneof rule_type {
+      IsExactlyEqualToSpec is_exactly_equal_to = 1;
+      IsEquivalentToSpec is_equivalent_to = 2;
+      IsEquivalentToAndInSimplestFormSpec is_equivalent_to_and_in_simplest_form = 3;
+      IsLessThanSpec is_less_than = 4;
+      IsGreaterThanSpec is_greater_than = 5;
+      HasNumeratorEqualToSpec has_numerator_equal_to = 6;
+      HasDenominatorEqualToSpec has_denominator_equal_to = 7;
+      HasIntegerPartEqualToSpec has_integer_part_equal_to = 8;
+      HasNoFractionalPartSpec has_no_fractional_part = 9;
+      HasFractionalPartExactlyEqualToSpec has_fractional_part_exactly_equal_to = 10;
+    }
+    message IsExactlyEqualToSpec {
+      Fraction input = 1;
+    }
+    message IsEquivalentToSpec {
+      Fraction input = 1;
+    }
+    message IsEquivalentToAndInSimplestFormSpec {
+      Fraction input = 1;
+    }
+    message IsLessThanSpec {
+      Fraction input = 1;
+    }
+    message IsGreaterThanSpec {
+      Fraction input = 1;
+    }
+    message HasNumeratorEqualToSpec {
+      int32 input = 1;
+    }
+    message HasDenominatorEqualToSpec {
+      uint32 input = 1;
+    }
+    message HasIntegerPartEqualToSpec {
+      int32 input = 1;
+    }
+    message HasNoFractionalPartSpec {
+      // No inputs for this rule spec.
+    }
+    message HasFractionalPartExactlyEqualToSpec {
+      Fraction input = 1;
+    }
+  }
+}
+
+// Answer type: SetOfTranslatableHtmlContentIds.
+// Structure corresponds to StateStructureVersion.
+message ItemSelectionInputInstance {
+  CustomizationArgs customization_args = 1;
+  repeated AnswerGroup answer_groups = 2;
+  Outcome default_outcome = 3;
+  repeated Hint hints = 4;
+
+  // Item selection does not support solutions.
+
+  message CustomizationArgs {
+    int32 min_allowable_selection_count = 1;
+    int32 max_allowable_selection_count = 2;
+    repeated SubtitledHtml choices = 3;
+  }
+  message AnswerGroup {
+    BaseAnswerGroup base_answer_group = 1;
+    repeated RuleSpec rule_specs = 2;
+  }
+  message RuleSpec {
+    oneof rule_type {
+      EqualsSpec equals = 1;
+      ContainsAtLeastOneOfSpec contains_at_least_one_of = 2;
+      DoesNotContainAtLeastOneOfSpec does_not_contain_at_least_one_of = 3;
+      IsProperSubsetOfSpec is_proper_subset_of = 4;
+    }
+    message EqualsSpec {
+      SetOfTranslatableHtmlContentIds input = 1;
+    }
+    message ContainsAtLeastOneOfSpec {
+      SetOfTranslatableHtmlContentIds input = 1;
+    }
+    message DoesNotContainAtLeastOneOfSpec {
+      SetOfTranslatableHtmlContentIds input = 1;
+    }
+    message IsProperSubsetOfSpec {
+      SetOfTranslatableHtmlContentIds input = 1;
+    }
+  }
+}
+
+// Answer type: non-negative int (uint32).
+// Structure corresponds to StateStructureVersion.
+message MultipleChoiceInputInstance {
+  CustomizationArgs customization_args = 1;
+  repeated AnswerGroup answer_groups = 2;
+  Outcome default_outcome = 3;
+  repeated Hint hints = 4;
+
+  // Multiple choice does not support solutions.
+
+  message CustomizationArgs {
+    repeated SubtitledHtml choices = 1;
+  }
+  message AnswerGroup {
+    BaseAnswerGroup base_answer_group = 1;
+    repeated RuleSpec rule_specs = 2;
+  }
+  message RuleSpec {
+    oneof rule_type {
+      EqualsSpec equals = 1;
+    }
+    message EqualsSpec {
+      uint32 input = 1;
+    }
+  }
+}
+
+// Answer type: real (double).
+// Structure corresponds to StateStructureVersion.
+message NumericInputInstance {
+  repeated AnswerGroup answer_groups = 1;
+  Solution solution = 2;
+  Outcome default_outcome = 3;
+  repeated Hint hints = 4;
+
+  // Numeric input does not have any customization arguments.
+
+  message Solution {
+    BaseSolution base_solution = 1;
+    double correct_answer = 2;
+  }
+  message AnswerGroup {
+    BaseAnswerGroup base_answer_group = 1;
+    repeated RuleSpec rule_specs = 2;
+  }
+  message RuleSpec {
+    oneof rule_type {
+      EqualsSpec equals = 1;
+      IsLessThanSpec is_less_than = 2;
+      IsGreaterThanSpec is_greater_than = 3;
+      IsLessThanOrEqualToSpec is_less_than_or_equal_to = 4;
+      IsGreaterThanOrEqualToSpec is_greater_than_or_equal_to = 5;
+      IsInclusivelyBetweenSpec is_inclusively_between = 6;
+      IsWithinToleranceSpec is_within_tolerance = 7;
+    }
+    message EqualsSpec {
+      double input = 1;
+    }
+    message IsLessThanSpec {
+      double input = 1;
+    }
+    message IsGreaterThanSpec {
+      double input = 1;
+    }
+    message IsLessThanOrEqualToSpec {
+      double input = 1;
+    }
+    message IsGreaterThanOrEqualToSpec {
+      double input = 1;
+    }
+    message IsInclusivelyBetweenSpec {
+      double inputLowerInclusive = 1;
+      double inputUpperInclusive = 2;
+    }
+    message IsWithinToleranceSpec {
+      double inputTolerance = 1;
+      double inputComparedValue = 2;
+    }
+  }
+}
+
+// Answer type: normalized string (string).
+// Structure corresponds to StateStructureVersion.
+message TextInputInstance {
+  CustomizationArgs customization_args = 1;
+  repeated AnswerGroup answer_groups = 2;
+  Outcome default_outcome = 3;
+  repeated Hint hints = 4;
+  Solution solution = 5;
+
+  message CustomizationArgs {
+    SubtitledHtml placeholder = 1;
+    int32 rows = 2;
+  }
+  message Solution {
+    BaseSolution base_solution = 1;
+    string correct_answer = 2;
+  }
+  message AnswerGroup {
+    BaseAnswerGroup base_answer_group = 1;
+    repeated RuleSpec rule_specs = 2;
+  }
+  message RuleSpec {
+    oneof rule_type {
+      EqualsSpec equals = 1;
+      StartsWithSpec starts_with = 2;
+      ContainsSpec contains = 3;
+      FuzzyEqualsSpec fuzzy_equals = 4;
+    }
+    message EqualsSpec {
+      TranslatableSetOfNormalizedString input = 1;
+    }
+    message StartsWithSpec {
+      TranslatableSetOfNormalizedString input = 1;
+    }
+    message ContainsSpec {
+      TranslatableSetOfNormalizedString input = 1;
+    }
+    message FuzzyEqualsSpec {
+      TranslatableSetOfNormalizedString input = 1;
+    }
+  }
+}
+
+// Answer type: ListOfSetsOfTranslatableHtmlContentIds.
+// Structure corresponds to StateStructureVersion.
+message DragAndDropSortInputInstance {
+  CustomizationArgs customization_args = 1;
+  repeated AnswerGroup answer_groups = 2;
+  Outcome default_outcome = 3;
+  repeated Hint hints = 4;
+  Solution solution = 5;
+
+  message CustomizationArgs {
+    repeated SubtitledHtml choices = 1;
+    bool allowMultipleItemsInSamePosition = 2;
+  }
+  message Solution {
+    BaseSolution base_solution = 1;
+    ListOfSetsOfTranslatableHtmlContentIds correct_answer = 2;
+  }
+  message AnswerGroup {
+    BaseAnswerGroup base_answer_group = 1;
+    repeated RuleSpec rule_specs = 2;
+  }
+  message RuleSpec {
+    oneof rule_type {
+      IsEqualToOrderingSpec is_equal_to_ordering = 1;
+      IsEqualToOrderingWithOneItemAtIncorrectPositionSpec is_equal_to_ordering_with_one_item_at_incorrect_position = 2;
+      HasElementXAtPositionYSpec has_element_x_at_position_y = 3;
+      HasElementXBeforeElementYSpec has_element_x_before_element_y = 4;
+    }
+    message IsEqualToOrderingSpec {
+      ListOfSetsOfTranslatableHtmlContentIds input = 1;
+    }
+    message IsEqualToOrderingWithOneItemAtIncorrectPositionSpec {
+      ListOfSetsOfTranslatableHtmlContentIds input = 1;
+    }
+    message HasElementXAtPositionYSpec {
+      TranslatableHtmlContentId element = 1;
+      uint32 position = 2;
+    }
+    message HasElementXBeforeElementYSpec {
+      TranslatableHtmlContentId considered_element = 1;
+      TranslatableHtmlContentId later_element = 2;
+    }
+  }
+}
+
+// Answer type: ClickOnImage.
+// Structure corresponds to StateStructureVersion.
+message ImageClickInputInstance {
+  CustomizationArgs customization_args = 1;
+  repeated AnswerGroup answer_groups = 2;
+  Outcome default_outcome = 3;
+  repeated Hint hints = 4;
+
+  // Image click input doesn't yet support solutions.
+
+  message CustomizationArgs {
+    ImageWithRegions image_and_regions = 1;
+    reserved 2; // highlight_regions_on_hover which is not supported on Android.
+  }
+  message AnswerGroup {
+    BaseAnswerGroup base_answer_group = 1;
+    repeated RuleSpec rule_specs = 2;
+  }
+  message RuleSpec {
+    oneof rule_type {
+      IsInRegionSpec is_in_region = 1;
+    }
+    message IsInRegionSpec {
+      string input_region = 1;
+    }
+  }
+}
+
+// Answer type: RatioExpression.
+// Structure corresponds to StateStructureVersion.
+message RatioExpressionInputInstance {
+  CustomizationArgs customization_args = 1;
+  repeated AnswerGroup answer_groups = 2;
+  Outcome default_outcome = 3;
+  repeated Hint hints = 4;
+  Solution solution = 5;
+
+  message CustomizationArgs {
+    SubtitledHtml placeholder = 1;
+    int32 number_of_terms = 2;
+  }
+  message Solution {
+    BaseSolution base_solution = 1;
+    RatioExpression correct_answer = 2;
+  }
+  message AnswerGroup {
+    BaseAnswerGroup base_answer_group = 1;
+    repeated RuleSpec rule_specs = 2;
+  }
+  message RuleSpec {
+    oneof rule_type {
+      EqualsSpec equals = 1;
+      IsEquivalentSpec is_equivalent = 2;
+      HasNumberOfTermsEqualToSpec has_number_of_terms_equal_to = 3;
+    }
+    message EqualsSpec {
+      RatioExpression input = 1;
+    }
+    message IsEquivalentSpec {
+      RatioExpression input = 1;
+    }
+    message HasNumberOfTermsEqualToSpec {
+      uint32 input_term_count = 1;
+    }
+  }
+}
+
+// Answer type: none (N/A since no answers are submitted for this interaction).
+// Structure corresponds to StateStructureVersion.
+message EndExplorationInstance {
+  // No answers can be submitted to the end exploration, so there are neither
+  // answer groups nor solutions. The interaction does have customization
+  // arguments, but they aren't supported in the Android app. No default outcome
+  // is possible since the user takes no interactions. No hints can be shown to
+  // the user.
+}
+
+// Common fields for all answer groups.
+// Structure corresponds to StateStructureVersion.
+message BaseAnswerGroup {
+  Outcome outcome = 1;
+  Misconception tagged_skill_misconception = 2;
+}
+
+// Structure corresponds to StateStructureVersion.
+message Outcome {
+  string destination_state = 1;
+  SubtitledHtml feedback = 2;
+  bool labelled_as_correct = 3;
+  reserved 4; // param_changes
+  reserved 5; // refresher_exploration_id
+  reserved 6; // missing_prerequisite_skill_id
+}
+
+// Structure corresponds to StateStructureVersion.
+message Hint {
+  SubtitledHtml hint_content = 1;
+}
+
+// Common fields for all solutions.
+// Structure corresponds to StateStructureVersion.
+message BaseSolution {
+  SubtitledHtml explanation = 1;
+}
+
+// Convenience collection object for all potential types of solutions.
+// Structure corresponds to StateStructureVersion.
+message Solution {
+  oneof interaction_type {
+    FractionInputInstance.Solution fraction_instance_solution = 1;
+    NumericInputInstance.Solution numeric_input_instance_solution = 2;
+    TextInputInstance.Solution text_input_instance_solution = 3;
+    DragAndDropSortInputInstance.Solution drag_and_drop_sort_input_instance_solution = 4;
+    RatioExpressionInputInstance.Solution ratio_expression_input_instance_solution = 5;
+  }
+}
+
+// Structure corresponds to StateStructureVersion.
+message Misconception {
+  string skill_id = 1;
+  string misconception_id = 2;
+}

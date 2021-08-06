@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.structure;
+
+option java_package = "org.oppia.v1.structure";
+option java_multiple_files = true;
+
+message Fraction {
+  bool is_negative = 1;
+  uint32 whole_number = 2;
+  uint32 numerator = 3;
+  int32 denominator = 4;
+}
+
+message TranslatableHtmlContentId {
+  string content_id = 1;
+}
+
+message SetOfTranslatableHtmlContentIds {
+  repeated TranslatableHtmlContentId content_ids = 1;
+}
+
+message ListOfSetsOfTranslatableHtmlContentIds {
+  repeated SetOfTranslatableHtmlContentIds content_id_lists = 1;
+}
+
+message Point2d {
+  double x = 1;
+  double y = 2;
+}
+
+message ClickOnImage {
+  Point2d click_position = 1;
+  repeated string clicked_regions = 2;
+}
+
+message RatioExpression {
+  repeated uint32 components = 1;
+}
+
+message TranslatableSetOfNormalizedString {
+  string content_id = 1;
+  repeated string normalized_strings = 2;
+}
+
+message ImageWithRegions {
+  string image_file_path = 1;
+  repeated LabeledRegion labeled_regions = 2;
+
+  message LabeledRegion {
+    string label = 3;
+    oneof region_type {
+      NormalizedRectangle2d normalized_rectangle_2d = 1;
+    }
+    message NormalizedRectangle2d {
+      Point2d upper_left = 1;
+      Point2d lower_right = 2;
+    }
+  }
+}
