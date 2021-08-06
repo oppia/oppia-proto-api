@@ -22,7 +22,7 @@ message TopicSummary {
   repeated int32 subtopic_indexes = 8;
   Thumbnail thumbnail = 9; // TODO
   bool is_published = 10;
-  int32 model_version = 11;
+  int32 content_version = 11;
 }
 
 // Structure version corresponds to TopicSummaryStructureVersion.
@@ -32,7 +32,7 @@ message StorySummary {
   string description = 3;
   Thumbnail thumbnail = 4; // TODO
   repeated ChapterSummary chapters = 5;
-  int32 model_version = 6;
+  int32 content_version = 6;
 }
 
 // Structure version corresponds to TopicSummaryStructureVersion.
@@ -40,19 +40,19 @@ message ChapterSummary {
   Thumbnail thumbnail = 1; // TODO
   string title = 2;
   string exploration_id = 3;
-  int32 model_version = 4;
+  int32 content_version = 4;
 }
 
 // Structure version corresponds to TopicSummaryStructureVersion.
 message SubtopicSummary {
   int32 index = 1;
   repeated SkillSummary skill_summaries = 2;
-  int32 model_version = 3;
+  int32 content_version = 3;
 }
 
 // Structure version corresponds to TopicSummaryStructureVersion.
 message SkillSummary {
   string id = 1;
   string name = 2;
-  int32 model_version = 4;
+  int32 content_version = 4;
 }

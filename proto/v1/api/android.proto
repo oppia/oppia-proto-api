@@ -78,7 +78,7 @@ message ClientCompatibilityContext {
 
 message ClientDownloadStateContext {
   message DownloadState {
-    int32 model_version = 1;
+    int32 content_version = 1;
     oneof structure_type {
       string topic_id = 2; // in summary
       org.oppia.proto.v1.structure.SubtopicId revision_card_id = 3; // in summary

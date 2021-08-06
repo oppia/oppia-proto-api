@@ -16,6 +16,6 @@ message Exploration {
   string title = 3;
   string init_state_name = 4;
   map<string, State> states = 5;
-  int32 model_version = 6;
+  int32 content_version = 6;
   ReferencedImageList referenced_image_list = 7;
 }
