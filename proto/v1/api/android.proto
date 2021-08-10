@@ -80,11 +80,11 @@ message ClientDownloadStateContext {
   message DownloadState {
     int32 content_version = 1;
     oneof structure_type {
-      string topic_id = 2; // in summary
-      org.oppia.proto.v1.structure.SubtopicId revision_card_id = 3; // in summary
+      string topic_id = 2;
+      org.oppia.proto.v1.structure.SubtopicId revision_card_id = 3;
       string concept_card_id = 4;
-      string story_id = 5; // in summary
-      string exploration_id = 6; // in summary
+      string story_id = 5; 
+      string exploration_id = 6; 
       string question_id = 7;
       string skill_id = 8;
     }
