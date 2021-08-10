@@ -67,13 +67,13 @@ message ClientContext {
 
 message ClientCompatibilityContext {
   org.oppia.proto.v1.structure.TopicSummaryStructureVersion topic_summary_structure_version = 1;
-  org.oppia.proto.v1.structure.RevisionCardStructureVersion revision_card_structure_version = 3;
-  org.oppia.proto.v1.structure.ConceptCardStructureVersion concept_card_structure_version = 4;
-  org.oppia.proto.v1.structure.ExplorationStructureVersion exploration_structure_version = 5;
-  org.oppia.proto.v1.structure.QuestionStructureVersion question_structure_version = 6;
-  org.oppia.proto.v1.structure.StateStructureVersion state_structure_version = 7;
-  org.oppia.proto.v1.structure.LanguageStructuresVersion language_structures_version = 8;
-  org.oppia.proto.v1.structure.ImageStructureVersion thumbnail_structure_version = 9;
+  org.oppia.proto.v1.structure.RevisionCardStructureVersion revision_card_structure_version = 2;
+  org.oppia.proto.v1.structure.ConceptCardStructureVersion concept_card_structure_version = 3;
+  org.oppia.proto.v1.structure.ExplorationStructureVersion exploration_structure_version = 4;
+  org.oppia.proto.v1.structure.QuestionStructureVersion question_structure_version = 5;
+  org.oppia.proto.v1.structure.StateStructureVersion state_structure_version = 6;
+  org.oppia.proto.v1.structure.LanguageStructuresVersion language_structures_version = 7;
+  org.oppia.proto.v1.structure.ImageStructureVersion thumbnail_structure_version = 8;
 }
 
 message ClientDownloadStateContext {
