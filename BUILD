@@ -25,7 +25,6 @@ java_library(
     ],
 )
 
-
 java_library(
     name = "android_java_lite_protos",
     visibility = ["//visibility:public"],
