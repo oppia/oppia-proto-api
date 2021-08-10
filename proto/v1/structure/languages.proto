@@ -14,6 +14,8 @@ enum LanguageCode {
   ARABIC = 2;
   HINDI = 3;
   HINGLISH = 4;
+  BRAZILIAN = 5;
+  PORTUGUESE = 6; 
 }
 
 message SubtitledHtml {
