@@ -38,10 +38,10 @@ message TopicContentRequest {
 message TopicContentResponse {
   TopicContentRequestResponseStructureVersion structure_version = 1;
 
-  repeated StructureDownloadResult download_results = 2;
+  repeated DownloadResult download_results = 2;
 
   // Structure corresponds to TopicContentRequestResponseStructureVersion.
-  message StructureDownloadResult {
+  message DownloadResult {
     DownloadRequestStructureIdentifier identifier = 1;
 
     oneof structure_type {
