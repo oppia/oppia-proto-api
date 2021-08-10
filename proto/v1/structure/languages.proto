@@ -67,20 +67,20 @@ message WrittenTranslation {
 
 // Structure corresponds to LanguageStructuresVersion.
 message WrittenTranslatableHtml {
-  string translation_html = 1;
+  string translation = 1;
 }
 
 // Structure corresponds to LanguageStructuresVersion.
 message WrittenTranslatableUnicode {
-  string translation_unicode = 1;
+  string translation = 1;
 }
 
 // Structure corresponds to LanguageStructuresVersion.
 message WrittenTranslatableSetOfNormalizedString {
-  repeated string translations = 1;
+  repeated string translation = 1;
 }
 
 // Structure corresponds to LanguageStructuresVersion.
 message WrittenTranslatableSetOfUnicodeString {
-  repeated string unicode_translations = 1;
+  repeated string translation = 1;
 }
