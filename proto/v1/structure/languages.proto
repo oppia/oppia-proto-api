@@ -41,8 +41,7 @@ message VoiceoverContentMapping {
 message Voiceover {
   string filename = 1;
   int32 file_size_bytes = 2;
-  reserved 3; // needs_update
-  float duration_secs = 4;
+  float duration_secs = 3;
 }
 
 message WrittenTranslations {

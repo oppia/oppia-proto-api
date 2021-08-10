@@ -343,7 +343,6 @@ message ImageClickInputInstance {
 
   message CustomizationArgs {
     ImageWithRegions image_and_regions = 1;
-    reserved 2; // highlight_regions_on_hover which is not supported on Android.
   }
   message AnswerGroup {
     BaseAnswerGroup base_answer_group = 1;
@@ -420,9 +419,6 @@ message Outcome {
   string destination_state = 1;
   SubtitledHtml feedback = 2;
   bool labelled_as_correct = 3;
-  reserved 4; // param_changes
-  reserved 5; // refresher_exploration_id
-  reserved 6; // missing_prerequisite_skill_id
 }
 
 // Structure corresponds to StateStructureVersion.
