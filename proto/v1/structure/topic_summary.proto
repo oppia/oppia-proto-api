@@ -25,7 +25,7 @@ message TopicSummary {
   int32 content_version = 11;
 }
 
-// Structure version corresponds to TopicSummaryStructureVersion.
+// Proto version corresponds to TopicSummaryStructureVersion.
 message StorySummary {
   string id = 1;
   string title = 2;
@@ -35,7 +35,7 @@ message StorySummary {
   int32 content_version = 6;
 }
 
-// Structure version corresponds to TopicSummaryStructureVersion.
+// Proto version corresponds to TopicSummaryStructureVersion.
 message ChapterSummary {
   Thumbnail thumbnail = 1; // TODO
   string title = 2;
@@ -43,14 +43,14 @@ message ChapterSummary {
   int32 content_version = 4;
 }
 
-// Structure version corresponds to TopicSummaryStructureVersion.
+// Proto version corresponds to TopicSummaryStructureVersion.
 message SubtopicSummary {
   int32 index = 1;
   repeated SkillSummary skill_summaries = 2;
   int32 content_version = 3;
 }
 
-// Structure version corresponds to TopicSummaryStructureVersion.
+// Proto version corresponds to TopicSummaryStructureVersion.
 message SkillSummary {
   string id = 1;
   string name = 2;

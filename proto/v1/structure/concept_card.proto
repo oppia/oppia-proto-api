@@ -20,7 +20,7 @@ message ConceptCard {
   WrittenTranslations written_translations = 7;
   ReferencedImageList referenced_image_list = 8;
 
-  // Structure version corresponds to ConceptCardStructureVersion.
+  // Proto version corresponds to ConceptCardStructureVersion.
   message WorkedExample {
     SubtitledHtml question = 1;
     SubtitledHtml explanation = 2;
