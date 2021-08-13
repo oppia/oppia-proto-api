@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package org.oppia.proto.v1.structure;
 
-option java_package = "org.oppia.v1.structure";
+option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
 message TopicSummaryStructureVersion {

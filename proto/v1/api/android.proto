@@ -9,7 +9,7 @@ import "proto/v1/structure/revision_card.proto";
 import "proto/v1/structure/topic_summary.proto";
 import "proto/v1/structure/versions.proto";
 
-option java_package = "org.oppia.v1.api";
+option java_package = "org.oppia.proto.v1.api";
 option java_multiple_files = true;
 
 message TopicListRequest {

@@ -6,7 +6,7 @@ import "proto/v1/structure/image.proto";
 import "proto/v1/structure/languages.proto";
 import "proto/v1/structure/versions.proto";
 
-option java_package = "org.oppia.v1.structure";
+option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
 // Structure of the single concept card that can be displayed for a specific skill.
