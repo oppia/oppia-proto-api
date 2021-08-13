@@ -9,20 +9,37 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.v1.structure";
 option java_multiple_files = true;
 
+// Structure of the single concept card that can be displayed for a specific skill.
 message ConceptCard {
   ConceptCardStructureVersion structure_version = 1;
 
+  // The ID corresponding to the skill this concept is representing.
   string skill_id = 2;
+
+  // The skill's description that can help provide context on what content is being reviewed.
   string description = 3;
+
+  // The core explanation of the skill being reviewed.
   SubtitledHtml explanation = 4;
+
+  // A list of worked examples to present to the learner.
   repeated WorkedExample worked_examples = 5;
+
+  // Recorded audio to play for each SubtitledHtml in this concept card. 
   RecordedVoiceovers recorded_voiceovers = 6;
+
+  // Translations for each SubtitledHtml in this concept card. 
   WrittenTranslations written_translations = 7;
+
   ReferencedImageList referenced_image_list = 8;
 
   // Proto version corresponds to ConceptCardStructureVersion.
   message WorkedExample {
+
+    // Question of the worked example in the SubtitledHtml format.
     SubtitledHtml question = 1;
+
+    // Explanation of the worked example in the SubtitledHtml format.
     SubtitledHtml explanation = 2;
   }
 }

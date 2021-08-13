@@ -8,51 +8,100 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.v1.structure";
 option java_multiple_files = true;
 
+// Structure for a single topic summary.
 message TopicSummary {
   TopicSummaryStructureVersion structure_version = 1;
 
+  // The id of the topic summary.
   string id = 2;
+
+  // The name of the topic summary.
   string name = 3;
+
+  // The description of the topic summary.
   string description = 4;
+
+  // Topic summary size can be repesent in one of the download_type.
   oneof download_type {
+
+    // Downloade size of the topic summary.
     int32 download_size_bytes = 5;
+
+    // Size of the TopicSummary to update the current topic. 
     int32 update_size_bytes = 6;
   }
+
+  // All story summaries related to the TopicSummaryStructureVersion.
   repeated StorySummary story_summaries = 7;
+
+  // All subtopic indexes related to the TopicSummaryStructureVersion.
   repeated int32 subtopic_indexes = 8;
+
+  // Thumbnail of the topic related to the TopicSummaryStructureVersion.
   Thumbnail thumbnail = 9; // TODO
+
+  // Boolean to check if the topic is published or not.
   bool is_published = 10;
+
   int32 content_version = 11;
 }
 
 // Proto version corresponds to TopicSummaryStructureVersion.
 message StorySummary {
+
+  // The id of the story summary.
   string id = 1;
+
+  // The title of the story summary.
   string title = 2;
+
+  // The description of the story summary.
   string description = 3;
+
+  // The thumbnail of the story summary.
   Thumbnail thumbnail = 4; // TODO
+
+  // All the chapters related to this story summary.
   repeated ChapterSummary chapters = 5;
+
   int32 content_version = 6;
 }
 
 // Proto version corresponds to TopicSummaryStructureVersion.
 message ChapterSummary {
+
+  // Thumbnail of the chapter.
   Thumbnail thumbnail = 1; // TODO
+
+  // The title of the chapter.
   string title = 2;
+
+  // The id of the exploration associated to this chapter.
   string exploration_id = 3;
+
   int32 content_version = 4;
 }
 
 // Proto version corresponds to TopicSummaryStructureVersion.
 message SubtopicSummary {
+
+  // The index of the subtopic summary.
   int32 index = 1;
+
+  // All the skill associated to this subtopic summary.
   repeated SkillSummary skill_summaries = 2;
+
   int32 content_version = 3;
 }
 
 // Proto version corresponds to TopicSummaryStructureVersion.
 message SkillSummary {
+
+  // The id of the skill summary.
   string id = 1;
+
+  // The name of the skill summary. 
   string name = 2;
+
   int32 content_version = 4;
 }

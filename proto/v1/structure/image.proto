@@ -7,10 +7,14 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.v1.structure";
 option java_multiple_files = true;
 
+// Structure for the single thumbnail. 
 message Thumbnail {
   ImageStructureVersion structure_version = 1;
 
+  // Name of the thumbnail file.
   string filename = 2;
+
+  // Background color of the thumbnail to use it explicitly in case of required for blurring the image. 
   int32 background_color_rgb = 3;
 }
 

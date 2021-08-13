@@ -5,54 +5,99 @@ package org.oppia.proto.v1.structure;
 option java_package = "org.oppia.v1.structure";
 option java_multiple_files = true;
 
+// Structure of the single Fraction.
 message Fraction {
+
+  // Boolean to check if fraction is negative or not.
   bool is_negative = 1;
+
+  // Whole number of the fraction.
   uint32 whole_number = 2;
+
+  // Numerator of the fraction.
   uint32 numerator = 3;
+
+  // Denominator of the fraction.
   int32 denominator = 4;
 }
 
+// Corresponds to a single string value as designated by a content ID. The value for this
+// translatable content will be present in the written translations structure of the containing
+// State.
 message TranslatableHtmlContentId {
   string content_id = 1;
 }
 
+// Corresponds to a set of TranslatableHtmlContentIds.
 message SetOfTranslatableHtmlContentIds {
   repeated TranslatableHtmlContentId content_ids = 1;
 }
 
+// Corresponds to a list of SetOfTranslatableHtmlContentIds. 
 message ListOfSetsOfTranslatableHtmlContentIds {
   repeated SetOfTranslatableHtmlContentIds content_id_lists = 1;
 }
 
+// 2-Dimensional Point for interaction type image region selection.
 message Point2d {
+
+  // x axis.
   double x = 1;
+
+  // y axis.
   double y = 2;
 }
 
+
+// Click action on image for for interaction type image region selection.
 message ClickOnImage {
+
+  // X,Y coordinates where user clicked on image. 
   Point2d click_position = 1;
+
+  // All the selected regions on the image. 
   repeated string clicked_regions = 2;
 }
 
+// Structure containing a ratio object for eg - [1,2,3] for 1:2:3. 
 message RatioExpression {
+  // List of components in a ratio. It's expected that list should have more than
+  // 1 element.
   repeated uint32 components = 1;
 }
 
+// Corresponds to a set of normalized strings which are described in this structure, but which have
+// replacement translations findable in the written translations structure of the containing State.
 message TranslatableSetOfNormalizedString {
   string content_id = 1;
+
+  // All the normalized strings.
   repeated string normalized_strings = 2;
 }
 
+// An image overlaid with labeled regions.
 message ImageWithRegions {
+
+  // A string that represents a filepath which will be prefixed with '[exploration_id]/assets.
   string image_file_path = 1;
+
+  // All the labeled regions in this ImageWithRegions. 
   repeated LabeledRegion labeled_regions = 2;
 
+  // A region of an image, including its shape and coordinates.
   message LabeledRegion {
+
+    // The name for the region.
     string label = 3;
+
+    // Represents the different Region Types.
     oneof region_type {
+
+      // A rectangle normalized so that the coordinates are within the range [0,1].
       NormalizedRectangle2d normalized_rectangle_2d = 1;
     }
     message NormalizedRectangle2d {
+      // Origin is top-left, increasing x is to the right, increasing y is down.
       Point2d upper_left = 1;
       Point2d lower_right = 2;
     }

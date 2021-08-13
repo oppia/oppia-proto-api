@@ -9,12 +9,20 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.v1.structure";
 option java_multiple_files = true;
 
+// Structure of the single question. 
 message Question {
   QuestionStructureVersion structure_version = 1;
 
+
+  // Id of the question.
   string id = 2;
+
+  // Question state is the name of the state to which this question belongs.
   State question_state = 3;
+
+  // All the skill ids which belongs to this question.
   repeated string linked_skill_ids = 4;
+
   int32 content_version = 5;
   ReferencedImageList referenced_image_list = 6;
 }

@@ -45,7 +45,9 @@ message TopicContentResponse {
     DownloadRequestStructureIdentifier identifier = 1;
 
     oneof structure_type {
-      bool skipped_suggest_retry = 2;
+      // Indicates that the request corresponding to this particular identifier was skipped and suggested to retry by the Oppia backend.
+      // Note that the presence of this value in the oneof is sufficient to indicate its state, and its actual value does not matter.
+      bool skipped = 2;
       org.oppia.proto.v1.structure.RevisionCard revision_card = 3;
       org.oppia.proto.v1.structure.ConceptCard concept_card = 4;
       org.oppia.proto.v1.structure.Exploration exploration = 5;

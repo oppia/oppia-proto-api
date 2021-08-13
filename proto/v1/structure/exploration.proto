@@ -9,13 +9,24 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.v1.structure";
 option java_multiple_files = true;
 
+// Structure for a single exploration.
 message Exploration {
   ExplorationStructureVersion structure_version = 1;
 
+  // The ID of the exploration.
   string id = 2;
+  
+  // The title of the exploration.
   string title = 3;
+  
+  // The name of the state which initialize the exploration.
   string init_state_name = 4;
+  
+  // Mapping from a state name to a state object
   map<string, State> states = 5;
+
+  // The version of the exploration.
   int32 content_version = 6;
+
   ReferencedImageList referenced_image_list = 7;
 }

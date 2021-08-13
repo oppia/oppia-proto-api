@@ -9,15 +9,27 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.v1.structure";
 option java_multiple_files = true;
 
+// Corresponds to a revision card that can be displayed for a specific subtopic.
 message RevisionCard {
   RevisionCardStructureVersion structure_version = 1;
 
   SubtopicId id = 2;
+
+  // The title corresponding to the subtopic.
   string title = 3;
+
+  // The core explanation of the subtopic being revised.
   SubtitledHtml content = 4;
+
+  // The recorded voiceovers to play for the corresponding revision card.
   RecordedVoiceovers recorded_voiceovers = 5;
+
+  // The written translations of the revision card.
   WrittenTranslations written_translations = 6;
+
+  // The thumbnail of the revision card. 
   Thumbnail thumbnail = 7;
+
   ReferencedImageList referenced_image_list = 8;
 }
 
