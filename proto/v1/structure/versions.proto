@@ -30,7 +30,7 @@ message StateStructureVersion {
   int32 version = 1;
 }
 
-message LanguageStructuresVersion {
+message LanguageProtosVersion {
   int32 version = 1;
 }
 

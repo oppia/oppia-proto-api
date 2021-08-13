@@ -7,7 +7,7 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// Structure corresponds to LanguageStructuresVersion.
+// Structure corresponds to LanguageProtosVersion.
 enum LanguageCode {
   LANGUAGE_CODE_UNSPECIFIED = 0;
   ENGLISH = 1;
@@ -20,7 +20,7 @@ enum LanguageCode {
 
 // Strucutre of the single subtitled html. 
 message SubtitledHtml {
-  LanguageStructuresVersion structure_version = 1;
+  LanguageProtosVersion structure_version = 1;
 
   // Id of the content whomsoever corresponds to SubtitledHtml.
   string content_id = 2;
@@ -31,19 +31,19 @@ message SubtitledHtml {
 
 // Strucutre of the single recorded voiceover. 
 message RecordedVoiceovers {
-  LanguageStructuresVersion structure_version = 1;
+  LanguageProtosVersion structure_version = 1;
 
-  // All the voiceover corresponds to the LanguageStructuresVersion.
+  // All the voiceover corresponds to the LanguageProtosVersion.
   repeated VoiceoverContentMapping voiceover_language_mapping = 2;
 }
 
-// Structure corresponds to LanguageStructuresVersion.
+// Structure corresponds to LanguageProtosVersion.
 message VoiceoverContentMapping {
   LanguageCode language_code = 1;
   map<string, Voiceover> voiceover_content_mapping = 2;
 }
 
-// Structure corresponds to LanguageStructuresVersion.
+// Structure corresponds to LanguageProtosVersion.
 message Voiceover {
 
   // File name of the voiceover.
@@ -57,17 +57,17 @@ message Voiceover {
 }
 
 message WrittenTranslations {
-  LanguageStructuresVersion structure_version = 1;
+  LanguageProtosVersion structure_version = 1;
   repeated WrittenTranslationContentMapping translation_language_mapping = 2;
 }
 
-// Structure corresponds to LanguageStructuresVersion.
+// Structure corresponds to LanguageProtosVersion.
 message WrittenTranslationContentMapping {
   LanguageCode language_code = 1;
   map<string, WrittenTranslation> translation_content_mapping = 2;
 }
 
-// Structure corresponds to LanguageStructuresVersion.
+// Structure corresponds to LanguageProtosVersion.
 message WrittenTranslation {
   oneof data_format {
 
@@ -85,22 +85,22 @@ message WrittenTranslation {
   }
 }
 
-// Structure corresponds to LanguageStructuresVersion.
+// Structure corresponds to LanguageProtosVersion.
 message WrittenTranslatableHtml {
   string translation = 1;
 }
 
-// Structure corresponds to LanguageStructuresVersion.
+// Structure corresponds to LanguageProtosVersion.
 message WrittenTranslatableUnicode {
   string translation = 1;
 }
 
-// Structure corresponds to LanguageStructuresVersion.
+// Structure corresponds to LanguageProtosVersion.
 message WrittenTranslatableSetOfNormalizedString {
   repeated string translation = 1;
 }
 
-// Structure corresponds to LanguageStructuresVersion.
+// Structure corresponds to LanguageProtosVersion.
 message WrittenTranslatableSetOfUnicodeString {
   repeated string translation = 1;
 }

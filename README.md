@@ -22,7 +22,7 @@ Note that one aspect of this is a bit complicated: some of the substructures are
 - ExplorationStructureVersion
 - QuestionStructureVersion
 - StateStructureVersion
-- LanguageStructuresVersion
+- LanguageProtosVersion
 - ImageStructureVersion
 
 #### A note on interaction versioning

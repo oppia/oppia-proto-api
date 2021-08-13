@@ -74,7 +74,7 @@ message ClientCompatibilityContext {
   org.oppia.proto.v1.structure.ExplorationStructureVersion exploration_structure_version = 4;
   org.oppia.proto.v1.structure.QuestionStructureVersion question_structure_version = 5;
   org.oppia.proto.v1.structure.StateStructureVersion state_structure_version = 6;
-  org.oppia.proto.v1.structure.LanguageStructuresVersion language_structures_version = 7;
+  org.oppia.proto.v1.structure.LanguageProtosVersion language_proto_version = 7;
   org.oppia.proto.v1.structure.ImageStructureVersion thumbnail_structure_version = 8;
 }
 
