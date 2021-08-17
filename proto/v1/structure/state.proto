@@ -9,6 +9,7 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
+// NOTE: Update StateProtoVersion if the structure of this proto is modified.
 // Structure for a single State.
 message State {
   StateProtoVersion proto_version = 1;

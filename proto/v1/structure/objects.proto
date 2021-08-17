@@ -5,7 +5,7 @@ package org.oppia.proto.v1.structure;
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// Structure of the single Fraction.
+// Structure of a single Fraction.
 message Fraction {
 
   // Boolean to check if fraction is negative or not.

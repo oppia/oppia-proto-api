@@ -9,6 +9,7 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
+// NOTE: Update RevisionCardProtoVersion if the structure of this proto is modified.
 // Corresponds to a revision card that can be displayed for a specific subtopic.
 message RevisionCard {
   RevisionCardProtoVersion proto_version = 1;
