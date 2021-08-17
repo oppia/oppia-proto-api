@@ -13,7 +13,7 @@ option java_package = "org.oppia.proto.v1.api";
 option java_multiple_files = true;
 
 message TopicListRequest {
-  TopicListRequestResponseStructureVersion structure_version = 1;
+  TopicListRequestResponseProtoVersion proto_version = 1;
 
   ClientContext client_context = 2;
   ClientCompatibilityContext compatibility_context = 3;
@@ -21,14 +21,14 @@ message TopicListRequest {
 }
 
 message TopicListResponse {
-  TopicListRequestResponseStructureVersion structure_version = 1;
+  TopicListRequestResponseProtoVersion proto_version = 1;
 
   // All topic summaries that are newer & compatible with the client.
   repeated org.oppia.proto.v1.structure.TopicSummary topic_summaries = 2;
 }
 
 message TopicContentRequest {
-  TopicContentRequestResponseStructureVersion structure_version = 1;
+  TopicContentRequestResponseProtoVersion proto_version = 1;
 
   ClientContext client_context = 2;
   repeated DownloadRequestStructureIdentifier identifiers = 3;
@@ -36,17 +36,18 @@ message TopicContentRequest {
 }
 
 message TopicContentResponse {
-  TopicContentRequestResponseStructureVersion structure_version = 1;
+  TopicContentRequestResponseProtoVersion proto_version = 1;
 
   repeated DownloadResult download_results = 2;
 
-  // Structure corresponds to TopicContentRequestResponseStructureVersion.
+  // Structure corresponds to TopicContentRequestResponseProtoVersion.
   message DownloadResult {
     DownloadRequestStructureIdentifier identifier = 1;
 
     oneof structure_type {
-      // Indicates that the request corresponding to this particular identifier was skipped and suggested to retry by the Oppia backend.
-      // Note that the presence of this value in the oneof is sufficient to indicate its state, and its actual value does not matter.
+      // Indicates that the request corresponding to this particular identifier was skipped
+      // and suggested to retry by the Oppia backend. Note that the presence of this value in the 
+      // oneof is sufficient to indicate its state, and its actual value does not matter.
       bool skipped = 2;
       org.oppia.proto.v1.structure.RevisionCard revision_card = 3;
       org.oppia.proto.v1.structure.ConceptCard concept_card = 4;
@@ -56,7 +57,7 @@ message TopicContentResponse {
     }
   }
 
-  // Structure corresponds to TopicContentRequestResponseStructureVersion.
+  // Structure corresponds to TopicContentRequestResponseProtoVersion.
   message QuestionIdList {
     repeated string question_ids = 1;
   }
@@ -68,14 +69,14 @@ message ClientContext {
 }
 
 message ClientCompatibilityContext {
-  org.oppia.proto.v1.structure.TopicSummaryStructureVersion topic_summary_structure_version = 1;
-  org.oppia.proto.v1.structure.RevisionCardStructureVersion revision_card_structure_version = 2;
-  org.oppia.proto.v1.structure.ConceptCardStructureVersion concept_card_structure_version = 3;
-  org.oppia.proto.v1.structure.ExplorationStructureVersion exploration_structure_version = 4;
-  org.oppia.proto.v1.structure.QuestionStructureVersion question_structure_version = 5;
-  org.oppia.proto.v1.structure.StateStructureVersion state_structure_version = 6;
+  org.oppia.proto.v1.structure.TopicSummaryProtoVersion topic_summary_proto_version = 1;
+  org.oppia.proto.v1.structure.RevisionCardProtoVersion revision_card_proto_version = 2;
+  org.oppia.proto.v1.structure.ConceptCardProtoVersion concept_card_proto_version = 3;
+  org.oppia.proto.v1.structure.ExplorationProtoVersion exploration_proto_version = 4;
+  org.oppia.proto.v1.structure.QuestionProtoVersion question_proto_version = 5;
+  org.oppia.proto.v1.structure.StateProtoVersion state_proto_version = 6;
   org.oppia.proto.v1.structure.LanguageProtosVersion language_proto_version = 7;
-  org.oppia.proto.v1.structure.ImageStructureVersion thumbnail_structure_version = 8;
+  org.oppia.proto.v1.structure.ImageProtoVersion thumbnail_proto_version = 8;
 }
 
 message ClientDownloadStateContext {
@@ -95,7 +96,7 @@ message ClientDownloadStateContext {
   repeated DownloadState current_downloads = 1;
 }
 
-// This structure's version corresponds to TopicContentRequestResponseStructureVersion.
+// This structure's version corresponds to TopicContentRequestResponseProtoVersion.
 message DownloadRequestStructureIdentifier {
   oneof structure_type {
     org.oppia.proto.v1.structure.SubtopicId revision_card_id = 1;
@@ -106,10 +107,10 @@ message DownloadRequestStructureIdentifier {
   }
 }
 
-message TopicListRequestResponseStructureVersion {
+message TopicListRequestResponseProtoVersion {
   int32 version = 1;
 }
 
-message TopicContentRequestResponseStructureVersion {
+message TopicContentRequestResponseProtoVersion {
   int32 version = 1;
 }

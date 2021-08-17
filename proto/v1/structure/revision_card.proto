@@ -11,7 +11,7 @@ option java_multiple_files = true;
 
 // Corresponds to a revision card that can be displayed for a specific subtopic.
 message RevisionCard {
-  RevisionCardStructureVersion structure_version = 1;
+  RevisionCardProtoVersion proto_version = 1;
 
   SubtopicId id = 2;
 

@@ -17,23 +17,25 @@ enum LanguageCode {
   BRAZILIAN_PORTUGUESE = 5;
 }
 
-
-// Strucutre of the single subtitled html. 
+// NOTE: Update LanguageProtosVersion if the structure of this proto is modified.
+// Proto representing a block of (subtitled) HTML.
 message SubtitledHtml {
-  LanguageProtosVersion structure_version = 1;
+  LanguageProtosVersion protos_version = 1;
 
-  // Id of the content whomsoever corresponds to SubtitledHtml.
+  // The content ID for this SubtitledHtml. This is unique within a State.
   string content_id = 2;
 
-  // Html format data of the content whomsoever corresponds to SubtitledHtml.
+  // The HTML content of the SubtitledHtml.
   string html = 3;
 }
 
-// Strucutre of the single recorded voiceover. 
+// NOTE: Update LanguageProtosVersion if the structure of this proto is modified.
+// Structure of the recorded voiceovers. 
 message RecordedVoiceovers {
-  LanguageProtosVersion structure_version = 1;
+  LanguageProtosVersion protos_version = 1;
 
-  // All the voiceover corresponds to the LanguageProtosVersion.
+  // A mapping from language codes to voiceover bundles (which map individual content IDs
+  // to their voiceovers).
   repeated VoiceoverContentMapping voiceover_language_mapping = 2;
 }
 
@@ -46,18 +48,18 @@ message VoiceoverContentMapping {
 // Structure corresponds to LanguageProtosVersion.
 message Voiceover {
 
-  // File name of the voiceover.
+  // The file name of the voiceover.
   string filename = 1;
 
-  // Size of voiceover file. 
+  // The size of the voiceover file, in bytes.
   int32 file_size_bytes = 2;
 
-  // Duration of voiceover. 
+  // The duration of the voiceover, in seconds.
   float duration_secs = 3;
 }
 
 message WrittenTranslations {
-  LanguageProtosVersion structure_version = 1;
+  LanguageProtosVersion protos_version = 1;
   repeated WrittenTranslationContentMapping translation_language_mapping = 2;
 }
 
@@ -71,16 +73,16 @@ message WrittenTranslationContentMapping {
 message WrittenTranslation {
   oneof data_format {
 
-    // Html format data of the translation. 
+    // The translation for an HTML string.
     WrittenTranslatableHtml translatable_html = 1;
 
-    // Unicode format data of the translation. 
+    // The translation for a unicode string.
     WrittenTranslatableUnicode translatable_unicode = 2;
 
-    // Set of normalized string of the translation. 
+    // The translation for a set of normalized strings.
     WrittenTranslatableSetOfNormalizedString translatable_set_of_normalized_string = 3;
 
-    // Set of unicode string of the translation.
+    // The translation for a set of unicode strings.
     WrittenTranslatableSetOfUnicodeString translatable_set_of_unicode_string = 4;
   }
 }

@@ -9,37 +9,39 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// Structure of the single concept card that can be displayed for a specific skill.
+// Proto of the single concept card that can be displayed for a specific skill.
 message ConceptCard {
-  ConceptCardStructureVersion structure_version = 1;
+  ConceptCardProtoVersion proto_version = 1;
 
   // The ID corresponding to the skill this concept is representing.
   string skill_id = 2;
 
-  // The skill's description that can help provide context on what content is being reviewed.
+  //A human-readable description for the skill.
   string description = 3;
 
-  // The core explanation of the skill being reviewed.
+  // The explanation of the skill that is shown in the concept card.
   SubtitledHtml explanation = 4;
 
   // A list of worked examples to present to the learner.
   repeated WorkedExample worked_examples = 5;
 
-  // Recorded audio to play for each SubtitledHtml in this concept card. 
+  // The recorded audio to play SubtitledHTML subfields of this concept card. 
   RecordedVoiceovers recorded_voiceovers = 6;
 
-  // Translations for each SubtitledHtml in this concept card. 
+  // The translations of SubtitledHTML subfields of this concept card.
   WrittenTranslations written_translations = 7;
 
+  // The list of all images that are included within SubtitledHTML and WorkedExample 
+  // subfields of this concept card.
   ReferencedImageList referenced_image_list = 8;
 
-  // Proto version corresponds to ConceptCardStructureVersion.
+  // The worked example is an example of question and answer shown in a concept card.
   message WorkedExample {
 
-    // Question of the worked example in the SubtitledHtml format.
+    // The question for this worked example.
     SubtitledHtml question = 1;
 
-    // Explanation of the worked example in the SubtitledHtml format.
+    // The explanation for how to solve this worked example.
     SubtitledHtml explanation = 2;
   }
 }

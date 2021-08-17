@@ -5,35 +5,43 @@ package org.oppia.proto.v1.structure;
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-message TopicSummaryStructureVersion {
+// The version of the TopicSummary proto structure. 
+message TopicSummaryProtoVersion {
   int32 version = 1;
 }
 
-message RevisionCardStructureVersion {
+// The version of the RevisionCard proto structure. 
+message RevisionCardProtoVersion {
   int32 version = 1;
 }
 
-message ConceptCardStructureVersion {
+// The version of the ConceptCard proto structure. 
+message ConceptCardProtoVersion {
   int32 version = 1;
 }
 
-message ExplorationStructureVersion {
+// The version of the Exploration proto structure. 
+message ExplorationProtoVersion {
   int32 version = 1;
 }
 
-message QuestionStructureVersion {
+// The version of the Question proto structure. 
+message QuestionProtoVersion {
   int32 version = 1;
 }
 
-// This version implies interaction compatibility since interactions are tightly defined in the structures.
-message StateStructureVersion {
+// This version implies interaction compatibility since interactions are tightly defined
+// in the structures. The version of the State prot structure.
+message StateProtoVersion {
   int32 version = 1;
 }
 
+// The version of the Language proto structure. 
 message LanguageProtosVersion {
   int32 version = 1;
 }
 
-message ImageStructureVersion {
+// The version of the Image proto structure. 
+message ImageProtoVersion {
   int32 version = 1;
 }

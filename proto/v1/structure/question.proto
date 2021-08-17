@@ -9,20 +9,22 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// Structure of the single question. 
+// Structure of a single question.
 message Question {
-  QuestionStructureVersion structure_version = 1;
+  QuestionProtoVersion proto_version = 1;
 
-
-  // Id of the question.
+  // The ID of the question.
   string id = 2;
 
-  // Question state is the name of the state to which this question belongs.
+  // The State object that makes up the main part of the question.
   State question_state = 3;
 
-  // All the skill ids which belongs to this question.
+  // The full list of skill IDs linked to this question.
   repeated string linked_skill_ids = 4;
 
+  // The version of the contents of this question.
   int32 content_version = 5;
+
+  // The list of all images that are included within SubtitledHTML subfields of this question.
   ReferencedImageList referenced_image_list = 6;
 }

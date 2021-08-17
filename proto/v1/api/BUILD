@@ -1,8 +1,9 @@
 """
 This library contains the proto_library(), java_lite_proto_library() and java_proto_library rules.
-The proto_library() rule creates a proto file library for the android API proto file to be used in multiple languages. 
+The proto_library() rule creates a proto file library for the android API 
+proto file to be used in multiple languages. 
 The java_lite_proto_library() rule takes in a proto_library target and generates Java code.
-The java_proto_library() rule takes in a proto_library target and generate Java code.
+The java_proto_library() rule takes in a proto_library target and generates Java code.
 """
 
 load("@rules_java//java:defs.bzl", "java_lite_proto_library", "java_proto_library")

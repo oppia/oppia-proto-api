@@ -9,63 +9,63 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// Structure for a single state
+// Structure for a single State.
 message State {
-  StateStructureVersion structure_version = 1;
+  StateProtoVersion proto_version = 1;
 
-  // Content of the state.
+  // The explanation of the state.
   SubtitledHtml content = 2;
 
-  // Interactions of the state.
+  // The interactions of the state.
   InteractionInstance interaction = 3;
   
-  // Recorded Voiceovers of the state.
+  // The recorded voiceovers of the state.
   RecordedVoiceovers recorded_voiceovers = 4;
   
-  // Written Translations of the state.
+  // The written translations of the state.
   WrittenTranslations written_translations = 5;
 }
 
-// Structure corresponds to StateStructureVersion.
+// Structure for the interaction.
 message InteractionInstance {
 
-  // Different type of interactions.
+  // The different types of interaction.
   oneof interaction_type {
 
-    // Continue interaction.
+    // The interaction that takes the form of a simple Continue button.
     ContinueInstance continue = 1;
 
-    // Fraction input interaction.
+    // The interaction for fraction input. 
     FractionInputInstance fraction_input = 2;
 
-    // Single item selection interaction.
+    // The interaction for item selection input.
     ItemSelectionInputInstance item_selection_input = 3;
 
-    // Multiple choice selection interaction.
+    // The interaction for multiple item selection input.
     MultipleChoiceInputInstance multiple_choice_input = 4;
 
-    // Numeric input interaction.
+    // The interaction for number input.
     NumericInputInstance numeric_input = 5;
 
-    // Text input interaction.
+    // The interaction for text input.
     TextInputInstance text_input = 6;
 
-    // Drag and drop type interaction.
+    // The interaction for drag and drop sorting.
     DragAndDropSortInputInstance drag_and_drop_sort_input = 7;
 
-    // Image region click interaction.
+    // The interaction allowing multiple-choice selection on an image. 
     ImageClickInputInstance image_click_input = 8;
 
-    // Ratio input interaction.
+    // The interaction for ration input.
     RatioExpressionInputInstance ratio_expression_input = 9;
 
-    // End interaction helps to end the exploration. 
+    // The interaction that allows the exploration to end. 
     EndExplorationInstance end_exploration = 10;
   }
 }
 
 // Answer type: none (N/A since no answers are submitted for this interaction).
-// Structure corresponds to StateStructureVersion.
+// Structure of the continue instance.
 message ContinueInstance {
   CustomizationArgs customization_args = 1;
   Outcome default_outcome = 2;
@@ -74,6 +74,7 @@ message ContinueInstance {
   // solutions. Users cannot receive hints since only one answer is possible
   // (clicking the button).
 
+  // Structure of the customization args of continue instance.
   message CustomizationArgs {
     // Note that while the continue interaction has a default button text
     // defined, it's not used in the app since the default string needs to come
@@ -83,68 +84,137 @@ message ContinueInstance {
 }
 
 // Answer type: Fraction.
-// Structure corresponds to StateStructureVersion.
+// Structure of the fraction input interaction.
 message FractionInputInstance {
+
+  // A set of arguments to customize the fraction instance.
   CustomizationArgs customization_args = 1;
+
+  // 
   repeated AnswerGroup answer_groups = 2;
+
+  // A default arguments which shown in the output of the fraction instance.
   Outcome default_outcome = 3;
+
+  // A list of hints in the fraction instance.
   repeated Hint hints = 4;
+
+  // The solution of the fraction instance.
   Solution solution = 5;
 
+  // Structure of the customization args of the fraction instance.
   message CustomizationArgs {
+
+    // The fraction is in simplest form or not.
     bool requires_simplest_form = 1;
+
+    // The fraction allow to be in improper fraction.
     bool allow_improper_fractions = 2;
+
+    // The fraction contains non zero integer part or not.
     bool allow_nonzero_integer_part = 3;
+
+    // The custom arguments for fraction instance. 
     SubtitledHtml custom_placeholder = 4;
   }
+
+  // Structure of the solution of the fraction instance.
   message Solution {
     BaseSolution base_solution = 1;
     Fraction correct_answer = 2;
   }
+
+  // Structure of the answer group of the fraction instance.
   message AnswerGroup {
     BaseAnswerGroup base_answer_group = 1;
+
+    // A list of all the rules of the fraction instance. 
     repeated RuleSpec rule_specs = 2;
   }
+
+  // Structure of the rule spec of the fraction instance.
   message RuleSpec {
+
+    // Different rules which can be applied on the fraction instance.
     oneof rule_type {
+
+      // A rule to check the fraction is equal to the fraction input. 
       IsExactlyEqualToSpec is_exactly_equal_to = 1;
+
+      // A rule to check the fraction is equivalent to the fraction input. 
       IsEquivalentToSpec is_equivalent_to = 2;
+
+      // A rule to check the fraction is equivalent and in the simplest form to the fraction input. 
       IsEquivalentToAndInSimplestFormSpec is_equivalent_to_and_in_simplest_form = 3;
+
+      // A rule to check the fraction is less than the fraction input. 
       IsLessThanSpec is_less_than = 4;
+
+      // A rule to check the fraction is greater than the fraction input. 
       IsGreaterThanSpec is_greater_than = 5;
+
+      // A rule to check the numerator of fraction is equal to the fraction input. 
       HasNumeratorEqualToSpec has_numerator_equal_to = 6;
+
+      // A rule to check the denominator of fraction is equal to the fraction input. 
       HasDenominatorEqualToSpec has_denominator_equal_to = 7;
+
+      // A rule to check the integer of fraction is equal to the fraction input. 
       HasIntegerPartEqualToSpec has_integer_part_equal_to = 8;
+
+      // A rule to check fraction has no fractional part to the fraction input. 
       HasNoFractionalPartSpec has_no_fractional_part = 9;
+
+      // A rule to check fraction has no fractional part equal to the fraction input.
       HasFractionalPartExactlyEqualToSpec has_fractional_part_exactly_equal_to = 10;
     }
+
+    // Structure of the exactly equal rule check.
     message IsExactlyEqualToSpec {
       Fraction input = 1;
     }
+
+    // Structure of the equivalent rule check.
     message IsEquivalentToSpec {
       Fraction input = 1;
     }
+
+    // Structure of the equivalent and simple form rule check.
     message IsEquivalentToAndInSimplestFormSpec {
       Fraction input = 1;
     }
+
+    // Structure of the less than rule check.
     message IsLessThanSpec {
       Fraction input = 1;
     }
+
+    // Structure of the greater than rule check.
     message IsGreaterThanSpec {
       Fraction input = 1;
     }
+
+    // Structure of the numerator equality rule check.
     message HasNumeratorEqualToSpec {
       int32 input = 1;
     }
+
+    // Structure of the denominator equality rule check.
     message HasDenominatorEqualToSpec {
       uint32 input = 1;
     }
+
+    // Structure of the integer part rule check.
     message HasIntegerPartEqualToSpec {
       int32 input = 1;
     }
+
+    // Structure of the no fraction input rule check.
     message HasNoFractionalPartSpec {
       // No inputs for this rule spec.
     }
+
+    // Structure of the fraction part exactly equality rule check.
     message HasFractionalPartExactlyEqualToSpec {
       Fraction input = 1;
     }
@@ -152,40 +222,79 @@ message FractionInputInstance {
 }
 
 // Answer type: SetOfTranslatableHtmlContentIds.
-// Structure corresponds to StateStructureVersion.
+// Structure of the item selection input interaction.
 message ItemSelectionInputInstance {
+
+  // A set of arguments to customize the item selection input instance.
   CustomizationArgs customization_args = 1;
+
+  // 
   repeated AnswerGroup answer_groups = 2;
+
+  // A default arguments which shown in the output of the item selection input instance.
   Outcome default_outcome = 3;
+
+  // A list of hints in the item selection input instance.
   repeated Hint hints = 4;
 
   // Item selection does not support solutions.
 
+  // Structure of the customization args of the item selection input instance.
   message CustomizationArgs {
+
+    // The minimum number of items allowed for selection.
     int32 min_allowable_selection_count = 1;
+
+    // The maximum number of items allowed for selection.
     int32 max_allowable_selection_count = 2;
+
+    // The list of selectable items.
     repeated SubtitledHtml choices = 3;
   }
+
+  // Structure of a single answer group.
   message AnswerGroup {
     BaseAnswerGroup base_answer_group = 1;
+
+    // A list of all the rules of the item selection instance. 
     repeated RuleSpec rule_specs = 2;
   }
+  
+  // Structure of the rules of the item selection instance.
   message RuleSpec {
+
+    // A different type of rules for the item selection input instance.
     oneof rule_type {
+
+      // A rule to check the equality.
       EqualsSpec equals = 1;
+
+      // A rule to check atleast one item selected.
       ContainsAtLeastOneOfSpec contains_at_least_one_of = 2;
+
+      // A rule to check non of the item is selected. 
       DoesNotContainAtLeastOneOfSpec does_not_contain_at_least_one_of = 3;
+
+      // A rule to check the propoer subset.
       IsProperSubsetOfSpec is_proper_subset_of = 4;
     }
+
+    // Structure of the equal rule check. 
     message EqualsSpec {
       SetOfTranslatableHtmlContentIds input = 1;
     }
+
+    // Structure of atleast one item selection rule check. 
     message ContainsAtLeastOneOfSpec {
       SetOfTranslatableHtmlContentIds input = 1;
     }
+
+    // Structure of non of the item selection rule check. 
     message DoesNotContainAtLeastOneOfSpec {
       SetOfTranslatableHtmlContentIds input = 1;
     }
+
+    // Structure of proper subset of item selection rule check. 
     message IsProperSubsetOfSpec {
       SetOfTranslatableHtmlContentIds input = 1;
     }
@@ -193,7 +302,7 @@ message ItemSelectionInputInstance {
 }
 
 // Answer type: non-negative int (uint32).
-// Structure corresponds to StateStructureVersion.
+// Structure of the multiple choice input interaction.
 message MultipleChoiceInputInstance {
   CustomizationArgs customization_args = 1;
   repeated AnswerGroup answer_groups = 2;
@@ -220,7 +329,7 @@ message MultipleChoiceInputInstance {
 }
 
 // Answer type: real (double).
-// Structure corresponds to StateStructureVersion.
+// Structure of the number input interaction.
 message NumericInputInstance {
   repeated AnswerGroup answer_groups = 1;
   Solution solution = 2;
@@ -274,7 +383,7 @@ message NumericInputInstance {
 }
 
 // Answer type: normalized string (string).
-// Structure corresponds to StateStructureVersion.
+// Structure of the text input interaction.
 message TextInputInstance {
   CustomizationArgs customization_args = 1;
   repeated AnswerGroup answer_groups = 2;
@@ -317,7 +426,7 @@ message TextInputInstance {
 }
 
 // Answer type: ListOfSetsOfTranslatableHtmlContentIds.
-// Structure corresponds to StateStructureVersion.
+// Structure of the drag and drop sort input interaction.
 message DragAndDropSortInputInstance {
   CustomizationArgs customization_args = 1;
   repeated AnswerGroup answer_groups = 2;
@@ -362,7 +471,7 @@ message DragAndDropSortInputInstance {
 }
 
 // Answer type: ClickOnImage.
-// Structure corresponds to StateStructureVersion.
+// Structure of the image selection input interaction.
 message ImageClickInputInstance {
   CustomizationArgs customization_args = 1;
   repeated AnswerGroup answer_groups = 2;
@@ -389,7 +498,7 @@ message ImageClickInputInstance {
 }
 
 // Answer type: RatioExpression.
-// Structure corresponds to StateStructureVersion.
+// Structure of the ratio input interaction.
 message RatioExpressionInputInstance {
   CustomizationArgs customization_args = 1;
   repeated AnswerGroup answer_groups = 2;
@@ -428,7 +537,7 @@ message RatioExpressionInputInstance {
 }
 
 // Answer type: none (N/A since no answers are submitted for this interaction).
-// Structure corresponds to StateStructureVersion.
+// Structure of a single end exploration type interaction.
 message EndExplorationInstance {
   // No answers can be submitted to the end exploration, so there are neither
   // answer groups nor solutions. The interaction does have customization
@@ -438,20 +547,18 @@ message EndExplorationInstance {
 }
 
 // Common fields for all answer groups.
-// Structure corresponds to StateStructureVersion.
 message BaseAnswerGroup {
   Outcome outcome = 1;
   Misconception tagged_skill_misconception = 2;
 }
 
-// Structure corresponds to StateStructureVersion.
+// Structure of the outcome of any interaction.
 message Outcome {
   string destination_state = 1;
   SubtitledHtml feedback = 2;
   bool labelled_as_correct = 3;
 }
 
-// Structure corresponds to StateStructureVersion.
 // Structure for a single hint
 message Hint {
   // Hint data.
@@ -459,13 +566,11 @@ message Hint {
 }
 
 // Common fields for all solutions.
-// Structure corresponds to StateStructureVersion.
 message BaseSolution {
   SubtitledHtml explanation = 1;
 }
 
 // Convenience collection object for all potential types of solutions.
-// Structure corresponds to StateStructureVersion.
 message Solution {
   oneof interaction_type {
     FractionInputInstance.Solution fraction_instance_solution = 1;
@@ -476,15 +581,14 @@ message Solution {
   }
 }
 
-// Structure corresponds to StateStructureVersion.
 // Structure for a single misconception, after parsing the original string received from the backend:
 // https://github.com/oppia/oppia/blob/896466ae8bdd34641ea2e0031a5b9fa4243a3de7/core/templates/pages/
 // exploration-editor-page/editor-tab/templates/modal-templates/add-answer-group-modal.controller.ts#L60
 message Misconception {
 
-  // Skill ID parsed from the misconception.
+  // The id of the skill.
   string skill_id = 1;
 
-  // Misconception ID parsed from the misconception.
+  // The id of the misconception.
   string misconception_id = 2;
 }
