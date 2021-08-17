@@ -7,7 +7,7 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// Structure corresponds to LanguageProtosVersion.
+// A list of language code.
 enum LanguageCode {
   LANGUAGE_CODE_UNSPECIFIED = 0;
   ENGLISH = 1;
@@ -34,18 +34,18 @@ message SubtitledHtml {
 message RecordedVoiceovers {
   LanguageProtosVersion protos_version = 1;
 
-  // A mapping from language codes to voiceover bundles (which map individual content IDs
+  // A list of mapping from language codes to voiceover bundles (which map individual content IDs
   // to their voiceovers).
   repeated VoiceoverContentMapping voiceover_language_mapping = 2;
 }
 
-// Structure corresponds to LanguageProtosVersion.
+// Structure of a voiceover content.
 message VoiceoverContentMapping {
   LanguageCode language_code = 1;
   map<string, Voiceover> voiceover_content_mapping = 2;
 }
 
-// Structure corresponds to LanguageProtosVersion.
+// Structure of a voiceover.
 message Voiceover {
 
   // The file name of the voiceover.
@@ -58,19 +58,22 @@ message Voiceover {
   float duration_secs = 3;
 }
 
+// Structure of the written translations.
 message WrittenTranslations {
   LanguageProtosVersion protos_version = 1;
   repeated WrittenTranslationContentMapping translation_language_mapping = 2;
 }
 
-// Structure corresponds to LanguageProtosVersion.
+// Structure of a writtent translation content.
 message WrittenTranslationContentMapping {
   LanguageCode language_code = 1;
   map<string, WrittenTranslation> translation_content_mapping = 2;
 }
 
-// Structure corresponds to LanguageProtosVersion.
+// Structure of the written translation.
 message WrittenTranslation {
+
+  // The different data format supported for transaltions.
   oneof data_format {
 
     // The translation for an HTML string.
@@ -87,22 +90,22 @@ message WrittenTranslation {
   }
 }
 
-// Structure corresponds to LanguageProtosVersion.
+// Structure of a html string translation.
 message WrittenTranslatableHtml {
   string translation = 1;
 }
 
-// Structure corresponds to LanguageProtosVersion.
+// Structure of a unicode string translation.
 message WrittenTranslatableUnicode {
   string translation = 1;
 }
 
-// Structure corresponds to LanguageProtosVersion.
+// Structure of a set of normalized string transaltions.
 message WrittenTranslatableSetOfNormalizedString {
   repeated string translation = 1;
 }
 
-// Structure corresponds to LanguageProtosVersion.
+// Structure of a set of unicode string transaltions.
 message WrittenTranslatableSetOfUnicodeString {
   repeated string translation = 1;
 }

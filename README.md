@@ -17,10 +17,11 @@ Content versions represent the version of the corresponding entity instance (e.g
 ### Proto Versions
 Proto versions correspond to the proto structures defined in this repository. They only need to be incremented when a proto structure is updated in such a way that the default data will break existing logical assumptions (thus requiring a data migration). Such upgrades should always happen in a compatible way (except for major API version upgrades -- see the "API Version" section above).
 
-Two notes:
+Three notes:
 
 1. Some proto versions correspond to **groups** of substructures (such as SubtitledHtml, or other language-based substructures), because these substructures are shared across high-level structures.
 2. There is no need to version interactions separately. This is because their structure and how they relate to the exploration/question experience is implied as part of State's structure version.
+3. If any changes happen in the proto structure which are getting tracked, the version specified in the comment must be incremented.
 
 The following are the list of structure types whose versions are tracked:
 - TopicSummaryProtoVersion
