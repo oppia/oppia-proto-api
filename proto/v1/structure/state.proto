@@ -454,13 +454,21 @@ message NumericInputInstance {
 
     // Structure of the inclusive range rule check.
     message IsInclusivelyBetweenSpec {
+
+      // lower value in inclusive range.
       double inputLowerInclusive = 1;
+
+      // upper value in inclusive range.
       double inputUpperInclusive = 2;
     }
 
     // Structure of the tolerance ranage rule check.
     message IsWithinToleranceSpec {
+
+      // Input tolerance value.
       double inputTolerance = 1;
+
+      // Tolerance value to compare.
       double inputComparedValue = 2;
     }
   }
@@ -520,9 +528,17 @@ message TextInputInstance {
 
     // Different rules which can be applied on the text input instance.
     oneof rule_type {
+
+      // A rule to check  equal text. 
       EqualsSpec equals = 1;
+
+      // A rule to check starting text of input.
       StartsWithSpec starts_with = 2;
+
+      // A rule to check a substring of the input text.
       ContainsSpec contains = 3;
+
+      // A rule to check the input text equals.
       FuzzyEqualsSpec fuzzy_equals = 4;
     }
 
@@ -530,12 +546,18 @@ message TextInputInstance {
     message EqualsSpec {
       TranslatableSetOfNormalizedString input = 1;
     }
+
+    // Structure of the rule to check starting text.
     message StartsWithSpec {
       TranslatableSetOfNormalizedString input = 1;
     }
+
+    // Structureof the rule to check the substring of the text.
     message ContainsSpec {
       TranslatableSetOfNormalizedString input = 1;
     }
+
+    // Structure of the rule to check text equality.
     message FuzzyEqualsSpec {
       TranslatableSetOfNormalizedString input = 1;
     }
@@ -563,7 +585,11 @@ message DragAndDropSortInputInstance {
 
   // Structure of the customization args of the drag and drop sort instance.
   message CustomizationArgs {
+
+    // A list of choice for drag and drop.
     repeated SubtitledHtml choices = 1;
+
+    // Items are allowed at same position or not.
     bool allowMultipleItemsInSamePosition = 2;
   }
 
