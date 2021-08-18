@@ -13,7 +13,7 @@ option java_multiple_files = true;
 message Thumbnail {
   ImageProtoVersion proto_version = 1;
 
-  // The name of the thumbnail file.
+  // The name of the thumbnail image file.
   string filename = 2;
 
   // A background color of the thumbnail image.  
@@ -22,8 +22,10 @@ message Thumbnail {
 
 // NOTE: Update ImageProtoVersion if the structure of this proto is modified. The current
 // version is 1.
+// Proto representing a list of images.
 message ReferencedImageList {
   ImageProtoVersion proto_version = 1;
 
+  // The list of filename of all the images.
   repeated string referenced_image_filenames = 2;
 }

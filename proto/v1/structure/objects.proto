@@ -8,16 +8,16 @@ option java_multiple_files = true;
 // Structure of a single Fraction.
 message Fraction {
 
-  // Boolean to check if fraction is negative or not.
+  // This fraction is negative or not.
   bool is_negative = 1;
 
-  // Whole number of the fraction.
+  // The whole number of the fraction.
   uint32 whole_number = 2;
 
-  // Numerator of the fraction.
+  // The numerator of the fraction.
   uint32 numerator = 3;
 
-  // Denominator of the fraction.
+  // The denominator of the fraction.
   int32 denominator = 4;
 }
 
@@ -81,16 +81,16 @@ message ImageWithRegions {
   // A string that represents a filepath which will be prefixed with '[exploration_id]/assets.
   string image_file_path = 1;
 
-  // All the labeled regions in this ImageWithRegions. 
+  // All the labeled regions of the image with regions. 
   repeated LabeledRegion labeled_regions = 2;
 
-  // A region of an image, including its shape and coordinates.
+  // A label used to represent a region of the image.
   message LabeledRegion {
 
-    // The name for the region.
+    // The name of the label for a region.
     string label = 3;
 
-    // Represents the different Region Types.
+    // The different types of regions.
     oneof region_type {
 
       // A rectangle normalized so that the coordinates are within the range [0,1].

@@ -15,7 +15,7 @@ option java_multiple_files = true;
 message State {
   StateProtoVersion proto_version = 1;
 
-  // The explanation of the state.
+  // The content of the state.
   SubtitledHtml content = 2;
 
   // The interactions of the state.
@@ -28,10 +28,10 @@ message State {
   WrittenTranslations written_translations = 5;
 }
 
-// Structure for the interaction.
+// Structure for a single interaction.
 message InteractionInstance {
 
-  // The different types of interaction.
+  // The different types of interactions.
   oneof interaction_type {
 
     // The interaction that takes the form of a simple Continue button.
@@ -70,6 +70,8 @@ message InteractionInstance {
 // Structure of the continue instance.
 message ContinueInstance {
   CustomizationArgs customization_args = 1;
+
+  // The default outcome of the continue instance.
   Outcome default_outcome = 2;
 
   // Continue interactions cannot have custom answer groups, and do not support
@@ -89,22 +91,22 @@ message ContinueInstance {
 // Structure of the fraction input interaction.
 message FractionInputInstance {
 
-  // A set of arguments to customize the fraction instance.
+  // A set of arguments to customize the fraction input.
   CustomizationArgs customization_args = 1;
 
-  // 
+  // A list of answer groups of the fraction input.
   repeated AnswerGroup answer_groups = 2;
 
-  // A default arguments which shown in the output of the fraction instance.
+  // The default outcome of the fraction input.
   Outcome default_outcome = 3;
 
-  // A list of hints in the fraction instance.
+  // A list of hints in the fraction input.
   repeated Hint hints = 4;
 
-  // The solution of the fraction instance.
+  // The solution of the fraction input.
   Solution solution = 5;
 
-  // Structure of the customization args of the fraction instance.
+  // Structure of the customization args of the fraction input.
   message CustomizationArgs {
 
     // The fraction is in simplest form or not.
@@ -116,28 +118,34 @@ message FractionInputInstance {
     // The fraction contains non zero integer part or not.
     bool allow_nonzero_integer_part = 3;
 
-    // The custom arguments for fraction instance. 
+    // The custom placeholders for fraction input. 
     SubtitledHtml custom_placeholder = 4;
   }
 
-  // Structure of the solution of the fraction instance.
+  // Structure of the solution of the fraction input.
   message Solution {
+
+    // A set of common items for the solution in all interactions.
     BaseSolution base_solution = 1;
+
+    // The correct answer of this fraction input.
     Fraction correct_answer = 2;
   }
 
-  // Structure of the answer group of the fraction instance.
+  // Structure of the answer group of the fraction input.
   message AnswerGroup {
+
+    // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
 
-    // A list of all the rules of the fraction instance. 
+    // A list of all the rules of the fraction input. 
     repeated RuleSpec rule_specs = 2;
   }
 
-  // Structure of the rule spec of the fraction instance.
+  // Structure of the rule spec of the fraction input.
   message RuleSpec {
 
-    // Different rules which can be applied on the fraction instance.
+    // Different rules which can be applied on the fraction input.
     oneof rule_type {
 
       // A rule to check the fraction is equal to the fraction input. 
@@ -227,21 +235,21 @@ message FractionInputInstance {
 // Structure of the item selection input interaction.
 message ItemSelectionInputInstance {
 
-  // A set of arguments to customize the item selection input instance.
+  // A set of arguments to customize the item selection input.
   CustomizationArgs customization_args = 1;
 
-  // 
+  // A list of answer groups of the item selection input.
   repeated AnswerGroup answer_groups = 2;
 
-  // A default arguments which shown in the output of the item selection input instance.
+  // The default outcome of the item selection input.
   Outcome default_outcome = 3;
 
-  // A list of hints in the item selection input instance.
+  // A list of hints in the item selection input.
   repeated Hint hints = 4;
 
   // Item selection does not support solutions.
 
-  // Structure of the customization args of the item selection input instance.
+  // Structure of the customization args of the item selection input.
   message CustomizationArgs {
 
     // The minimum number of items allowed for selection.
@@ -254,18 +262,20 @@ message ItemSelectionInputInstance {
     repeated SubtitledHtml choices = 3;
   }
 
-  // Structure of a single answer group.
+  // Structure of a single answer group of item selection input.
   message AnswerGroup {
+
+    // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
 
-    // A list of all the rules of the item selection instance. 
+    // A list of all the rules of the item selection input. 
     repeated RuleSpec rule_specs = 2;
   }
   
-  // Structure of the rules of the item selection instance.
+  // Structure of the rules of the item selection input.
   message RuleSpec {
 
-    // A different type of rules for the item selection input instance.
+    // Different type of rules for the item selection input instance.
     oneof rule_type {
 
       // A rule to check the equality.
@@ -306,24 +316,49 @@ message ItemSelectionInputInstance {
 // Answer type: non-negative int (uint32).
 // Structure of the multiple choice input interaction.
 message MultipleChoiceInputInstance {
+
+  // A set of arguments to customize the multiple choice input.
   CustomizationArgs customization_args = 1;
+
+  // A list of answer groups of the multiple choice input.
   repeated AnswerGroup answer_groups = 2;
+
+  // The default outcome of the multiple choice input.
   Outcome default_outcome = 3;
+
+  // The list of hints for this multiple choice input.
   repeated Hint hints = 4;
 
   // Multiple choice does not support solutions.
 
+  // Structure of the customization args of the multiple choice input.
   message CustomizationArgs {
+
+    // A list of possible choices from the multiple items. 
     repeated SubtitledHtml choices = 1;
   }
+
+  // Structure of a single answer group of multiple choice input.
   message AnswerGroup {
+
+    // A base answer group is a set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
+
+    // A list of all the rules of the multiple choice input.
     repeated RuleSpec rule_specs = 2;
   }
+
+  // Structure of the rules of the multiple choice input.
   message RuleSpec {
+
+    // Differnt type of rules for the multiple choice input.
     oneof rule_type {
+
+      // A rule to check the equality.
       EqualsSpec equals = 1;
     }
+
+    // Structure of the equal rule check. 
     message EqualsSpec {
       uint32 input = 1;
     }
@@ -333,50 +368,97 @@ message MultipleChoiceInputInstance {
 // Answer type: real (double).
 // Structure of the number input interaction.
 message NumericInputInstance {
+
+  // A list of answer groups of the numeric input.
   repeated AnswerGroup answer_groups = 1;
   Solution solution = 2;
+
+  // The default outcome of the numeric input.
   Outcome default_outcome = 3;
   repeated Hint hints = 4;
 
   // Numeric input does not have any customization arguments.
 
+  // Structure of the solution of the numeric input.
   message Solution {
+
+    // A set of common items for the solution in all interactions.
     BaseSolution base_solution = 1;
+
+    // The correct answer of this numeric input.
     double correct_answer = 2;
   }
+
+  // Structure of a single answer group of numeric input.
   message AnswerGroup {
+
+    // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
+
+    // A list of all the rules of the numeric input.
     repeated RuleSpec rule_specs = 2;
   }
+
+  // Structure of the rules of the numeric input.
   message RuleSpec {
+
+    // Different type of rules which can be applied on the numeric input.
     oneof rule_type {
+
+      // A rule to check the equality.
       EqualsSpec equals = 1;
+
+      // A rule to check less than a value or not. 
       IsLessThanSpec is_less_than = 2;
+
+      // A rule to check the greater than value or not.
       IsGreaterThanSpec is_greater_than = 3;
+
+      // A rule to check the less than or equal value or not.
       IsLessThanOrEqualToSpec is_less_than_or_equal_to = 4;
+
+      // A rule to check the greter than or equal value or not.
       IsGreaterThanOrEqualToSpec is_greater_than_or_equal_to = 5;
+
+      // A rule to check the inclusive range.
       IsInclusivelyBetweenSpec is_inclusively_between = 6;
+
+      // A rule to check the tolerance range.
       IsWithinToleranceSpec is_within_tolerance = 7;
     }
+
+    // Structure of the equal rule check.
     message EqualsSpec {
       double input = 1;
     }
+
+    // Structure of the less than rule check.
     message IsLessThanSpec {
       double input = 1;
     }
+
+    // Structure of the greater than rule check.
     message IsGreaterThanSpec {
       double input = 1;
     }
+
+    // Structure of the less than or equal rule check.
     message IsLessThanOrEqualToSpec {
       double input = 1;
     }
+
+    // Structure of the greater than or equal rule check.
     message IsGreaterThanOrEqualToSpec {
       double input = 1;
     }
+
+    // Structure of the inclusive range rule check.
     message IsInclusivelyBetweenSpec {
       double inputLowerInclusive = 1;
       double inputUpperInclusive = 2;
     }
+
+    // Structure of the tolerance ranage rule check.
     message IsWithinToleranceSpec {
       double inputTolerance = 1;
       double inputComparedValue = 2;
@@ -387,31 +469,64 @@ message NumericInputInstance {
 // Answer type: normalized string (string).
 // Structure of the text input interaction.
 message TextInputInstance {
+
+  // A set of arguments to customize the text input instance.
   CustomizationArgs customization_args = 1;
+
+  // A list of answer groups of the text input interaction instance.
   repeated AnswerGroup answer_groups = 2;
+
+  // The default outcome of the text instance.
   Outcome default_outcome = 3;
+
+  // A list of hints for text input instance.
   repeated Hint hints = 4;
+
+  // The solution of the text input instance.
   Solution solution = 5;
 
+  // Structure of the customization args of the text input instance.
   message CustomizationArgs {
+
+    // A placeholder value for the text input instance.
     SubtitledHtml placeholder = 1;
+
+    // The number of rows for the text input instance.
     int32 rows = 2;
   }
+
+  // Structure of the solution of the text input instance.
   message Solution {
+
+    // A set of common items for the solution in all interactions.
     BaseSolution base_solution = 1;
+
+    // The correct answer of this text instance.
     string correct_answer = 2;
   }
+
+  // Structure of a single answer group of text input.
   message AnswerGroup {
+
+    // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
+
+    // A list of all the rules of the text instance.
     repeated RuleSpec rule_specs = 2;
   }
+
+  // Structure of the rules of the text input instance.
   message RuleSpec {
+
+    // Different rules which can be applied on the text input instance.
     oneof rule_type {
       EqualsSpec equals = 1;
       StartsWithSpec starts_with = 2;
       ContainsSpec contains = 3;
       FuzzyEqualsSpec fuzzy_equals = 4;
     }
+
+    // Structure of the equal rule check.
     message EqualsSpec {
       TranslatableSetOfNormalizedString input = 1;
     }
@@ -430,43 +545,94 @@ message TextInputInstance {
 // Answer type: ListOfSetsOfTranslatableHtmlContentIds.
 // Structure of the drag and drop sort input interaction.
 message DragAndDropSortInputInstance {
+
+  // A set of arguments to customize the drag and drop sort instance.
   CustomizationArgs customization_args = 1;
+
+  // A list of answer groups of the drag and drop sort input interaction instance.
   repeated AnswerGroup answer_groups = 2;
+
+  // The default outcome of the drag and drop sort instance.
   Outcome default_outcome = 3;
+
+  // A list of all the hints for drag and drop sort instance. 
   repeated Hint hints = 4;
+
+  // The solution of the drag and drop sort instance.
   Solution solution = 5;
 
+  // Structure of the customization args of the drag and drop sort instance.
   message CustomizationArgs {
     repeated SubtitledHtml choices = 1;
     bool allowMultipleItemsInSamePosition = 2;
   }
+
+  // Structure of the solution of the drag and drop sort instance.
   message Solution {
+
+    // A set of common items for the solution in all interactions.
     BaseSolution base_solution = 1;
+
+    // The correct answer of this drag and drop sort instance.
     ListOfSetsOfTranslatableHtmlContentIds correct_answer = 2;
   }
+
+  // Structure of a single answer group of drag and drop sort input.
   message AnswerGroup {
+
+    // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
+
+    // A list of all the rules of the drag and drop sort instance.
     repeated RuleSpec rule_specs = 2;
   }
+
+  // Structure of the rules of the drag and drop sort instance.
   message RuleSpec {
+
+    // Different rules which can be applied on the drag and drop sort instance.
     oneof rule_type {
+
+      // A rule to check equal order.
       IsEqualToOrderingSpec is_equal_to_ordering = 1;
+
+      // A rule to check equal order and one item at incorrect position.
       IsEqualToOrderingWithOneItemAtIncorrectPositionSpec is_equal_to_ordering_with_one_item_at_incorrect_position = 2;
+
+      // A rule to check the position of an item.
       HasElementXAtPositionYSpec has_element_x_at_position_y = 3;
+
+      // A rule to check the previous position of an item.
       HasElementXBeforeElementYSpec has_element_x_before_element_y = 4;
     }
+
+    // Structure of an equal order rule.
     message IsEqualToOrderingSpec {
       ListOfSetsOfTranslatableHtmlContentIds input = 1;
     }
+
+    // Structure of an equal order with one incorrect position rule.
     message IsEqualToOrderingWithOneItemAtIncorrectPositionSpec {
       ListOfSetsOfTranslatableHtmlContentIds input = 1;
     }
+
+    // Structure of an item position check rule.
     message HasElementXAtPositionYSpec {
+
+      // The item whose position to check.
       TranslatableHtmlContentId element = 1;
+
+      // The position of the item to check.
       uint32 position = 2;
     }
+
+    // Structure of an item previous position check rule.
     message HasElementXBeforeElementYSpec {
+
+      // The previous position of an item.
       TranslatableHtmlContentId considered_element = 1;
+
+      // The next element of the item.
       TranslatableHtmlContentId later_element = 2;
     }
   }
@@ -475,24 +641,49 @@ message DragAndDropSortInputInstance {
 // Answer type: ClickOnImage.
 // Structure of the image selection input interaction.
 message ImageClickInputInstance {
+
+  // A set of arguments to customize the image click input.
   CustomizationArgs customization_args = 1;
+
+  // A list of answer groups of the image click input.
   repeated AnswerGroup answer_groups = 2;
+
+  // The default outcome of the image click input.
   Outcome default_outcome = 3;
+
+  // A list of all the hints for image click input.
   repeated Hint hints = 4;
 
   // Image click input doesn't yet support solutions.
 
+  // Structure of the customization args of the image click input.
   message CustomizationArgs {
+
+    // An image with the regions.
     ImageWithRegions image_and_regions = 1;
   }
+
+  // Structure of a single answer group of image selection input.
   message AnswerGroup {
+
+    // A base answer group is a set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
+
+    // A list of all the rules of the image click input.
     repeated RuleSpec rule_specs = 2;
   }
+
+  // Structure of the rules of the image click input.
   message RuleSpec {
+
+    // Different rules which can be applied on the image click input.
     oneof rule_type {
+
+      // A rule to check the region availability. 
       IsInRegionSpec is_in_region = 1;
     }
+
+    // Structure of a single is in region. 
     message IsInRegionSpec {
       string input_region = 1;
     }
@@ -502,36 +693,79 @@ message ImageClickInputInstance {
 // Answer type: RatioExpression.
 // Structure of the ratio input interaction.
 message RatioExpressionInputInstance {
+
+  // A set of arguments to customize the ratio expression input.
   CustomizationArgs customization_args = 1;
+
+  // A list of answer groups of the ratio expression input interaction instance.
   repeated AnswerGroup answer_groups = 2;
+
+  // The default outcome of the ratio expression input.
   Outcome default_outcome = 3;
+
+  // A list of hints for the ratio expression input.
   repeated Hint hints = 4;
+
+  // The solution of the ratio expression input.
   Solution solution = 5;
 
+  // Structure of the customization args of the ratio expression input.
   message CustomizationArgs {
+
+    // A placeholder for the ratio expression input.
     SubtitledHtml placeholder = 1;
+
+    // The number of terms in the ration expression. 
     int32 number_of_terms = 2;
   }
+
+  // Structure of the solution of the ratio expression input.
   message Solution {
+
+    // A set of common items for the solution in all interactions.
     BaseSolution base_solution = 1;
+
+    // The correct answer of this ratio expression input.
     RatioExpression correct_answer = 2;
   }
+
+  // Structure of a single answer group of ratio expression input.
   message AnswerGroup {
+
+    // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
+
+    // A list of all the rules of the ratio expression input.
     repeated RuleSpec rule_specs = 2;
   }
+
+  // Structure of the rules of the ratio expression input.
   message RuleSpec {
+
+    // Different rules which can be applied on the ratio expression input.
     oneof rule_type {
+
+      // A rule to check the equality.
       EqualsSpec equals = 1;
+
+      // A rule to check the equivalent. 
       IsEquivalentSpec is_equivalent = 2;
+
+      // A rule to check the number of terms.
       HasNumberOfTermsEqualToSpec has_number_of_terms_equal_to = 3;
     }
+
+    // Structure of the equal rule check.
     message EqualsSpec {
       RatioExpression input = 1;
     }
+
+    // Structure of the equivalent rule check.
     message IsEquivalentSpec {
       RatioExpression input = 1;
     }
+
+    // Structure of the numer of terms equal rule check.
     message HasNumberOfTermsEqualToSpec {
       uint32 input_term_count = 1;
     }
@@ -550,35 +784,60 @@ message EndExplorationInstance {
 
 // Common fields for all answer groups.
 message BaseAnswerGroup {
+
+  // An outcome is a common way of reponse for all interactions.
   Outcome outcome = 1;
+
+  // The misconception which is tagged to a single skill.
   Misconception tagged_skill_misconception = 2;
 }
 
 // Structure of the outcome of any interaction.
 message Outcome {
+
+  // The name of the next state.
   string destination_state = 1;
+
+  // The feedback is the reponse for the learners input in interaction.
   SubtitledHtml feedback = 2;
+
+  // The label to mark the answer correct.
   bool labelled_as_correct = 3;
 }
 
 // Structure for a single hint
 message Hint {
-  // Hint data.
+
+  // The content of the hint.
   SubtitledHtml hint_content = 1;
 }
 
 // Common fields for all solutions.
 message BaseSolution {
+
+  // The explanation of the solution.
   SubtitledHtml explanation = 1;
 }
 
 // Convenience collection object for all potential types of solutions.
 message Solution {
+
+  // The different type of interactions existed in an exploration.
   oneof interaction_type {
+
+    // The interaction to allow fraction inputs.
     FractionInputInstance.Solution fraction_instance_solution = 1;
+
+    // The interaction to allow numeric inputs. 
     NumericInputInstance.Solution numeric_input_instance_solution = 2;
+
+    // The interaction to allow text inputs. 
     TextInputInstance.Solution text_input_instance_solution = 3;
+
+    // The interaction to allow drag and drop inputs. 
     DragAndDropSortInputInstance.Solution drag_and_drop_sort_input_instance_solution = 4;
+
+    // The interaction to allow ratio inputs. 
     RatioExpressionInputInstance.Solution ratio_expression_input_instance_solution = 5;
   }
 }

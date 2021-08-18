@@ -11,16 +11,17 @@ option java_multiple_files = true;
 
 // NOTE: Update RevisionCardProtoVersion if the structure of this proto is modified. The current
 // version is 1.
-// Corresponds to a revision card that can be displayed for a specific subtopic.
+// Proto of a revision card that can be displayed for a specific subtopic.
 message RevisionCard {
   RevisionCardProtoVersion proto_version = 1;
 
+  // The id of the subtopic in which this revision card is displayed.
   SubtopicId id = 2;
 
-  // The title corresponding to the subtopic.
+  // The title of the revision card.
   string title = 3;
 
-  // The core explanation of the subtopic being revised.
+  // The content of this revision card.
   SubtitledHtml content = 4;
 
   // The recorded voiceovers to play for the corresponding revision card.
@@ -29,13 +30,16 @@ message RevisionCard {
   // The written translations of the revision card.
   WrittenTranslations written_translations = 6;
 
-  // The thumbnail of the revision card. 
+  // The thumbnail image of the revision card. 
   Thumbnail thumbnail = 7;
 
+  // The list of image used in this revision card.
   ReferencedImageList referenced_image_list = 8;
 }
 
-// This structure is shared among multiple parent structures, so it has no direct migration pathway. Changes should be carefully done, or the structure should be duplicated according to whichever structure requires alterations.
+// This proto is shared among multiple parent protos, so it has no direct migration
+// pathway. Changes should be carefully done, or the proto should be duplicated according 
+// to whichever proto requires alterations.
 message SubtopicId {
   string topic_id = 1;
   int32 index = 2;
