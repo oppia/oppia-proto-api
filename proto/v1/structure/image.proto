@@ -7,16 +7,17 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
+// Proto message representing a single thumbnail image.
 // NOTE: Update ImageProtoVersion if the structure of this proto is modified. The current
 // version is 1.
-// Proto representing a single thumbnail image.
 message Thumbnail {
+  // The proto version defining the internal structure of this image proto message.
   ImageProtoVersion proto_version = 1;
 
   // The name of the thumbnail image file.
   string filename = 2;
 
-  // A background color of the thumbnail image.  
+  // The background color to be shown behind the thumbnail image.
   int32 background_color_rgb = 3;
 }
 
@@ -24,8 +25,9 @@ message Thumbnail {
 // version is 1.
 // Proto representing a list of images.
 message ReferencedImageList {
+  // The proto version defining the internal structure of this list of images.
   ImageProtoVersion proto_version = 1;
 
-  // The list of filename of all the images.
+  // The list of filenames of all the images in the list.
   repeated string referenced_image_filenames = 2;
 }

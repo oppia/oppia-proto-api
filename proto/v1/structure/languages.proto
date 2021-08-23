@@ -7,8 +7,9 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// A list of language code.
+// A list of language codes supported by the Android app.
 enum LanguageCode {
+  // TODO: Add docstring to explain why this is needed and when it should be used.
   LANGUAGE_CODE_UNSPECIFIED = 0;
   ENGLISH = 1;
   ARABIC = 2;
@@ -17,9 +18,11 @@ enum LanguageCode {
   BRAZILIAN_PORTUGUESE = 5;
 }
 
+// Proto message representing a block of (subtitled) HTML.
 // NOTE: Update LanguageProtosVersion if the structure of this proto is modified.
-// Proto representing a block of (subtitled) HTML.
 message SubtitledHtml {
+  // The proto version defining the internal structure of this proto message.
+  // TODO: Add more explanation for why this is dependent on a common LanguageProtosVersion.
   LanguageProtosVersion protos_version = 1;
 
   // The content ID for this SubtitledHtml. This is unique within a State.
@@ -29,25 +32,30 @@ message SubtitledHtml {
   string html = 3;
 }
 
+// Proto message representing recorded voiceovers.
 // NOTE: Update LanguageProtosVersion if the structure of this proto is modified.
-// Structure of the recorded voiceovers. 
 message RecordedVoiceovers {
+  // The proto version defining the internal structure of this proto message.
+  // TODO: Add more explanation for why this is dependent on a common LanguageProtosVersion.
   LanguageProtosVersion protos_version = 1;
 
-  // A list of mapping from language codes to voiceover bundles (which map individual content IDs
-  // to their voiceovers).
+  // A list of mappings from language codes to voiceover bundles (which each map individual
+  // SubtitledHtml content IDs to their voiceovers in that language).
   repeated VoiceoverContentMapping voiceover_language_mapping = 2;
 }
 
-// Structure of a voiceover content.
+// Proto message mapping SubtitledHtml fields to their corresponding voiceovers for a
+// particular language.
 message VoiceoverContentMapping {
+  // The language code that this mapping is for.
   LanguageCode language_code = 1;
+
+  // The mapping of content IDs to their corresponding voiceover files.
   map<string, Voiceover> voiceover_content_mapping = 2;
 }
 
-// Structure of a voiceover.
+// Proto message representing a specific voiceover file.
 message Voiceover {
-
   // The file name of the voiceover.
   string filename = 1;
 
@@ -58,24 +66,32 @@ message Voiceover {
   float duration_secs = 3;
 }
 
-// Structure of the written translations.
+// Proto message representing a set of written translations.
 message WrittenTranslations {
+  // The proto version defining the internal structure of this proto message.
+  // TODO: Add more explanation for why this is dependent on a common LanguageProtosVersion.
   LanguageProtosVersion protos_version = 1;
+
+  // A list of mappings from language codes to written translations (which each map
+  // individual SubtitledHtml content IDs to their written translations in that language).
   repeated WrittenTranslationContentMapping translation_language_mapping = 2;
 }
 
-// Structure of a writtent translation content.
+// Proto message mapping SubtitledHtml fields to their corresponding written translations
+// in a particular language.
 message WrittenTranslationContentMapping {
+  // The language code that this mapping is for.
   LanguageCode language_code = 1;
+
+  // The mapping of content IDs to their corresponding written translations.
   map<string, WrittenTranslation> translation_content_mapping = 2;
 }
 
-// Structure of the written translation.
+// Proto message representing a single written translation.
 message WrittenTranslation {
 
-  // The different data format supported for transaltions.
+  // The data format of the source material for this translation.
   oneof data_format {
-
     // The translation for an HTML string.
     WrittenTranslatableHtml translatable_html = 1;
 
@@ -90,22 +106,26 @@ message WrittenTranslation {
   }
 }
 
-// Structure of a html string translation.
+// Proto message representing the translation of a single HTML string.
 message WrittenTranslatableHtml {
   string translation = 1;
 }
 
-// Structure of a unicode string translation.
+// Proto message representing the translation of a single unicode string.
 message WrittenTranslatableUnicode {
   string translation = 1;
 }
 
-// Structure of a set of normalized string transaltions.
+// Proto message representing the translation of a set of normalized strings. Note that
+// such translations have a variable number of strings, the number of which may be
+// different from the number of strings in the original set.
 message WrittenTranslatableSetOfNormalizedString {
   repeated string translation = 1;
 }
 
-// Structure of a set of unicode string transaltions.
+// Proto message representing the translation of a set of unicode strings. Note that such
+// translations have a variable number of strings, the number of which may be different
+// from the number of strings in the original set.
 message WrittenTranslatableSetOfUnicodeString {
   repeated string translation = 1;
 }

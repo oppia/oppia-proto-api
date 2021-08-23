@@ -5,13 +5,13 @@ package org.oppia.proto.v1.structure;
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// Structure of a single Fraction.
+// Proto message representing a single fraction or mixed number.
 message Fraction {
 
-  // This fraction is negative or not.
+  // Whether the fraction is negative.
   bool is_negative = 1;
 
-  // The whole number of the fraction.
+  // The whole number part of the fraction.
   uint32 whole_number = 2;
 
   // The numerator of the fraction.
@@ -21,84 +21,99 @@ message Fraction {
   int32 denominator = 4;
 }
 
-// Corresponds to a single string value as designated by a content ID. The value for this
-// translatable content will be present in the written translations structure of the containing
-// State.
+// Proto representing a single content ID for an HTML field. This content ID is used to
+// map HTML fields to their corresponding translations and voiceovers (see e.g. the
+// WrittenTranslations substructure of the corresponding State).
 message TranslatableHtmlContentId {
+  // The content ID for the HTML field, which is unique within a given State.
   string content_id = 1;
 }
 
-// Corresponds to a set of TranslatableHtmlContentIds.
+// Proto representing a set of TranslatableHtmlContentIds.
 message SetOfTranslatableHtmlContentIds {
+  // The set of content IDs.
   repeated TranslatableHtmlContentId content_ids = 1;
 }
 
-// Corresponds to a list of SetOfTranslatableHtmlContentIds. 
+// Proto representing a list of SetOfTranslatableHtmlContentIds.
 message ListOfSetsOfTranslatableHtmlContentIds {
+  // The sets of content IDs.
   repeated SetOfTranslatableHtmlContentIds content_id_lists = 1;
 }
 
-// 2-Dimensional Point for interaction type image region selection.
+// Proto representing a 2D point for the ImageRegion interaction type.
 message Point2d {
 
-  // x axis.
+  // Relative x-coordinate of the point within the image. This lies within the
+  // range [0, 1] and measures horizontal distance (with the left boundary of the image
+  // as the origin).
   double x = 1;
 
-  // y axis.
+  // Relative y-coordinate of the point within the image. This lies within the
+  // range [0, 1] and measures vertical distance (with the top boundary of the image
+  // as the origin).
   double y = 2;
 }
 
-
-// Click action on image for for interaction type image region selection.
+// Proto representing the location of a click on an image. This is for the ImageRegion
+// interaction type.
 message ClickOnImage {
 
-  // X,Y coordinates where user clicked on image. 
+  // The relative coordinates of the point where the user clicked on the image.
   Point2d click_position = 1;
 
-  // All the selected regions on the image. 
+  // All the selected regions on the image.
   repeated string clicked_regions = 2;
 }
 
-// Structure containing a ratio object for eg - [1,2,3] for 1:2:3. 
+// Proto representing a ratio object in list form, e.g. [1,2,3] for 1:2:3.
 message RatioExpression {
-  // List of components in a ratio. It's expected that list should have more than
-  // 1 element.
+  // List of components in the ratio. The list is expected to have more than one element.
   repeated uint32 components = 1;
 }
 
-// Corresponds to a set of normalized strings which are described in this structure, but which have
-// replacement translations findable in the written translations structure of the containing State.
+// Proto representing a translatable set of normalized strings. This arises in the context of
+// rules, which may check the learner's answer against one of a given set of strings. The
+// corresponding replacement strings for a different language can be found in the WrittenTranslations
+// structure of the containing State.
 message TranslatableSetOfNormalizedString {
+  // The content ID corresponding to this set of normalized strings.
   string content_id = 1;
 
-  // All the normalized strings.
+  // The set of normalized strings to be translated as a whole.
   repeated string normalized_strings = 2;
 }
 
-// An image overlaid with labeled regions.
+// Proto representing an image that is overlaid with labeled regions.
 message ImageWithRegions {
 
-  // A string that represents a filepath which will be prefixed with '[exploration_id]/assets.
+  // The filepath of the image, which will be prefixed with '[exploration_id]/assets'.
   string image_file_path = 1;
 
-  // All the labeled regions of the image with regions. 
+  // The labeled regions of this image.
   repeated LabeledRegion labeled_regions = 2;
 
-  // A label used to represent a region of the image.
+  // Proto representing a labeled region of the image.
   message LabeledRegion {
-
-    // The name of the label for a region.
+    // The name of the region's label.
     string label = 3;
 
-    // The different types of regions.
+    // The type of the region.
     oneof region_type {
-
-      // A rectangle normalized so that the coordinates are within the range [0,1].
+      // A rectangle that is normalized so that its boundary coordinates are within the range
+      // [0,1], where 0 corresponds to one end of the image and 1 to the other.
       NormalizedRectangle2d normalized_rectangle_2d = 1;
     }
+
+    // Proto representing a 2D rectangle defined using normalized coordinates relative to the
+    // image. The origin of the coordinate system is at the top left of the image. The x-coordinate
+    // measures horizontal distance (to the right), and the y-coordinate measures vertical distance
+    // (downwards).
     message NormalizedRectangle2d {
-      // Origin is top-left, increasing x is to the right, increasing y is down.
+      // The top-left corner of the rectangle, in normalized coordinates.
       Point2d upper_left = 1;
+
+      // The bottom-right corner of the rectangle, in normalized coordinates.
       Point2d lower_right = 2;
     }
   }

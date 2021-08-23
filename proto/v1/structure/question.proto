@@ -9,24 +9,25 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
+// Proto message representing a single question.
 // NOTE: Update QuestionProtoVersion if the structure of this proto is modified. The current
 // version is 1.
-// Structure of a single question.
 message Question {
+  // The proto version defining the internal structure of this question proto message.
   QuestionProtoVersion proto_version = 1;
 
   // The ID of the question.
   string id = 2;
 
-  // The State object that makes up the main part of the question.
+  // The State object that makes up the main part of this question.
   State question_state = 3;
 
-  // The full list of skill IDs linked to this question.
+  // The list of all skill IDs that are linked to this question.
   repeated string linked_skill_ids = 4;
 
   // The version of the contents of this question.
   int32 content_version = 5;
 
-  // The list of all images that are included within SubtitledHTML subfields of this question.
+  // The list of all images that are included within SubtitledHtml subfields of this question.
   ReferencedImageList referenced_image_list = 6;
 }

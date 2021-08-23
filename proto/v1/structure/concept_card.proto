@@ -9,10 +9,11 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
+// Proto message representing a single concept card that can be displayed for a specific skill.
 // NOTE: Update ConceptCardProtoVersion if the structure of this proto is modified. The current
 // version is 1.
-// Proto of a single concept card that can be displayed for a specific skill.
 message ConceptCard {
+  // The proto version defining the internal structure of this concept card proto message.
   ConceptCardProtoVersion proto_version = 1;
 
   // The ID corresponding to the skill this concept is representing.
@@ -27,17 +28,18 @@ message ConceptCard {
   // A list of worked examples to present to the learner.
   repeated WorkedExample worked_examples = 5;
 
-  // The recorded audio to play SubtitledHTML subfields of this concept card. 
+  // The recorded voiceovers for SubtitledHtml subfields of this concept card.
   RecordedVoiceovers recorded_voiceovers = 6;
 
-  // The translations of SubtitledHTML subfields of this concept card.
+  // The translations of SubtitledHtml subfields of this concept card.
   WrittenTranslations written_translations = 7;
 
-  // The list of all images that are included within SubtitledHTML and WorkedExample 
-  // subfields of this concept card.
+  // The list of all images that are included within SubtitledHtml subfields of this
+  // concept card.
   ReferencedImageList referenced_image_list = 8;
 
-  // The worked example is an example of question and answer shown in a concept card.
+  // Each worked example provides a sample question and answer for the student to read
+  // and learn from.
   message WorkedExample {
 
     // The question for this worked example.

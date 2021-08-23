@@ -9,10 +9,12 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
+// Proto message representing a single revision card that can be displayed for a specific
+// subtopic.
 // NOTE: Update RevisionCardProtoVersion if the structure of this proto is modified. The current
 // version is 1.
-// Proto of a revision card that can be displayed for a specific subtopic.
 message RevisionCard {
+  // The proto version defining the internal structure of this revision card proto message.
   RevisionCardProtoVersion proto_version = 1;
 
   // The id of the subtopic in which this revision card is displayed.
@@ -24,23 +26,28 @@ message RevisionCard {
   // The content of this revision card.
   SubtitledHtml content = 4;
 
-  // The recorded voiceovers to play for the corresponding revision card.
+  // The recorded voiceovers for SubtitledHtml subfields of this revision card.
   RecordedVoiceovers recorded_voiceovers = 5;
 
-  // The written translations of the revision card.
+  // The written translations for SubtitledHtml subfields of this revision card.
   WrittenTranslations written_translations = 6;
 
-  // The thumbnail image of the revision card. 
+  // The thumbnail image for this revision card.
   Thumbnail thumbnail = 7;
 
-  // The list of image used in this revision card.
+  // The list of all images that are included within SubtitledHtml subfields of this
+  // revision card.
   ReferencedImageList referenced_image_list = 8;
 }
 
-// This proto is shared among multiple parent protos, so it has no direct migration
-// pathway. Changes should be carefully done, or the proto should be duplicated according 
-// to whichever proto requires alterations.
+// Proto message representing a subtopic ID.
+// This proto message type is shared among multiple parent protos, so it has no direct
+// migration pathway. Changes should be carefully done, or the proto should be duplicated
+// according to whichever proto requires alterations.
 message SubtopicId {
+  // The ID of the topic that contains this subtopic.
   string topic_id = 1;
+
+  // The index of this subtopic within its parent topic.
   int32 index = 2;
 }

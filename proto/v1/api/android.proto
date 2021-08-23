@@ -12,42 +12,69 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.api";
 option java_multiple_files = true;
 
+// The proto request made to the server to get the list of topics which are
+// available for download.
 message TopicListRequest {
+  // The common proto version defining this request/response pair.
   TopicListRequestResponseProtoVersion proto_version = 1;
 
+  // Details about the Android app client that is making the request.
   ClientContext client_context = 2;
+  // Details about the latest proto versions that this Android client can support.
   ClientCompatibilityContext compatibility_context = 3;
+  // TODO: Fill this in.
   ClientDownloadStateContext download_context = 4;
 }
 
+// The expected proto response from the server when provided with a
+// TopicListRequest.
 message TopicListResponse {
+  // The common proto version defining this request/response pair.
   TopicListRequestResponseProtoVersion proto_version = 1;
 
-  // All topic summaries that are newer & compatible with the client.
+  // A list of the latest topic summaries that are newer than the ones stored
+  // on the client, but still compatible with the client.
   repeated org.oppia.proto.v1.structure.TopicSummary topic_summaries = 2;
 }
 
+// The proto request made to the server to get the latest still-compatible
+// content for specific topics.
 message TopicContentRequest {
+  // The common proto version defining this request/response pair.
   TopicContentRequestResponseProtoVersion proto_version = 1;
 
+  // Details about the Android app client that is making the request.
   ClientContext client_context = 2;
+  // The IDs of the entities making up the topic whose data is to be fetched.
   repeated DownloadRequestStructureIdentifier identifiers = 3;
+  // The maximum payload size that the server should furnish as a single
+  // download operation. This is only a request, and may not be honoured by the
+  // server (which will only adhere to this field on a best-effort basis).
   int32 requested_max_payload_size = 4;
 }
 
+// The expected proto response from the server when provided with a
+// TopicContentRequest.
 message TopicContentResponse {
+  // The common proto version defining this request/response pair.
   TopicContentRequestResponseProtoVersion proto_version = 1;
 
+  // A list of the individual items to be downloaded.
   repeated DownloadResult download_results = 2;
 
-  // Structure corresponds to TopicContentRequestResponseProtoVersion.
+  // The result of downloading a specific asset. This may either contain the result of the
+  // download, or an indication that the download was skipped.
+  // NOTE: Update TopicContentRequestResponseProtoVersion if the structure of this proto
+  // is modified. The current version is 1.
   message DownloadResult {
+    // The entity type and ID corresponding to this download.
     DownloadRequestStructureIdentifier identifier = 1;
 
     oneof structure_type {
-      // Indicates that the request corresponding to this particular identifier was skipped
-      // and suggested to retry by the Oppia backend. Note that the presence of this value in the 
-      // oneof is sufficient to indicate its state, and its actual value does not matter.
+      // The presence of this value indicates that the request corresponding to this
+      // particular identifier was skipped and suggested to retry by the Oppia backend.
+      // Note that the presence of this value in the oneof is sufficient to indicate
+      // its state; its actual value does not matter.
       bool skipped = 2;
       org.oppia.proto.v1.structure.RevisionCard revision_card = 3;
       org.oppia.proto.v1.structure.ConceptCard concept_card = 4;
@@ -57,28 +84,47 @@ message TopicContentResponse {
     }
   }
 
-  // Structure corresponds to TopicContentRequestResponseProtoVersion.
+  // A list of question IDs corresponding to the topic.
+  // NOTE: Update TopicContentRequestResponseProtoVersion if the structure of this proto
+  // is modified. The current version is 1.
   message QuestionIdList {
+    // The list of question IDs.
     repeated string question_ids = 1;
   }
 }
 
+// TODO: Add docs.
 message ClientContext {
+  // TODO: Add doc and clarify name.
   string version_name = 1;
+  // TODO: Add doc and clarify name.
   int64 version_code = 2;
 }
 
+// Information about the latest proto versions that the client can support.
+// TODO: Clarify whether, if a client can support version N, this means it can support
+// versions 1 to N, or only version N. If neither of these, then we might need a
+// "from ... to" range for each field, rather than a single version.
 message ClientCompatibilityContext {
+  // The latest proto version for topic summaries that the client can support.
   org.oppia.proto.v1.structure.TopicSummaryProtoVersion topic_summary_proto_version = 1;
+  // The latest proto version for revision cards that the client can support.
   org.oppia.proto.v1.structure.RevisionCardProtoVersion revision_card_proto_version = 2;
+  // The latest proto version for concept cards that the client can support.
   org.oppia.proto.v1.structure.ConceptCardProtoVersion concept_card_proto_version = 3;
+  // The latest proto version for explorations that the client can support.
   org.oppia.proto.v1.structure.ExplorationProtoVersion exploration_proto_version = 4;
+  // The latest proto version for questions that the client can support.
   org.oppia.proto.v1.structure.QuestionProtoVersion question_proto_version = 5;
+  // The latest proto version for states that the client can support.
   org.oppia.proto.v1.structure.StateProtoVersion state_proto_version = 6;
+  // The latest proto version for language-related protos that the client can support.
   org.oppia.proto.v1.structure.LanguageProtosVersion language_protos_version = 7;
+  // The latest proto version for images that the client can support.
   org.oppia.proto.v1.structure.ImageProtoVersion thumbnail_proto_version = 8;
 }
 
+// TODO: Document this fully.
 message ClientDownloadStateContext {
   message DownloadState {
     int32 content_version = 1;
@@ -86,8 +132,8 @@ message ClientDownloadStateContext {
       string topic_id = 2;
       org.oppia.proto.v1.structure.SubtopicId revision_card_id = 3;
       string concept_card_id = 4;
-      string story_id = 5; 
-      string exploration_id = 6; 
+      string story_id = 5;
+      string exploration_id = 6;
       string question_id = 7;
       string skill_id = 8;
     }
@@ -96,21 +142,31 @@ message ClientDownloadStateContext {
   repeated DownloadState current_downloads = 1;
 }
 
-// This structure's version corresponds to TopicContentRequestResponseProtoVersion.
+// The type and ID of a specific asset that is being downloaded.
+// NOTE: Update TopicContentRequestResponseProtoVersion if the structure of this proto
+// is modified.
 message DownloadRequestStructureIdentifier {
   oneof structure_type {
+    // The ID of the revision card ("subtopic") to be downloaded.
     org.oppia.proto.v1.structure.SubtopicId revision_card_id = 1;
+    // The ID of the concept card to be downloaded.
     string concept_card_id = 2;
+    // The ID of the exploration to be downloaded.
     string exploration_id = 3;
+    // The skill ID whose associated questions are to be downloaded.
+    // TODO: Clarify difference between this and concept_card_id above (field 2).
     string question_list_skill_id = 4;
+    // The ID of the question to be downloaded.
     string question_id = 5;
   }
 }
 
+// The only currently-supported proto version for the TopicListRequestResponse.
 message TopicListRequestResponseProtoVersion {
   int32 version = 1;
 }
 
+// The only currently-supported proto version for the TopicContentRequestResponse.
 message TopicContentRequestResponseProtoVersion {
   int32 version = 1;
 }

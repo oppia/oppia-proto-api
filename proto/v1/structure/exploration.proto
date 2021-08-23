@@ -9,27 +9,29 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
+// Proto message representing a single exploration.
 // NOTE: Update ExplorationProtoVersion if the structure of this proto is modified. The current
 // version is 1.
-// Proto of a single exploration.
 message Exploration {
+  // The proto version defining the internal structure of this exploration proto message.
   ExplorationProtoVersion proto_version = 1;
 
   // The ID of the exploration.
   string id = 2;
-  
+
   // The title of the exploration.
   string title = 3;
-  
+
   // The name of the initial state of the exploration.
   string init_state_name = 4;
-  
+
   // The mapping from state names to state objects.
   map<string, State> states = 5;
 
-  // The version of the contents of this exploration.
+  // The version of the contents of this exploration. (This corresponds to the 'version'
+  // field on the server.)
   int32 content_version = 6;
 
-  // A list of all the images consists of this exploration.
+  // A list of all the images contained in SubtitledHtml subfields of this exploration.
   ReferencedImageList referenced_image_list = 7;
 }

@@ -9,9 +9,9 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
+// Proto message representing a single State.
 // NOTE: Update StateProtoVersion if the structure of this proto is modified. The current
 // version is 1.
-// Structure for a single State.
 message State {
   StateProtoVersion proto_version = 1;
 
@@ -20,10 +20,10 @@ message State {
 
   // The interactions of the state.
   InteractionInstance interaction = 3;
-  
+
   // The recorded voiceovers of the state.
   RecordedVoiceovers recorded_voiceovers = 4;
-  
+
   // The written translations of the state.
   WrittenTranslations written_translations = 5;
 }
@@ -37,7 +37,7 @@ message InteractionInstance {
     // The interaction that takes the form of a simple Continue button.
     ContinueInstance continue = 1;
 
-    // The interaction for fraction input. 
+    // The interaction for fraction input.
     FractionInputInstance fraction_input = 2;
 
     // The interaction for item selection input.
@@ -55,13 +55,13 @@ message InteractionInstance {
     // The interaction for drag and drop sorting.
     DragAndDropSortInputInstance drag_and_drop_sort_input = 7;
 
-    // The interaction allowing multiple-choice selection on an image. 
+    // The interaction allowing multiple-choice selection on an image.
     ImageClickInputInstance image_click_input = 8;
 
     // The interaction for ration input.
     RatioExpressionInputInstance ratio_expression_input = 9;
 
-    // The interaction that allows the exploration to end. 
+    // The interaction that allows the exploration to end.
     EndExplorationInstance end_exploration = 10;
   }
 }
@@ -118,7 +118,7 @@ message FractionInputInstance {
     // The fraction contains non zero integer part or not.
     bool allow_nonzero_integer_part = 3;
 
-    // The custom placeholders for fraction input. 
+    // The custom placeholders for fraction input.
     SubtitledHtml custom_placeholder = 4;
   }
 
@@ -138,7 +138,7 @@ message FractionInputInstance {
     // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
 
-    // A list of all the rules of the fraction input. 
+    // A list of all the rules of the fraction input.
     repeated RuleSpec rule_specs = 2;
   }
 
@@ -148,31 +148,31 @@ message FractionInputInstance {
     // Different rules which can be applied on the fraction input.
     oneof rule_type {
 
-      // A rule to check the fraction is equal to the fraction input. 
+      // A rule to check the fraction is equal to the fraction input.
       IsExactlyEqualToSpec is_exactly_equal_to = 1;
 
-      // A rule to check the fraction is equivalent to the fraction input. 
+      // A rule to check the fraction is equivalent to the fraction input.
       IsEquivalentToSpec is_equivalent_to = 2;
 
-      // A rule to check the fraction is equivalent and in the simplest form to the fraction input. 
+      // A rule to check the fraction is equivalent and in the simplest form to the fraction input.
       IsEquivalentToAndInSimplestFormSpec is_equivalent_to_and_in_simplest_form = 3;
 
-      // A rule to check the fraction is less than the fraction input. 
+      // A rule to check the fraction is less than the fraction input.
       IsLessThanSpec is_less_than = 4;
 
-      // A rule to check the fraction is greater than the fraction input. 
+      // A rule to check the fraction is greater than the fraction input.
       IsGreaterThanSpec is_greater_than = 5;
 
-      // A rule to check the numerator of fraction is equal to the fraction input. 
+      // A rule to check the numerator of fraction is equal to the fraction input.
       HasNumeratorEqualToSpec has_numerator_equal_to = 6;
 
-      // A rule to check the denominator of fraction is equal to the fraction input. 
+      // A rule to check the denominator of fraction is equal to the fraction input.
       HasDenominatorEqualToSpec has_denominator_equal_to = 7;
 
-      // A rule to check the integer of fraction is equal to the fraction input. 
+      // A rule to check the integer of fraction is equal to the fraction input.
       HasIntegerPartEqualToSpec has_integer_part_equal_to = 8;
 
-      // A rule to check fraction has no fractional part to the fraction input. 
+      // A rule to check fraction has no fractional part to the fraction input.
       HasNoFractionalPartSpec has_no_fractional_part = 9;
 
       // A rule to check fraction has no fractional part equal to the fraction input.
@@ -268,10 +268,10 @@ message ItemSelectionInputInstance {
     // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
 
-    // A list of all the rules of the item selection input. 
+    // A list of all the rules of the item selection input.
     repeated RuleSpec rule_specs = 2;
   }
-  
+
   // Structure of the rules of the item selection input.
   message RuleSpec {
 
@@ -284,29 +284,29 @@ message ItemSelectionInputInstance {
       // A rule to check atleast one item selected.
       ContainsAtLeastOneOfSpec contains_at_least_one_of = 2;
 
-      // A rule to check non of the item is selected. 
+      // A rule to check non of the item is selected.
       DoesNotContainAtLeastOneOfSpec does_not_contain_at_least_one_of = 3;
 
       // A rule to check the propoer subset.
       IsProperSubsetOfSpec is_proper_subset_of = 4;
     }
 
-    // Structure of the equal rule check. 
+    // Structure of the equal rule check.
     message EqualsSpec {
       SetOfTranslatableHtmlContentIds input = 1;
     }
 
-    // Structure of atleast one item selection rule check. 
+    // Structure of atleast one item selection rule check.
     message ContainsAtLeastOneOfSpec {
       SetOfTranslatableHtmlContentIds input = 1;
     }
 
-    // Structure of non of the item selection rule check. 
+    // Structure of non of the item selection rule check.
     message DoesNotContainAtLeastOneOfSpec {
       SetOfTranslatableHtmlContentIds input = 1;
     }
 
-    // Structure of proper subset of item selection rule check. 
+    // Structure of proper subset of item selection rule check.
     message IsProperSubsetOfSpec {
       SetOfTranslatableHtmlContentIds input = 1;
     }
@@ -334,7 +334,7 @@ message MultipleChoiceInputInstance {
   // Structure of the customization args of the multiple choice input.
   message CustomizationArgs {
 
-    // A list of possible choices from the multiple items. 
+    // A list of possible choices from the multiple items.
     repeated SubtitledHtml choices = 1;
   }
 
@@ -358,7 +358,7 @@ message MultipleChoiceInputInstance {
       EqualsSpec equals = 1;
     }
 
-    // Structure of the equal rule check. 
+    // Structure of the equal rule check.
     message EqualsSpec {
       uint32 input = 1;
     }
@@ -408,7 +408,7 @@ message NumericInputInstance {
       // A rule to check the equality.
       EqualsSpec equals = 1;
 
-      // A rule to check less than a value or not. 
+      // A rule to check less than a value or not.
       IsLessThanSpec is_less_than = 2;
 
       // A rule to check the greater than value or not.
@@ -529,7 +529,7 @@ message TextInputInstance {
     // Different rules which can be applied on the text input instance.
     oneof rule_type {
 
-      // A rule to check  equal text. 
+      // A rule to check  equal text.
       EqualsSpec equals = 1;
 
       // A rule to check starting text of input.
@@ -577,7 +577,7 @@ message DragAndDropSortInputInstance {
   // The default outcome of the drag and drop sort instance.
   Outcome default_outcome = 3;
 
-  // A list of all the hints for drag and drop sort instance. 
+  // A list of all the hints for drag and drop sort instance.
   repeated Hint hints = 4;
 
   // The solution of the drag and drop sort instance.
@@ -705,11 +705,11 @@ message ImageClickInputInstance {
     // Different rules which can be applied on the image click input.
     oneof rule_type {
 
-      // A rule to check the region availability. 
+      // A rule to check the region availability.
       IsInRegionSpec is_in_region = 1;
     }
 
-    // Structure of a single is in region. 
+    // Structure of a single is in region.
     message IsInRegionSpec {
       string input_region = 1;
     }
@@ -741,7 +741,7 @@ message RatioExpressionInputInstance {
     // A placeholder for the ratio expression input.
     SubtitledHtml placeholder = 1;
 
-    // The number of terms in the ration expression. 
+    // The number of terms in the ration expression.
     int32 number_of_terms = 2;
   }
 
@@ -774,7 +774,7 @@ message RatioExpressionInputInstance {
       // A rule to check the equality.
       EqualsSpec equals = 1;
 
-      // A rule to check the equivalent. 
+      // A rule to check the equivalent.
       IsEquivalentSpec is_equivalent = 2;
 
       // A rule to check the number of terms.
@@ -854,16 +854,16 @@ message Solution {
     // The interaction to allow fraction inputs.
     FractionInputInstance.Solution fraction_instance_solution = 1;
 
-    // The interaction to allow numeric inputs. 
+    // The interaction to allow numeric inputs.
     NumericInputInstance.Solution numeric_input_instance_solution = 2;
 
-    // The interaction to allow text inputs. 
+    // The interaction to allow text inputs.
     TextInputInstance.Solution text_input_instance_solution = 3;
 
-    // The interaction to allow drag and drop inputs. 
+    // The interaction to allow drag and drop inputs.
     DragAndDropSortInputInstance.Solution drag_and_drop_sort_input_instance_solution = 4;
 
-    // The interaction to allow ratio inputs. 
+    // The interaction to allow ratio inputs.
     RatioExpressionInputInstance.Solution ratio_expression_input_instance_solution = 5;
   }
 }
