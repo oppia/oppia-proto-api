@@ -14,101 +14,103 @@ option java_multiple_files = true;
 message TopicSummary {
   TopicSummaryProtoVersion proto_version = 1;
 
-  // The id of the topic summary.
+  // The id of the topic.
   string id = 2;
 
-  // The name of the topic summary.
+  // The name of the topic.
   string name = 3;
 
-  // The description of the topic summary.
+  // The description of the topic.
   string description = 4;
 
-  // The size of the topic summary can be repesented in one of the download types.
+  // The size of the topic summary data is represented using one of the
+  // download types ("download" for a fresh download, "update" for an update to
+  // an existing download).
   oneof download_type {
 
-    // The downloadable size of the topic summary, in bytes.
+    // The size of the topic summary download, in bytes.
     int32 download_size_bytes = 5;
 
-    // The update size of the topic summary, in bytes.
+    // The size of the topic summary update, in bytes.
     int32 update_size_bytes = 6;
   }
 
-  // A list of StorySummary related to this TopicSummary.
+  // A list of story summaries related to this TopicSummary.
   repeated StorySummary story_summaries = 7;
 
-  // A list of indexes of all the subtopic related to the TopicSummary.
+  // A list of all the subtopic indexes contained in this topic.
   repeated int32 subtopic_indexes = 8;
 
-  // A thubmnail image of this TopicSummary.
+  // The thumbnail image corresponding to this topic.
   Thumbnail thumbnail = 9; // TODO
 
-  // This TopicSummary is ready to present to the learner or not. 
+  // Whether the corresponding topic has been published.
   bool is_published = 10;
 
-  // The version of the contents of this TopicSummary.
+  // The version of this topic's contents.
   int32 content_version = 11;
 }
 
 // Structure of a single story summary.
 message StorySummary {
 
-  // The id of the story summary.
+  // The id of the story.
   string id = 1;
 
-  // The title of the story summary.
+  // The title of the story.
   string title = 2;
 
-  // The description of the story summary.
+  // The description of the story.
   string description = 3;
 
-  // The thumbnail image of the story summary.
+  // The thumbnail image of the story.
   Thumbnail thumbnail = 4; // TODO
 
-  // All the chapters of this story summary.
+  // The summaries of all chapters in this story.
   repeated ChapterSummary chapters = 5;
 
-  // The version of the contents of this story summary.
+  // The version of this story's contents.
   int32 content_version = 6;
 }
 
 // Structure of a single chapter summary.
 message ChapterSummary {
 
-  // The thumbnail image of this chapter summary.
+  // The thumbnail image for this chapter.
   Thumbnail thumbnail = 1; // TODO
 
-  // The title of the chapter summary.
+  // The title of the chapter.
   string title = 2;
 
   // The id of the exploration to which this ChapterSummary is associated.
   string exploration_id = 3;
 
-  // The version of the contents of this chapter summary.
+  // The version of this chapter's contents.
   int32 content_version = 4;
 }
 
 // Structure of a single subtopic summary.
 message SubtopicSummary {
 
-  // The index of the subtopic summary.
+  // The index of the subtopic (within its correspnoding topic).
   int32 index = 1;
 
-  // All the skills of this subtopic summary.
+  // All the skills in this subtopic.
   repeated SkillSummary skill_summaries = 2;
 
-  // The version of the contents of this subtopic summary.
+  // The version of this subtopic's contents.
   int32 content_version = 3;
 }
 
 // Structure of a single skill summary.
 message SkillSummary {
 
-  // The id of the skill summary.
+  // The id of the skill.
   string id = 1;
 
-  // The name of the skill summary. 
+  // The name of the skill.
   string name = 2;
 
-  // The version of the contents of this skill summary.
-  int32 content_version = 4;
+  // The version of this skill's contents.
+  int32 content_version = 3;
 }
