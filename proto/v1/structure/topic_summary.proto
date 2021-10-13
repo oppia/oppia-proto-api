@@ -23,9 +23,8 @@ message TopicSummary {
   // The description of the topic.
   string description = 4;
 
-  // The size of the topic summary data is represented using one of the
-  // download types ("download" for a fresh download, "update" for an update to
-  // an existing download).
+  // The size of the topic summary data is represented using one of the download types ("download"
+  // for a fresh download, "update" for an update to an existing download).
   oneof download_type {
 
     // The size of the topic summary download, in bytes.

@@ -10,8 +10,8 @@ option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
 // Proto message representing a single State.
-// NOTE: Update StateProtoVersion if the structure of this proto is modified. The current
-// version is 1.
+// NOTE: Update StateProtoVersion if the structure of this proto is modified. The current version is
+// 1.
 message State {
   StateProtoVersion proto_version = 1;
 
@@ -66,29 +66,27 @@ message InteractionInstance {
   }
 }
 
-// Answer type: none (N/A since no answers are submitted for this interaction).
-// Structure of the continue instance.
+// Answer type: none (N/A since no answers are submitted for this interaction). Structure of the
+// continue instance.
 message ContinueInstance {
   CustomizationArgs customization_args = 1;
 
   // The default outcome of the continue instance.
   Outcome default_outcome = 2;
 
-  // Continue interactions cannot have custom answer groups, and do not support
-  // solutions. Users cannot receive hints since only one answer is possible
-  // (clicking the button).
+  // Continue interactions cannot have custom answer groups, and do not support solutions. Users
+  // cannot receive hints since only one answer is possible (clicking the button).
 
   // Structure of the customization args of continue instance.
   message CustomizationArgs {
-    // Note that while the continue interaction has a default button text
-    // defined, it's not used in the app since the default string needs to come
-    // through the app's strings so that it can be translated.
+    // Note that while the continue interaction has a default button text defined, it's not used in
+    // the app since the default string needs to come through the app's strings so that it can be
+    // translated.
     SubtitledHtml button_text = 1;
   }
 }
 
-// Answer type: Fraction.
-// Structure of the fraction input interaction.
+// Answer type: Fraction. Structure of the fraction input interaction.
 message FractionInputInstance {
 
   // A set of arguments to customize the fraction input.
@@ -231,8 +229,7 @@ message FractionInputInstance {
   }
 }
 
-// Answer type: SetOfTranslatableHtmlContentIds.
-// Structure of the item selection input interaction.
+// Answer type: SetOfTranslatableHtmlContentIds. Structure of the item selection input interaction.
 message ItemSelectionInputInstance {
 
   // A set of arguments to customize the item selection input.
@@ -313,8 +310,7 @@ message ItemSelectionInputInstance {
   }
 }
 
-// Answer type: non-negative int (uint32).
-// Structure of the multiple choice input interaction.
+// Answer type: non-negative int (uint32). Structure of the multiple choice input interaction.
 message MultipleChoiceInputInstance {
 
   // A set of arguments to customize the multiple choice input.
@@ -365,8 +361,7 @@ message MultipleChoiceInputInstance {
   }
 }
 
-// Answer type: real (double).
-// Structure of the number input interaction.
+// Answer type: real (double). Structure of the number input interaction.
 message NumericInputInstance {
 
   // A list of answer groups of the numeric input.
@@ -474,8 +469,7 @@ message NumericInputInstance {
   }
 }
 
-// Answer type: normalized string (string).
-// Structure of the text input interaction.
+// Answer type: normalized string (string). Structure of the text input interaction.
 message TextInputInstance {
 
   // A set of arguments to customize the text input instance.
@@ -564,8 +558,8 @@ message TextInputInstance {
   }
 }
 
-// Answer type: ListOfSetsOfTranslatableHtmlContentIds.
-// Structure of the drag and drop sort input interaction.
+// Answer type: ListOfSetsOfTranslatableHtmlContentIds. Structure of the drag and drop sort input
+// interaction.
 message DragAndDropSortInputInstance {
 
   // A set of arguments to customize the drag and drop sort instance.
@@ -664,8 +658,7 @@ message DragAndDropSortInputInstance {
   }
 }
 
-// Answer type: ClickOnImage.
-// Structure of the image selection input interaction.
+// Answer type: ClickOnImage. Structure of the image selection input interaction.
 message ImageClickInputInstance {
 
   // A set of arguments to customize the image click input.
@@ -716,8 +709,7 @@ message ImageClickInputInstance {
   }
 }
 
-// Answer type: RatioExpression.
-// Structure of the ratio input interaction.
+// Answer type: RatioExpression. Structure of the ratio input interaction.
 message RatioExpressionInputInstance {
 
   // A set of arguments to customize the ratio expression input.
@@ -798,14 +790,13 @@ message RatioExpressionInputInstance {
   }
 }
 
-// Answer type: none (N/A since no answers are submitted for this interaction).
-// Structure of a single end exploration type interaction.
+// Answer type: none (N/A since no answers are submitted for this interaction). Structure of a
+// single end exploration type interaction.
 message EndExplorationInstance {
-  // No answers can be submitted to the end exploration, so there are neither
-  // answer groups nor solutions. The interaction does have customization
-  // arguments, but they aren't supported in the Android app. No default outcome
-  // is possible since the user takes no interactions. No hints can be shown to
-  // the user.
+  // No answers can be submitted to the end exploration, so there are neither answer groups nor
+  // solutions. The interaction does have customization arguments, but they aren't supported in the
+  // Android app. No default outcome is possible since the user takes no interactions. No hints can
+  // be shown to the user.
 }
 
 // Common fields for all answer groups.
@@ -868,9 +859,10 @@ message Solution {
   }
 }
 
-// Structure for a single misconception, after parsing the original string received from the backend:
-// https://github.com/oppia/oppia/blob/896466ae8bdd34641ea2e0031a5b9fa4243a3de7/core/templates/pages/
-// exploration-editor-page/editor-tab/templates/modal-templates/add-answer-group-modal.controller.ts#L60
+// Structure for a single misconception, after parsing the original string received from the
+// backend:
+// https://github.com/oppia/oppia/blob/896466ae8b/core/templates/pages/exploration-editor-page/
+// editor-tab/templates/modal-templates/add-answer-group-modal.controller.ts#L60
 message Misconception {
 
   // The id of the skill.

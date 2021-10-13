@@ -10,8 +10,8 @@ option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
 // Proto message representing a single question.
-// NOTE: Update QuestionProtoVersion if the structure of this proto is modified. The current
-// version is 1.
+// NOTE: Update QuestionProtoVersion if the structure of this proto is modified. The current version
+// is 1.
 message Question {
   // The proto version defining the internal structure of this question proto message.
   QuestionProtoVersion proto_version = 1;

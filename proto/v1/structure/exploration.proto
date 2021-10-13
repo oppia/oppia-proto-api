@@ -28,8 +28,8 @@ message Exploration {
   // The mapping from state names to state objects.
   map<string, State> states = 5;
 
-  // The version of the contents of this exploration. (This corresponds to the 'version'
-  // field on the server.)
+  // The version of the contents of this exploration. (This corresponds to the 'version' field on
+  // the server.)
   int32 content_version = 6;
 
   // A list of all the images contained in SubtitledHtml subfields of this exploration.

@@ -12,8 +12,7 @@ import "proto/v1/structure/versions.proto";
 option java_package = "org.oppia.proto.v1.api";
 option java_multiple_files = true;
 
-// The proto request made to the server to get the list of topics which are
-// available for download.
+// The proto request made to the server to get the list of topics which are available for download.
 message TopicListRequest {
   // The common proto version defining this request/response pair.
   TopicListRequestResponseProtoVersion proto_version = 1;
@@ -26,19 +25,18 @@ message TopicListRequest {
   ClientDownloadStateContext download_context = 4;
 }
 
-// The expected proto response from the server when provided with a
-// TopicListRequest.
+// The expected proto response from the server when provided with a TopicListRequest.
 message TopicListResponse {
   // The common proto version defining this request/response pair.
   TopicListRequestResponseProtoVersion proto_version = 1;
 
-  // A list of the latest topic summaries that are newer than the ones stored
-  // on the client, but still compatible with the client.
+  // A list of the latest topic summaries that are newer than the ones stored on the client, but
+  // still compatible with the client.
   repeated org.oppia.proto.v1.structure.TopicSummary topic_summaries = 2;
 }
 
-// The proto request made to the server to get the latest still-compatible
-// content for specific topics.
+// The proto request made to the server to get the latest still-compatible content for specific
+// topics.
 message TopicContentRequest {
   // The common proto version defining this request/response pair.
   TopicContentRequestResponseProtoVersion proto_version = 1;
@@ -47,14 +45,13 @@ message TopicContentRequest {
   ClientContext client_context = 2;
   // The IDs of the entities making up the topic whose data is to be fetched.
   repeated DownloadRequestStructureIdentifier identifiers = 3;
-  // The maximum payload size that the server should furnish as a single
-  // download operation. This is only a request, and may not be honoured by the
-  // server (which will only adhere to this field on a best-effort basis).
+  // The maximum payload size that the server should furnish as a single download operation. This is
+  // only a request, and may not be honoured by the server (which will only adhere to this field on
+  // a best-effort basis).
   int32 requested_max_payload_size = 4;
 }
 
-// The expected proto response from the server when provided with a
-// TopicContentRequest.
+// The expected proto response from the server when provided with a TopicContentRequest.
 message TopicContentResponse {
   // The common proto version defining this request/response pair.
   TopicContentRequestResponseProtoVersion proto_version = 1;
@@ -62,19 +59,19 @@ message TopicContentResponse {
   // A list of the individual items to be downloaded.
   repeated DownloadResult download_results = 2;
 
-  // The result of downloading a specific asset. This may either contain the result of the
-  // download, or an indication that the download was skipped.
-  // NOTE: Update TopicContentRequestResponseProtoVersion if the structure of this proto
-  // is modified. The current version is 1.
+  // The result of downloading a specific asset. This may either contain the result of the download,
+  // or an indication that the download was skipped.
+  // NOTE: Update TopicContentRequestResponseProtoVersion if the structure of this proto is
+  // modified. The current version is 1.
   message DownloadResult {
     // The entity type and ID corresponding to this download.
     DownloadRequestStructureIdentifier identifier = 1;
 
     oneof structure_type {
-      // The presence of this value indicates that the request corresponding to this
-      // particular identifier was skipped and suggested to retry by the Oppia backend.
-      // Note that the presence of this value in the oneof is sufficient to indicate
-      // its state; its actual value does not matter.
+      // The presence of this value indicates that the request corresponding to this particular
+      // identifier was skipped and suggested to retry by the Oppia backend. Note that the presence
+      // of this value in the oneof is sufficient to indicate its state; its actual value does not
+      // matter.
       bool skipped = 2;
       org.oppia.proto.v1.structure.RevisionCard revision_card = 3;
       org.oppia.proto.v1.structure.ConceptCard concept_card = 4;
@@ -85,8 +82,8 @@ message TopicContentResponse {
   }
 
   // A list of question IDs corresponding to the topic.
-  // NOTE: Update TopicContentRequestResponseProtoVersion if the structure of this proto
-  // is modified. The current version is 1.
+  // NOTE: Update TopicContentRequestResponseProtoVersion if the structure of this proto is
+  // modified. The current version is 1.
   message QuestionIdList {
     // The list of question IDs.
     repeated string question_ids = 1;
@@ -143,8 +140,7 @@ message ClientDownloadStateContext {
 }
 
 // The type and ID of a specific asset that is being downloaded.
-// NOTE: Update TopicContentRequestResponseProtoVersion if the structure of this proto
-// is modified.
+// NOTE: Update TopicContentRequestResponseProtoVersion if the structure of this proto is modified.
 message DownloadRequestStructureIdentifier {
   oneof structure_type {
     // The ID of the revision card ("subtopic") to be downloaded.

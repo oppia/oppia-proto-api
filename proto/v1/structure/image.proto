@@ -8,8 +8,8 @@ option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
 // Proto message representing a single thumbnail image.
-// NOTE: Update ImageProtoVersion if the structure of this proto is modified. The current
-// version is 1.
+// NOTE: Update ImageProtoVersion if the structure of this proto is modified. The current version
+// is 1.
 message Thumbnail {
   // The proto version defining the internal structure of this image proto message.
   ImageProtoVersion proto_version = 1;
@@ -21,8 +21,8 @@ message Thumbnail {
   int32 background_color_rgb = 3;
 }
 
-// NOTE: Update ImageProtoVersion if the structure of this proto is modified. The current
-// version is 1.
+// NOTE: Update ImageProtoVersion if the structure of this proto is modified. The current version
+// is 1.
 // Proto representing a list of images.
 message ReferencedImageList {
   // The proto version defining the internal structure of this list of images.

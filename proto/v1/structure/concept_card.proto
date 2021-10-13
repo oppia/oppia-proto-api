@@ -34,12 +34,11 @@ message ConceptCard {
   // The translations of SubtitledHtml subfields of this concept card.
   WrittenTranslations written_translations = 7;
 
-  // The list of all images that are included within SubtitledHtml subfields of this
-  // concept card.
+  // The list of all images that are included within SubtitledHtml subfields of this concept card.
   ReferencedImageList referenced_image_list = 8;
 
-  // Each worked example provides a sample question and answer for the student to read
-  // and learn from.
+  // Each worked example provides a sample question and answer for the student to read and learn
+  // from.
   message WorkedExample {
 
     // The question for this worked example.
