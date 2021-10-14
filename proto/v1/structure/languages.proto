@@ -2,13 +2,13 @@ syntax = "proto3";
 
 package org.oppia.proto.v1.structure;
 
-import "proto/v1/structure/versions.proto";
+import "org/oppia/proto/v1/structure/versions.proto";
 
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// A list of language codes supported by the Android app.
-enum LanguageCode {
+// A list of languages supported by the Android app.
+enum Language {
   // TODO: Add docstring to explain why this is needed and when it should be used.
   LANGUAGE_CODE_UNSPECIFIED = 0;
   ENGLISH = 1;
@@ -47,8 +47,8 @@ message RecordedVoiceovers {
 // Proto message mapping SubtitledHtml fields to their corresponding voiceovers for a particular
 // language.
 message VoiceoverContentMapping {
-  // The language code that this mapping is for.
-  LanguageCode language_code = 1;
+  // The language that this mapping is for.
+  Language language = 1;
 
   // The mapping of content IDs to their corresponding voiceover files.
   map<string, Voiceover> voiceover_content_mapping = 2;
@@ -80,8 +80,8 @@ message WrittenTranslations {
 // Proto message mapping SubtitledHtml fields to their corresponding written translations in a
 // particular language.
 message WrittenTranslationContentMapping {
-  // The language code that this mapping is for.
-  LanguageCode language_code = 1;
+  // The language that this mapping is for.
+  Language language = 1;
 
   // The mapping of content IDs to their corresponding written translations.
   map<string, WrittenTranslation> translation_content_mapping = 2;

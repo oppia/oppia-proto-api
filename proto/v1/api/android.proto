@@ -2,12 +2,12 @@ syntax = "proto3";
 
 package org.oppia.proto.v1.api;
 
-import "proto/v1/structure/concept_card.proto";
-import "proto/v1/structure/exploration.proto";
-import "proto/v1/structure/question.proto";
-import "proto/v1/structure/revision_card.proto";
-import "proto/v1/structure/topic_summary.proto";
-import "proto/v1/structure/versions.proto";
+import "org/oppia/proto/v1/structure/concept_card.proto";
+import "org/oppia/proto/v1/structure/exploration.proto";
+import "org/oppia/proto/v1/structure/question.proto";
+import "org/oppia/proto/v1/structure/revision_card.proto";
+import "org/oppia/proto/v1/structure/topic_summary.proto";
+import "org/oppia/proto/v1/structure/versions.proto";
 
 option java_package = "org.oppia.proto.v1.api";
 option java_multiple_files = true;

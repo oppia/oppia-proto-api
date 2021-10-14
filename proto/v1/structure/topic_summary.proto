@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package org.oppia.proto.v1.structure;
 
-import "proto/v1/structure/image.proto";
-import "proto/v1/structure/versions.proto";
+import "org/oppia/proto/v1/structure/image.proto";
+import "org/oppia/proto/v1/structure/versions.proto";
 
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;

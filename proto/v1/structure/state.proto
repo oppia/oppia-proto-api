@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package org.oppia.proto.v1.structure;
 
-import "proto/v1/structure/languages.proto";
-import "proto/v1/structure/objects.proto";
-import "proto/v1/structure/versions.proto";
+import "org/oppia/proto/v1/structure/languages.proto";
+import "org/oppia/proto/v1/structure/objects.proto";
+import "org/oppia/proto/v1/structure/versions.proto";
 
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
@@ -771,6 +771,9 @@ message RatioExpressionInputInstance {
 
       // A rule to check the number of terms.
       HasNumberOfTermsEqualToSpec has_number_of_terms_equal_to = 3;
+
+      // A rule to check whether a ratio has a specific term with a specific value.
+      HasSpecificTermEqualToSpec has_specific_term_equal_to = 4;
     }
 
     // Structure of the equal rule check.
@@ -783,9 +786,15 @@ message RatioExpressionInputInstance {
       RatioExpression input = 1;
     }
 
-    // Structure of the numer of terms equal rule check.
+    // Structure of the number of terms equal rule check.
     message HasNumberOfTermsEqualToSpec {
       uint32 input_term_count = 1;
+    }
+
+    // Structure of the specific terms rule check.
+    message HasSpecificTermEqualToSpec {
+      uint32 input_term_index = 1;
+      uint32 input_expected_term_value = 2;
     }
   }
 }
@@ -793,10 +802,10 @@ message RatioExpressionInputInstance {
 // Answer type: none (N/A since no answers are submitted for this interaction). Structure of a
 // single end exploration type interaction.
 message EndExplorationInstance {
-  // No answers can be submitted to the end exploration, so there are neither answer groups nor
-  // solutions. The interaction does have customization arguments, but they aren't supported in the
-  // Android app. No default outcome is possible since the user takes no interactions. No hints can
-  // be shown to the user.
+  // No answers can be submitted to the end exploration interaction, so there are neither answer
+  // groups nor solutions. The interaction does have customization arguments, but they aren't
+  // supported in the Android app. No default outcome is possible since the user takes no
+  // interactions. No hints can be shown to the user.
 }
 
 // Common fields for all answer groups.
