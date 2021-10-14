@@ -23,31 +23,20 @@ message TopicSummary {
   // The description of the topic.
   string description = 4;
 
-  // The size of the topic summary data is represented using one of the download types ("download"
-  // for a fresh download, "update" for an update to an existing download).
-  oneof download_type {
-
-    // The size of the topic summary download, in bytes.
-    int32 download_size_bytes = 5;
-
-    // The size of the topic summary update, in bytes.
-    int32 update_size_bytes = 6;
-  }
-
   // A list of story summaries related to this TopicSummary.
-  repeated StorySummary story_summaries = 7;
+  repeated StorySummary story_summaries = 5;
 
   // A list of all the subtopic indexes contained in this topic.
-  repeated int32 subtopic_indexes = 8;
+  repeated int32 subtopic_indexes = 6;
 
   // The thumbnail image corresponding to this topic.
-  Thumbnail thumbnail = 9; // TODO
+  Thumbnail thumbnail = 7; // TODO
 
   // Whether the corresponding topic has been published.
-  bool is_published = 10;
+  bool is_published = 8;
 
   // The version of this topic's contents.
-  int32 content_version = 11;
+  int32 content_version = 9;
 }
 
 // Structure of a single story summary.

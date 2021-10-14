@@ -22,7 +22,7 @@ message TopicListRequest {
   // Details about the latest proto versions that this Android client can support.
   ClientCompatibilityContext compatibility_context = 3;
   // TODO: Fill this in.
-  ClientDownloadStateContext download_context = 4;
+  repeated VersionedStructureMetadata current_downloads_context = 4;
 }
 
 // The expected proto response from the server when provided with a TopicListRequest.
@@ -30,9 +30,84 @@ message TopicListResponse {
   // The common proto version defining this request/response pair.
   TopicListRequestResponseProtoVersion proto_version = 1;
 
-  // A list of the latest topic summaries that are newer than the ones stored on the client, but
-  // still compatible with the client.
-  repeated org.oppia.proto.v1.structure.TopicSummary topic_summaries = 2;
+  // A list of all topics that are compatibly available to the client whose context corresponds to
+  // this response. Note that topics marked as available for downloading or updating will always be
+  // compatible with the local client, and topics that are marked as up-to-date are guaranteed to
+  // be at the latest compatible version for the local client. Clients are also expected to lean on
+  // existing local resources for topics that aren't yet downloaded.
+  repeated AvailableTopic available_topics = 2;
+
+  // A topic that's available to & compatible with the local client.
+  message AvailableTopic {
+    // The nature of the topic's availability.
+    oneof availability_type {
+      // Indicates a topic that's not yet downloaded by the local client, but is available to be
+      // downloaded.
+      DownloadableTopic downloadable_topic = 1;
+
+      // Indicates a topic that's downloaded by the local client, but has a compatible update.
+      UpdatableTopic updatable_topic = 2;
+
+      // Indicates a topic that's both downloaded by the local client & full up-to-date. This mainly
+      // serves as a lightweight indicator to ensure that the server & client are properly in-sync
+      // with the state of the local client.
+      UpToDateTopic up_to_date_topic = 3;
+    }
+  }
+
+  // Represents a topic that's available to download and is not yet downloaded by the local client.
+  message DownloadableTopic {
+    // The ID of the topic that's available to newly download. This is expected to be used to
+    // identify the local copy of the topic's summary in the event that the topic_summary field is
+    // empty. Note that content_version is not also included since topic_summary is only missing if
+    // the local client already has the latest, most up-to-date summary (including the corresponding
+    // content version).
+    string topic_id = 1;
+
+    // The full summary for the current topic. Note that this will be absent if the local client
+    // already has the latest summary downloaded as indicated by its download state context.
+    org.oppia.proto.v1.structure.TopicSummary topic_summary = 2;
+
+    // The size, in bytes, needed to download the topic.
+    uint32 download_size_bytes = 3;
+  }
+
+  // Represents a topic that's available to be updated. Clients should use their existing topic
+  // summary when displaying this topic, and not update it until the user requests to download the
+  // topic. Future iterations of this API could include a preview summary here for clients to
+  // provide context on the changes to the topic to help inform users.
+  message UpdatableTopic {
+    // The ID of the topic that's available to be updated. This is expected to correspond to an
+    // existing summary that the local client already has for the topic. In the event it doesn't, it
+    // may use the topic content API to retrieve the topic summary & treat this as a topic that's
+    // available to download.
+    string topic_id = 1;
+
+    // The new topic content version that may be updated to (as compared with the local summary for
+    // this topic which should have a smaller content version).
+    uint32 content_version = 2;
+
+    // The size, in bytes, required to download all missing pieces to update this topic.
+    uint32 update_size_bytes = 3;
+
+    // The precise list of structures that need to be updated in the local client in order to update
+    // the topic. This may be a full update of the topic, but the server may also attempt to perform
+    // an incremental update to minimize the download work & bandwidth needed by the local client.
+    // update_size_bytes will reflect the data determined by the server to be needed to update the
+    // topic.
+    repeated VersionedStructureMetadata updated_structures = 4;
+  }
+
+  // Represents a topic that's been downloaded by the local client and is fully up-to-date.
+  message UpToDateTopic {
+    // The ID of the topic that the server believes the local client has downloaded. In the event
+    // that this is incorrect, this topic can be treated as downloadable & its summary can be
+    // fetched using the topic cnotent API.
+    string topic_id = 1;
+
+    // The content version of the topic that the server believes the local client has downloaded.
+    uint32 content_version = 2;
+  }
 }
 
 // The proto request made to the server to get the latest still-compatible content for specific
@@ -73,11 +148,12 @@ message TopicContentResponse {
       // of this value in the oneof is sufficient to indicate its state; its actual value does not
       // matter.
       bool skipped = 2;
-      org.oppia.proto.v1.structure.RevisionCard revision_card = 3;
-      org.oppia.proto.v1.structure.ConceptCard concept_card = 4;
-      org.oppia.proto.v1.structure.Exploration exploration = 5;
-      QuestionIdList question_id_list = 6;
-      org.oppia.proto.v1.structure.Question question = 7;
+      org.oppia.proto.v1.structure.TopicSummary topic_summary = 3;
+      org.oppia.proto.v1.structure.RevisionCard revision_card = 4;
+      org.oppia.proto.v1.structure.ConceptCard concept_card = 5;
+      org.oppia.proto.v1.structure.Exploration exploration = 6;
+      QuestionIdList question_id_list = 7;
+      org.oppia.proto.v1.structure.Question question = 8;
     }
   }
 
@@ -121,39 +197,40 @@ message ClientCompatibilityContext {
   org.oppia.proto.v1.structure.ImageProtoVersion thumbnail_proto_version = 8;
 }
 
-// TODO: Document this fully.
-message ClientDownloadStateContext {
-  message DownloadState {
-    int32 content_version = 1;
-    oneof structure_type {
-      string topic_id = 2;
-      org.oppia.proto.v1.structure.SubtopicId revision_card_id = 3;
-      string concept_card_id = 4;
-      string story_id = 5;
-      string exploration_id = 6;
-      string question_id = 7;
-      string skill_id = 8;
-    }
+// TODO: Document this fully. TopicListRequestResponseProtoVersion must be updated for structural
+// changes to this message.
+message VersionedStructureMetadata {
+  int32 content_version = 1;
+  oneof structure_type {
+    string topic_id = 2;
+    string topic_summary_id = 3;
+    org.oppia.proto.v1.structure.SubtopicId revision_card_id = 4;
+    string concept_card_id = 5;
+    string story_id = 6;
+    string exploration_id = 7;
+    string question_id = 8;
+    string skill_id = 9;
   }
-
-  repeated DownloadState current_downloads = 1;
 }
 
 // The type and ID of a specific asset that is being downloaded.
 // NOTE: Update TopicContentRequestResponseProtoVersion if the structure of this proto is modified.
 message DownloadRequestStructureIdentifier {
+  uint32 content_version = 1;
+
   oneof structure_type {
+    string topic_summary_id = 2;
     // The ID of the revision card ("subtopic") to be downloaded.
-    org.oppia.proto.v1.structure.SubtopicId revision_card_id = 1;
+    org.oppia.proto.v1.structure.SubtopicId revision_card_id = 3;
     // The ID of the concept card to be downloaded.
-    string concept_card_id = 2;
+    string concept_card_id = 4;
     // The ID of the exploration to be downloaded.
-    string exploration_id = 3;
+    string exploration_id = 5;
     // The skill ID whose associated questions are to be downloaded.
     // TODO: Clarify difference between this and concept_card_id above (field 2).
-    string question_list_skill_id = 4;
+    string question_list_skill_id = 6;
     // The ID of the question to be downloaded.
-    string question_id = 5;
+    string question_id = 7;
   }
 }
 
