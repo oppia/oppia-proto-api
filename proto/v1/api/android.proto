@@ -7,15 +7,18 @@ import "org/oppia/proto/v1/structure/exploration.proto";
 import "org/oppia/proto/v1/structure/question.proto";
 import "org/oppia/proto/v1/structure/revision_card.proto";
 import "org/oppia/proto/v1/structure/topic_summary.proto";
-import "org/oppia/proto/v1/structure/versions.proto";
+import "org/oppia/proto/v1/versions/api_versions.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
 
 option java_package = "org.oppia.proto.v1.api";
 option java_multiple_files = true;
 
 // The proto request made to the server to get the list of topics which are available for download.
 message TopicListRequest {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
   // The common proto version defining this request/response pair.
-  TopicListRequestResponseProtoVersion proto_version = 1;
+  org.oppia.proto.v1.versions.TopicListRequestResponseProtoVersion proto_version = 1;
 
   // Details about the Android app client that is making the request.
   ClientContext client_context = 2;
@@ -27,8 +30,10 @@ message TopicListRequest {
 
 // The expected proto response from the server when provided with a TopicListRequest.
 message TopicListResponse {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
   // The common proto version defining this request/response pair.
-  TopicListRequestResponseProtoVersion proto_version = 1;
+  org.oppia.proto.v1.versions.TopicListRequestResponseProtoVersion proto_version = 1;
 
   // A list of all topics that are compatibly available to the client whose context corresponds to
   // this response. Note that topics marked as available for downloading or updating will always be
@@ -39,6 +44,8 @@ message TopicListResponse {
 
   // A topic that's available to & compatible with the local client.
   message AvailableTopic {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
     // The nature of the topic's availability.
     oneof availability_type {
       // Indicates a topic that's not yet downloaded by the local client, but is available to be
@@ -57,6 +64,8 @@ message TopicListResponse {
 
   // Represents a topic that's available to download and is not yet downloaded by the local client.
   message DownloadableTopic {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
     // The ID of the topic that's available to newly download. This is expected to be used to
     // identify the local copy of the topic's summary in the event that the topic_summary field is
     // empty. Note that content_version is not also included since topic_summary is only missing if
@@ -77,6 +86,8 @@ message TopicListResponse {
   // topic. Future iterations of this API could include a preview summary here for clients to
   // provide context on the changes to the topic to help inform users.
   message UpdatableTopic {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
     // The ID of the topic that's available to be updated. This is expected to correspond to an
     // existing summary that the local client already has for the topic. In the event it doesn't, it
     // may use the topic content API to retrieve the topic summary & treat this as a topic that's
@@ -100,6 +111,8 @@ message TopicListResponse {
 
   // Represents a topic that's been downloaded by the local client and is fully up-to-date.
   message UpToDateTopic {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
     // The ID of the topic that the server believes the local client has downloaded. In the event
     // that this is incorrect, this topic can be treated as downloadable & its summary can be
     // fetched using the topic cnotent API.
@@ -113,8 +126,10 @@ message TopicListResponse {
 // The proto request made to the server to get the latest still-compatible content for specific
 // topics.
 message TopicContentRequest {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_CONTENT_REQUEST_RESPONSE_PROTO_VERSION;
+
   // The common proto version defining this request/response pair.
-  TopicContentRequestResponseProtoVersion proto_version = 1;
+  org.oppia.proto.v1.versions.TopicContentRequestResponseProtoVersion proto_version = 1;
 
   // Details about the Android app client that is making the request.
   ClientContext client_context = 2;
@@ -128,17 +143,19 @@ message TopicContentRequest {
 
 // The expected proto response from the server when provided with a TopicContentRequest.
 message TopicContentResponse {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_CONTENT_REQUEST_RESPONSE_PROTO_VERSION;
+
   // The common proto version defining this request/response pair.
-  TopicContentRequestResponseProtoVersion proto_version = 1;
+  org.oppia.proto.v1.versions.TopicContentRequestResponseProtoVersion proto_version = 1;
 
   // A list of the individual items to be downloaded.
   repeated DownloadResult download_results = 2;
 
   // The result of downloading a specific asset. This may either contain the result of the download,
   // or an indication that the download was skipped.
-  // NOTE: Update TopicContentRequestResponseProtoVersion if the structure of this proto is
-  // modified. The current version is 1.
   message DownloadResult {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_CONTENT_REQUEST_RESPONSE_PROTO_VERSION;
+
     // The entity type and ID corresponding to this download.
     DownloadRequestStructureIdentifier identifier = 1;
 
@@ -158,9 +175,9 @@ message TopicContentResponse {
   }
 
   // A list of question IDs corresponding to the topic.
-  // NOTE: Update TopicContentRequestResponseProtoVersion if the structure of this proto is
-  // modified. The current version is 1.
   message QuestionIdList {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_CONTENT_REQUEST_RESPONSE_PROTO_VERSION;
+
     // The list of question IDs.
     repeated string question_ids = 1;
   }
@@ -168,6 +185,8 @@ message TopicContentResponse {
 
 // TODO: Add docs.
 message ClientContext {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = UNVERSIONED_API_PROTO;
+
   // TODO: Add doc and clarify name.
   string version_name = 1;
   // TODO: Add doc and clarify name.
@@ -177,29 +196,34 @@ message ClientContext {
 // Information about the latest proto versions that the client can support.
 // TODO: Clarify whether, if a client can support version N, this means it can support
 // versions 1 to N, or only version N. If neither of these, then we might need a
-// "from ... to" range for each field, rather than a single version.
+// "from ... to" range for each field, rather than a single version. Note for future documentation
+// iteration: clients only guarantee exact support. Onus is on the server to supply the exact proto
+// structure version for client compatibility (which should always be possible per design of proto).
 message ClientCompatibilityContext {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
   // The latest proto version for topic summaries that the client can support.
-  org.oppia.proto.v1.structure.TopicSummaryProtoVersion topic_summary_proto_version = 1;
+  org.oppia.proto.v1.versions.TopicSummaryProtoVersion topic_summary_proto_version = 1;
   // The latest proto version for revision cards that the client can support.
-  org.oppia.proto.v1.structure.RevisionCardProtoVersion revision_card_proto_version = 2;
+  org.oppia.proto.v1.versions.RevisionCardProtoVersion revision_card_proto_version = 2;
   // The latest proto version for concept cards that the client can support.
-  org.oppia.proto.v1.structure.ConceptCardProtoVersion concept_card_proto_version = 3;
+  org.oppia.proto.v1.versions.ConceptCardProtoVersion concept_card_proto_version = 3;
   // The latest proto version for explorations that the client can support.
-  org.oppia.proto.v1.structure.ExplorationProtoVersion exploration_proto_version = 4;
+  org.oppia.proto.v1.versions.ExplorationProtoVersion exploration_proto_version = 4;
   // The latest proto version for questions that the client can support.
-  org.oppia.proto.v1.structure.QuestionProtoVersion question_proto_version = 5;
+  org.oppia.proto.v1.versions.QuestionProtoVersion question_proto_version = 5;
   // The latest proto version for states that the client can support.
-  org.oppia.proto.v1.structure.StateProtoVersion state_proto_version = 6;
+  org.oppia.proto.v1.versions.StateProtoVersion state_proto_version = 6;
   // The latest proto version for language-related protos that the client can support.
-  org.oppia.proto.v1.structure.LanguageProtosVersion language_protos_version = 7;
+  org.oppia.proto.v1.versions.LanguageProtosVersion language_protos_version = 7;
   // The latest proto version for images that the client can support.
-  org.oppia.proto.v1.structure.ImageProtoVersion thumbnail_proto_version = 8;
+  org.oppia.proto.v1.versions.ImageProtoVersion thumbnail_proto_version = 8;
 }
 
-// TODO: Document this fully. TopicListRequestResponseProtoVersion must be updated for structural
-// changes to this message.
+// TODO: Document this fully.
 message VersionedStructureMetadata {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
   int32 content_version = 1;
   oneof structure_type {
     string topic_id = 2;
@@ -214,8 +238,9 @@ message VersionedStructureMetadata {
 }
 
 // The type and ID of a specific asset that is being downloaded.
-// NOTE: Update TopicContentRequestResponseProtoVersion if the structure of this proto is modified.
 message DownloadRequestStructureIdentifier {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_CONTENT_REQUEST_RESPONSE_PROTO_VERSION;
+
   uint32 content_version = 1;
 
   oneof structure_type {
@@ -232,14 +257,4 @@ message DownloadRequestStructureIdentifier {
     // The ID of the question to be downloaded.
     string question_id = 7;
   }
-}
-
-// The only currently-supported proto version for the TopicListRequestResponse.
-message TopicListRequestResponseProtoVersion {
-  int32 version = 1;
-}
-
-// The only currently-supported proto version for the TopicContentRequestResponse.
-message TopicContentRequestResponseProtoVersion {
-  int32 version = 1;
 }

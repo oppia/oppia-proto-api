@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package org.oppia.proto.v1.structure;
 
-import "org/oppia/proto/v1/structure/versions.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
 
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
@@ -19,11 +19,12 @@ enum Language {
 }
 
 // Proto message representing a block of (subtitled) HTML.
-// NOTE: Update LanguageProtosVersion if the structure of this proto is modified.
 message SubtitledHtml {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
+
   // The proto version defining the internal structure of this proto message.
   // TODO: Add more explanation for why this is dependent on a common LanguageProtosVersion.
-  LanguageProtosVersion protos_version = 1;
+  org.oppia.proto.v1.versions.LanguageProtosVersion protos_version = 1;
 
   // The content ID for this SubtitledHtml. This is unique within a State.
   string content_id = 2;
@@ -33,11 +34,12 @@ message SubtitledHtml {
 }
 
 // Proto message representing recorded voiceovers.
-// NOTE: Update LanguageProtosVersion if the structure of this proto is modified.
 message RecordedVoiceovers {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
+
   // The proto version defining the internal structure of this proto message.
   // TODO: Add more explanation for why this is dependent on a common LanguageProtosVersion.
-  LanguageProtosVersion protos_version = 1;
+  org.oppia.proto.v1.versions.LanguageProtosVersion protos_version = 1;
 
   // A list of mappings from language codes to voiceover bundles (which each map individual
   // SubtitledHtml content IDs to their voiceovers in that language).
@@ -47,6 +49,8 @@ message RecordedVoiceovers {
 // Proto message mapping SubtitledHtml fields to their corresponding voiceovers for a particular
 // language.
 message VoiceoverContentMapping {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
+
   // The language that this mapping is for.
   Language language = 1;
 
@@ -56,6 +60,8 @@ message VoiceoverContentMapping {
 
 // Proto message representing a specific voiceover file.
 message Voiceover {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
+
   // The file name of the voiceover.
   string filename = 1;
 
@@ -68,9 +74,11 @@ message Voiceover {
 
 // Proto message representing a set of written translations.
 message WrittenTranslations {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
+
   // The proto version defining the internal structure of this proto message.
   // TODO: Add more explanation for why this is dependent on a common LanguageProtosVersion.
-  LanguageProtosVersion protos_version = 1;
+  org.oppia.proto.v1.versions.LanguageProtosVersion protos_version = 1;
 
   // A list of mappings from language codes to written translations (which each map individual
   // SubtitledHtml content IDs to their written translations in that language).
@@ -80,6 +88,8 @@ message WrittenTranslations {
 // Proto message mapping SubtitledHtml fields to their corresponding written translations in a
 // particular language.
 message WrittenTranslationContentMapping {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
+
   // The language that this mapping is for.
   Language language = 1;
 
@@ -89,6 +99,7 @@ message WrittenTranslationContentMapping {
 
 // Proto message representing a single written translation.
 message WrittenTranslation {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
   // The data format of the source material for this translation.
   oneof data_format {
@@ -108,11 +119,15 @@ message WrittenTranslation {
 
 // Proto message representing the translation of a single HTML string.
 message WrittenTranslatableHtml {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
+
   string translation = 1;
 }
 
 // Proto message representing the translation of a single unicode string.
 message WrittenTranslatableUnicode {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
+
   string translation = 1;
 }
 
@@ -120,6 +135,8 @@ message WrittenTranslatableUnicode {
 // translations have a variable number of strings, the number of which may be different from the
 // number of strings in the original set.
 message WrittenTranslatableSetOfNormalizedString {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
+
   repeated string translation = 1;
 }
 
@@ -127,5 +144,7 @@ message WrittenTranslatableSetOfNormalizedString {
 // translations have a variable number of strings, the number of which may be different from the
 // number of strings in the original set.
 message WrittenTranslatableSetOfUnicodeString {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
+
   repeated string translation = 1;
 }

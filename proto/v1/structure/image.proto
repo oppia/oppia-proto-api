@@ -2,17 +2,17 @@ syntax = "proto3";
 
 package org.oppia.proto.v1.structure;
 
-import "org/oppia/proto/v1/structure/versions.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
 
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
 // Proto message representing a single thumbnail image.
-// NOTE: Update ImageProtoVersion if the structure of this proto is modified. The current version
-// is 1.
 message Thumbnail {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = IMAGE_PROTO_VERSION;
+
   // The proto version defining the internal structure of this image proto message.
-  ImageProtoVersion proto_version = 1;
+  org.oppia.proto.v1.versions.ImageProtoVersion proto_version = 1;
 
   // The name of the thumbnail image file.
   string filename = 2;
@@ -21,12 +21,12 @@ message Thumbnail {
   int32 background_color_rgb = 3;
 }
 
-// NOTE: Update ImageProtoVersion if the structure of this proto is modified. The current version
-// is 1.
 // Proto representing a list of images.
 message ReferencedImageList {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = IMAGE_PROTO_VERSION;
+
   // The proto version defining the internal structure of this list of images.
-  ImageProtoVersion proto_version = 1;
+  org.oppia.proto.v1.versions.ImageProtoVersion proto_version = 1;
 
   // The list of filenames of all the images in the list.
   repeated string referenced_image_filenames = 2;

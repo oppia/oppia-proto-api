@@ -4,16 +4,18 @@ package org.oppia.proto.v1.structure;
 
 import "org/oppia/proto/v1/structure/languages.proto";
 import "org/oppia/proto/v1/structure/objects.proto";
-import "org/oppia/proto/v1/structure/versions.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
 
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
+// TODO: add customization args defaults & CI check to cross-validate them with web?
+
 // Proto message representing a single State.
-// NOTE: Update StateProtoVersion if the structure of this proto is modified. The current version is
-// 1.
 message State {
-  StateProtoVersion proto_version = 1;
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
+  org.oppia.proto.v1.versions.StateProtoVersion proto_version = 1;
 
   // The content of the state.
   SubtitledHtml content = 2;
@@ -30,6 +32,7 @@ message State {
 
 // Structure for a single interaction.
 message InteractionInstance {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The different types of interactions.
   oneof interaction_type {
@@ -69,6 +72,8 @@ message InteractionInstance {
 // Answer type: none (N/A since no answers are submitted for this interaction). Structure of the
 // continue instance.
 message ContinueInstance {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
   CustomizationArgs customization_args = 1;
 
   // The default outcome of the continue instance.
@@ -79,6 +84,8 @@ message ContinueInstance {
 
   // Structure of the customization args of continue instance.
   message CustomizationArgs {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
     // Note that while the continue interaction has a default button text defined, it's not used in
     // the app since the default string needs to come through the app's strings so that it can be
     // translated.
@@ -88,6 +95,7 @@ message ContinueInstance {
 
 // Answer type: Fraction. Structure of the fraction input interaction.
 message FractionInputInstance {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // A set of arguments to customize the fraction input.
   CustomizationArgs customization_args = 1;
@@ -106,6 +114,7 @@ message FractionInputInstance {
 
   // Structure of the customization args of the fraction input.
   message CustomizationArgs {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The fraction is in simplest form or not.
     bool requires_simplest_form = 1;
@@ -122,6 +131,7 @@ message FractionInputInstance {
 
   // Structure of the solution of the fraction input.
   message Solution {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A set of common items for the solution in all interactions.
     BaseSolution base_solution = 1;
@@ -132,6 +142,7 @@ message FractionInputInstance {
 
   // Structure of the answer group of the fraction input.
   message AnswerGroup {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
@@ -142,6 +153,7 @@ message FractionInputInstance {
 
   // Structure of the rule spec of the fraction input.
   message RuleSpec {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Different rules which can be applied on the fraction input.
     oneof rule_type {
@@ -179,51 +191,71 @@ message FractionInputInstance {
 
     // Structure of the exactly equal rule check.
     message IsExactlyEqualToSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       Fraction input = 1;
     }
 
     // Structure of the equivalent rule check.
     message IsEquivalentToSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       Fraction input = 1;
     }
 
     // Structure of the equivalent and simple form rule check.
     message IsEquivalentToAndInSimplestFormSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       Fraction input = 1;
     }
 
     // Structure of the less than rule check.
     message IsLessThanSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       Fraction input = 1;
     }
 
     // Structure of the greater than rule check.
     message IsGreaterThanSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       Fraction input = 1;
     }
 
     // Structure of the numerator equality rule check.
     message HasNumeratorEqualToSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       int32 input = 1;
     }
 
     // Structure of the denominator equality rule check.
     message HasDenominatorEqualToSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       uint32 input = 1;
     }
 
     // Structure of the integer part rule check.
     message HasIntegerPartEqualToSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       int32 input = 1;
     }
 
     // Structure of the no fraction input rule check.
     message HasNoFractionalPartSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       // No inputs for this rule spec.
     }
 
     // Structure of the fraction part exactly equality rule check.
     message HasFractionalPartExactlyEqualToSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       Fraction input = 1;
     }
   }
@@ -231,6 +263,7 @@ message FractionInputInstance {
 
 // Answer type: SetOfTranslatableHtmlContentIds. Structure of the item selection input interaction.
 message ItemSelectionInputInstance {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // A set of arguments to customize the item selection input.
   CustomizationArgs customization_args = 1;
@@ -248,6 +281,7 @@ message ItemSelectionInputInstance {
 
   // Structure of the customization args of the item selection input.
   message CustomizationArgs {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The minimum number of items allowed for selection.
     int32 min_allowable_selection_count = 1;
@@ -261,6 +295,7 @@ message ItemSelectionInputInstance {
 
   // Structure of a single answer group of item selection input.
   message AnswerGroup {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
@@ -271,6 +306,7 @@ message ItemSelectionInputInstance {
 
   // Structure of the rules of the item selection input.
   message RuleSpec {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Different type of rules for the item selection input instance.
     oneof rule_type {
@@ -290,21 +326,29 @@ message ItemSelectionInputInstance {
 
     // Structure of the equal rule check.
     message EqualsSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       SetOfTranslatableHtmlContentIds input = 1;
     }
 
     // Structure of atleast one item selection rule check.
     message ContainsAtLeastOneOfSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       SetOfTranslatableHtmlContentIds input = 1;
     }
 
     // Structure of non of the item selection rule check.
     message DoesNotContainAtLeastOneOfSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       SetOfTranslatableHtmlContentIds input = 1;
     }
 
     // Structure of proper subset of item selection rule check.
     message IsProperSubsetOfSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       SetOfTranslatableHtmlContentIds input = 1;
     }
   }
@@ -312,6 +356,7 @@ message ItemSelectionInputInstance {
 
 // Answer type: non-negative int (uint32). Structure of the multiple choice input interaction.
 message MultipleChoiceInputInstance {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // A set of arguments to customize the multiple choice input.
   CustomizationArgs customization_args = 1;
@@ -329,6 +374,7 @@ message MultipleChoiceInputInstance {
 
   // Structure of the customization args of the multiple choice input.
   message CustomizationArgs {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A list of possible choices from the multiple items.
     repeated SubtitledHtml choices = 1;
@@ -336,6 +382,7 @@ message MultipleChoiceInputInstance {
 
   // Structure of a single answer group of multiple choice input.
   message AnswerGroup {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A base answer group is a set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
@@ -346,6 +393,7 @@ message MultipleChoiceInputInstance {
 
   // Structure of the rules of the multiple choice input.
   message RuleSpec {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Differnt type of rules for the multiple choice input.
     oneof rule_type {
@@ -356,6 +404,8 @@ message MultipleChoiceInputInstance {
 
     // Structure of the equal rule check.
     message EqualsSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       uint32 input = 1;
     }
   }
@@ -363,6 +413,7 @@ message MultipleChoiceInputInstance {
 
 // Answer type: real (double). Structure of the number input interaction.
 message NumericInputInstance {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // A list of answer groups of the numeric input.
   repeated AnswerGroup answer_groups = 1;
@@ -376,6 +427,7 @@ message NumericInputInstance {
 
   // Structure of the solution of the numeric input.
   message Solution {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A set of common items for the solution in all interactions.
     BaseSolution base_solution = 1;
@@ -386,6 +438,7 @@ message NumericInputInstance {
 
   // Structure of a single answer group of numeric input.
   message AnswerGroup {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
@@ -396,6 +449,7 @@ message NumericInputInstance {
 
   // Structure of the rules of the numeric input.
   message RuleSpec {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Different type of rules which can be applied on the numeric input.
     oneof rule_type {
@@ -424,31 +478,42 @@ message NumericInputInstance {
 
     // Structure of the equal rule check.
     message EqualsSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       double input = 1;
     }
 
     // Structure of the less than rule check.
     message IsLessThanSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       double input = 1;
     }
 
     // Structure of the greater than rule check.
     message IsGreaterThanSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       double input = 1;
     }
 
     // Structure of the less than or equal rule check.
     message IsLessThanOrEqualToSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       double input = 1;
     }
 
     // Structure of the greater than or equal rule check.
     message IsGreaterThanOrEqualToSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       double input = 1;
     }
 
     // Structure of the inclusive range rule check.
     message IsInclusivelyBetweenSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // lower value in inclusive range.
       double inputLowerInclusive = 1;
@@ -459,6 +524,7 @@ message NumericInputInstance {
 
     // Structure of the tolerance ranage rule check.
     message IsWithinToleranceSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Input tolerance value.
       double inputTolerance = 1;
@@ -471,6 +537,7 @@ message NumericInputInstance {
 
 // Answer type: normalized string (string). Structure of the text input interaction.
 message TextInputInstance {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // A set of arguments to customize the text input instance.
   CustomizationArgs customization_args = 1;
@@ -489,6 +556,7 @@ message TextInputInstance {
 
   // Structure of the customization args of the text input instance.
   message CustomizationArgs {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A placeholder value for the text input instance.
     SubtitledHtml placeholder = 1;
@@ -499,6 +567,7 @@ message TextInputInstance {
 
   // Structure of the solution of the text input instance.
   message Solution {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A set of common items for the solution in all interactions.
     BaseSolution base_solution = 1;
@@ -509,6 +578,7 @@ message TextInputInstance {
 
   // Structure of a single answer group of text input.
   message AnswerGroup {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
@@ -519,6 +589,7 @@ message TextInputInstance {
 
   // Structure of the rules of the text input instance.
   message RuleSpec {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Different rules which can be applied on the text input instance.
     oneof rule_type {
@@ -538,21 +609,29 @@ message TextInputInstance {
 
     // Structure of the equal rule check.
     message EqualsSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       TranslatableSetOfNormalizedString input = 1;
     }
 
     // Structure of the rule to check starting text.
     message StartsWithSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       TranslatableSetOfNormalizedString input = 1;
     }
 
     // Structureof the rule to check the substring of the text.
     message ContainsSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       TranslatableSetOfNormalizedString input = 1;
     }
 
     // Structure of the rule to check text equality.
     message FuzzyEqualsSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       TranslatableSetOfNormalizedString input = 1;
     }
   }
@@ -561,6 +640,7 @@ message TextInputInstance {
 // Answer type: ListOfSetsOfTranslatableHtmlContentIds. Structure of the drag and drop sort input
 // interaction.
 message DragAndDropSortInputInstance {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // A set of arguments to customize the drag and drop sort instance.
   CustomizationArgs customization_args = 1;
@@ -579,6 +659,7 @@ message DragAndDropSortInputInstance {
 
   // Structure of the customization args of the drag and drop sort instance.
   message CustomizationArgs {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A list of choice for drag and drop.
     repeated SubtitledHtml choices = 1;
@@ -589,6 +670,7 @@ message DragAndDropSortInputInstance {
 
   // Structure of the solution of the drag and drop sort instance.
   message Solution {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A set of common items for the solution in all interactions.
     BaseSolution base_solution = 1;
@@ -599,6 +681,7 @@ message DragAndDropSortInputInstance {
 
   // Structure of a single answer group of drag and drop sort input.
   message AnswerGroup {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
@@ -609,6 +692,7 @@ message DragAndDropSortInputInstance {
 
   // Structure of the rules of the drag and drop sort instance.
   message RuleSpec {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Different rules which can be applied on the drag and drop sort instance.
     oneof rule_type {
@@ -628,16 +712,21 @@ message DragAndDropSortInputInstance {
 
     // Structure of an equal order rule.
     message IsEqualToOrderingSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       ListOfSetsOfTranslatableHtmlContentIds input = 1;
     }
 
     // Structure of an equal order with one incorrect position rule.
     message IsEqualToOrderingWithOneItemAtIncorrectPositionSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       ListOfSetsOfTranslatableHtmlContentIds input = 1;
     }
 
     // Structure of an item position check rule.
     message HasElementXAtPositionYSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // The item whose position to check.
       TranslatableHtmlContentId element = 1;
@@ -648,6 +737,7 @@ message DragAndDropSortInputInstance {
 
     // Structure of an item previous position check rule.
     message HasElementXBeforeElementYSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // The previous position of an item.
       TranslatableHtmlContentId considered_element = 1;
@@ -660,6 +750,7 @@ message DragAndDropSortInputInstance {
 
 // Answer type: ClickOnImage. Structure of the image selection input interaction.
 message ImageClickInputInstance {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // A set of arguments to customize the image click input.
   CustomizationArgs customization_args = 1;
@@ -677,6 +768,7 @@ message ImageClickInputInstance {
 
   // Structure of the customization args of the image click input.
   message CustomizationArgs {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // An image with the regions.
     ImageWithRegions image_and_regions = 1;
@@ -684,6 +776,7 @@ message ImageClickInputInstance {
 
   // Structure of a single answer group of image selection input.
   message AnswerGroup {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A base answer group is a set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
@@ -694,6 +787,7 @@ message ImageClickInputInstance {
 
   // Structure of the rules of the image click input.
   message RuleSpec {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Different rules which can be applied on the image click input.
     oneof rule_type {
@@ -704,6 +798,8 @@ message ImageClickInputInstance {
 
     // Structure of a single is in region.
     message IsInRegionSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       string input_region = 1;
     }
   }
@@ -711,6 +807,7 @@ message ImageClickInputInstance {
 
 // Answer type: RatioExpression. Structure of the ratio input interaction.
 message RatioExpressionInputInstance {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // A set of arguments to customize the ratio expression input.
   CustomizationArgs customization_args = 1;
@@ -729,6 +826,7 @@ message RatioExpressionInputInstance {
 
   // Structure of the customization args of the ratio expression input.
   message CustomizationArgs {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A placeholder for the ratio expression input.
     SubtitledHtml placeholder = 1;
@@ -739,6 +837,7 @@ message RatioExpressionInputInstance {
 
   // Structure of the solution of the ratio expression input.
   message Solution {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A set of common items for the solution in all interactions.
     BaseSolution base_solution = 1;
@@ -749,6 +848,7 @@ message RatioExpressionInputInstance {
 
   // Structure of a single answer group of ratio expression input.
   message AnswerGroup {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // A set of common items for the answer groups in all the interactions.
     BaseAnswerGroup base_answer_group = 1;
@@ -759,6 +859,7 @@ message RatioExpressionInputInstance {
 
   // Structure of the rules of the ratio expression input.
   message RuleSpec {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Different rules which can be applied on the ratio expression input.
     oneof rule_type {
@@ -778,21 +879,29 @@ message RatioExpressionInputInstance {
 
     // Structure of the equal rule check.
     message EqualsSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       RatioExpression input = 1;
     }
 
     // Structure of the equivalent rule check.
     message IsEquivalentSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       RatioExpression input = 1;
     }
 
     // Structure of the number of terms equal rule check.
     message HasNumberOfTermsEqualToSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       uint32 input_term_count = 1;
     }
 
     // Structure of the specific terms rule check.
     message HasSpecificTermEqualToSpec {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
       uint32 input_term_index = 1;
       uint32 input_expected_term_value = 2;
     }
@@ -802,6 +911,8 @@ message RatioExpressionInputInstance {
 // Answer type: none (N/A since no answers are submitted for this interaction). Structure of a
 // single end exploration type interaction.
 message EndExplorationInstance {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
   // No answers can be submitted to the end exploration interaction, so there are neither answer
   // groups nor solutions. The interaction does have customization arguments, but they aren't
   // supported in the Android app. No default outcome is possible since the user takes no
@@ -810,6 +921,7 @@ message EndExplorationInstance {
 
 // Common fields for all answer groups.
 message BaseAnswerGroup {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // An outcome is a common way of reponse for all interactions.
   Outcome outcome = 1;
@@ -820,6 +932,7 @@ message BaseAnswerGroup {
 
 // Structure of the outcome of any interaction.
 message Outcome {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The name of the next state.
   string destination_state = 1;
@@ -833,6 +946,7 @@ message Outcome {
 
 // Structure for a single hint
 message Hint {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The content of the hint.
   SubtitledHtml hint_content = 1;
@@ -840,6 +954,7 @@ message Hint {
 
 // Common fields for all solutions.
 message BaseSolution {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The explanation of the solution.
   SubtitledHtml explanation = 1;
@@ -847,6 +962,7 @@ message BaseSolution {
 
 // Convenience collection object for all potential types of solutions.
 message Solution {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The different type of interactions existed in an exploration.
   oneof interaction_type {
@@ -873,6 +989,7 @@ message Solution {
 // https://github.com/oppia/oppia/blob/896466ae8b/core/templates/pages/exploration-editor-page/
 // editor-tab/templates/modal-templates/add-answer-group-modal.controller.ts#L60
 message Misconception {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The id of the skill.
   string skill_id = 1;

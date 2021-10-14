@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.versions;
+
+import "google/protobuf/descriptor.proto";
+
+option java_package = "org.oppia.proto.v1.versions";
+option java_multiple_files = true;
+
+// Custom options. Note that these do not actually enforce semantics--they're
+// just hints. Implementation code is expected to define the actual versioning
+// semantics. See the README for more details.
+extend google.protobuf.MessageOptions {
+  // Defines the version type corresponding to an API proto.
+  ApiProtoVersionType api_proto_version_type = 2000;
+}
+
+// The only currently-supported proto version for the TopicListRequestResponse.
+message TopicListRequestResponseProtoVersion {
+  option (api_proto_version_type) = UNVERSIONED_API_PROTO;
+
+  int32 version = 1;
+}
+
+// The only currently-supported proto version for the TopicContentRequestResponse.
+message TopicContentRequestResponseProtoVersion {
+  option (api_proto_version_type) = UNVERSIONED_API_PROTO;
+
+  int32 version = 1;
+}
+
+enum ApiProtoVersionType {
+  API_PROTO_VERSION_TYPES_UNSPECIFIED = 0;
+  UNVERSIONED_API_PROTO = 1;
+  TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION = 2;
+  TOPIC_CONTENT_REQUEST_RESPONSE_PROTO_VERSION = 3;
+}

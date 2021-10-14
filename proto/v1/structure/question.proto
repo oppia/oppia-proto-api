@@ -4,17 +4,17 @@ package org.oppia.proto.v1.structure;
 
 import "org/oppia/proto/v1/structure/image.proto";
 import "org/oppia/proto/v1/structure/state.proto";
-import "org/oppia/proto/v1/structure/versions.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
 
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
 // Proto message representing a single question.
-// NOTE: Update QuestionProtoVersion if the structure of this proto is modified. The current version
-// is 1.
 message Question {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = QUESTION_PROTO_VERSION;
+
   // The proto version defining the internal structure of this question proto message.
-  QuestionProtoVersion proto_version = 1;
+  org.oppia.proto.v1.versions.QuestionProtoVersion proto_version = 1;
 
   // The ID of the question.
   string id = 2;

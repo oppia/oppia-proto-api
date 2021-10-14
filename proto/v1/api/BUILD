@@ -15,6 +15,7 @@ proto_library(
     strip_import_prefix = "",  # Strip the default file prefix so that it may be redefined.
     import_prefix = "org/oppia/proto/v1/api",  # Make directory prefix match declared package.
     deps = [
-      "//proto/v1/structure:structure_proto"
+      "//proto/v1/structure:structure_proto",
+      "//proto/v1/versions:versions_proto",
     ],
 )

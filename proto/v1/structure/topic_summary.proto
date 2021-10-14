@@ -3,16 +3,16 @@ syntax = "proto3";
 package org.oppia.proto.v1.structure;
 
 import "org/oppia/proto/v1/structure/image.proto";
-import "org/oppia/proto/v1/structure/versions.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
 
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// NOTE: Update TopicSummaryProtoVersion if the structure of this proto is modified. The current
-// version is 1.
 // Structure for a single topic summary.
 message TopicSummary {
-  TopicSummaryProtoVersion proto_version = 1;
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
+
+  org.oppia.proto.v1.versions.TopicSummaryProtoVersion proto_version = 1;
 
   // The id of the topic.
   string id = 2;
@@ -26,8 +26,8 @@ message TopicSummary {
   // A list of story summaries related to this TopicSummary.
   repeated StorySummary story_summaries = 5;
 
-  // A list of all the subtopic indexes contained in this topic.
-  repeated int32 subtopic_indexes = 6;
+  // A list of all subtopics corresponding to this topic.
+  repeated SubtopicSummary subtopic_summaries = 6;
 
   // The thumbnail image corresponding to this topic.
   Thumbnail thumbnail = 7; // TODO
@@ -41,6 +41,7 @@ message TopicSummary {
 
 // Structure of a single story summary.
 message StorySummary {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
   // The id of the story.
   string id = 1;
@@ -63,6 +64,7 @@ message StorySummary {
 
 // Structure of a single chapter summary.
 message ChapterSummary {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
   // The thumbnail image for this chapter.
   Thumbnail thumbnail = 1; // TODO
@@ -79,6 +81,7 @@ message ChapterSummary {
 
 // Structure of a single subtopic summary.
 message SubtopicSummary {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
   // The index of the subtopic (within its correspnoding topic).
   int32 index = 1;
@@ -92,6 +95,7 @@ message SubtopicSummary {
 
 // Structure of a single skill summary.
 message SkillSummary {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
   // The id of the skill.
   string id = 1;

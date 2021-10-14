@@ -4,7 +4,7 @@ package org.oppia.proto.v1.structure;
 
 import "org/oppia/proto/v1/structure/image.proto";
 import "org/oppia/proto/v1/structure/languages.proto";
-import "org/oppia/proto/v1/structure/versions.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
 
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
@@ -13,8 +13,10 @@ option java_multiple_files = true;
 // NOTE: Update RevisionCardProtoVersion if the structure of this proto is modified. The current
 // version is 1.
 message RevisionCard {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = REVISION_CARD_PROTO_VERSION;
+
   // The proto version defining the internal structure of this revision card proto message.
-  RevisionCardProtoVersion proto_version = 1;
+  org.oppia.proto.v1.versions.RevisionCardProtoVersion proto_version = 1;
 
   // The id of the subtopic in which this revision card is displayed.
   SubtopicId id = 2;
@@ -38,10 +40,13 @@ message RevisionCard {
   ReferencedImageList referenced_image_list = 8;
 }
 
-// Proto message representing a subtopic ID. This proto message type is shared among multiple parent
-// protos, so it has no direct migration pathway. Changes should be carefully done, or the proto
-// should be duplicated according to whichever proto requires alterations.
+// Proto message representing a subtopic ID.
 message SubtopicId {
+  // This proto message type is shared among multiple parent protos, so it has no direct migration
+  // pathway. Changes should be carefully done, or the proto should be duplicated according to
+  // whichever proto requires alterations.
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
   // The ID of the topic that contains this subtopic.
   string topic_id = 1;
 

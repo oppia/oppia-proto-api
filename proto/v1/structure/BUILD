@@ -19,12 +19,14 @@ proto_library(
         "revision_card.proto",
         "state.proto",
         "topic_summary.proto",
-        "versions.proto",
     ],
     strip_import_prefix = "",  # Strip the default file prefix so that it may be redefined.
     import_prefix = "org/oppia/proto/v1/structure",  # Make directory prefix match declared package.
     visibility = [
         "//:api_visibility",
         "//:proto_impl_visibility",
+    ],
+    deps = [
+      "//proto/v1/versions:versions_proto",
     ],
 )

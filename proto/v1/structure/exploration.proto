@@ -4,17 +4,17 @@ package org.oppia.proto.v1.structure;
 
 import "org/oppia/proto/v1/structure/image.proto";
 import "org/oppia/proto/v1/structure/state.proto";
-import "org/oppia/proto/v1/structure/versions.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
 
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
 // Proto message representing a single exploration.
-// NOTE: Update ExplorationProtoVersion if the structure of this proto is modified. The current
-// version is 1.
 message Exploration {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = EXPLORATION_PROTO_VERSION;
+
   // The proto version defining the internal structure of this exploration proto message.
-  ExplorationProtoVersion proto_version = 1;
+  org.oppia.proto.v1.versions.ExplorationProtoVersion proto_version = 1;
 
   // The ID of the exploration.
   string id = 2;

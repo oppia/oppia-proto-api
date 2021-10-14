@@ -4,17 +4,17 @@ package org.oppia.proto.v1.structure;
 
 import "org/oppia/proto/v1/structure/image.proto";
 import "org/oppia/proto/v1/structure/languages.proto";
-import "org/oppia/proto/v1/structure/versions.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
 
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
 // Proto message representing a single concept card that can be displayed for a specific skill.
-// NOTE: Update ConceptCardProtoVersion if the structure of this proto is modified. The current
-// version is 1.
 message ConceptCard {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = CONCEPT_CARD_PROTO_VERSION;
+
   // The proto version defining the internal structure of this concept card proto message.
-  ConceptCardProtoVersion proto_version = 1;
+  org.oppia.proto.v1.versions.ConceptCardProtoVersion proto_version = 1;
 
   // The ID corresponding to the skill this concept is representing.
   string skill_id = 2;
@@ -40,6 +40,7 @@ message ConceptCard {
   // Each worked example provides a sample question and answer for the student to read and learn
   // from.
   message WorkedExample {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = CONCEPT_CARD_PROTO_VERSION;
 
     // The question for this worked example.
     SubtitledHtml question = 1;

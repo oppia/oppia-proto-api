@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.versions;
+
+import "google/protobuf/descriptor.proto";
+
+option java_package = "org.oppia.proto.v1.versions";
+option java_multiple_files = true;
+
+// Custom options. Note that these do not actually enforce semantics--they're
+// just hints. Implementation code is expected to define the actual versioning
+// semantics. See the README for more details.
+extend google.protobuf.MessageOptions {
+  // Defines the version type corresponding to a structure proto.
+  StructureProtoVersionType structure_proto_version_type = 1000;
+}
+
+// The version of the TopicSummary proto.
+message TopicSummaryProtoVersion {
+  option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
+  int32 version = 1;
+}
+
+// The version of the RevisionCard proto.
+message RevisionCardProtoVersion {
+  option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
+  int32 version = 1;
+}
+
+// The version of the ConceptCard proto.
+message ConceptCardProtoVersion {
+  option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
+  int32 version = 1;
+}
+
+// The version of the Exploration proto.
+message ExplorationProtoVersion {
+  option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
+  int32 version = 1;
+}
+
+// The version of the Question proto.
+message QuestionProtoVersion {
+  option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
+  int32 version = 1;
+}
+
+// This version implies interaction compatibility since interactions are tightly defined in the
+// structures. The version of the State proto.
+message StateProtoVersion {
+  option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
+  int32 version = 1;
+}
+
+// The version of the Language proto.
+message LanguageProtosVersion {
+  option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
+  int32 version = 1;
+}
+
+// The version of the Image proto.
+message ImageProtoVersion {
+  option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
+  int32 version = 1;
+}
+
+enum StructureProtoVersionType {
+  STRUCTURE_PROTO_VERSION_TYPES_UNSPECIFIED = 0;
+  UNVERSIONED_STRUCTURE_PROTO = 1;
+  TOPIC_SUMMARY_PROTO_VERSION = 2;
+  REVISION_CARD_PROTO_VERSION = 3;
+  CONCEPT_CARD_PROTO_VERSION = 4;
+  EXPLORATION_PROTO_VERSION = 5;
+  QUESTION_PROTO_VERSION = 6;
+  STATE_PROTO_VERSION = 7;
+  LANGUAGE_PROTOS_VERSION = 8;
+  IMAGE_PROTO_VERSION = 9;
+}

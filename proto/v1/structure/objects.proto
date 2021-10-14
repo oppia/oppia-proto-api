@@ -5,9 +5,11 @@ package org.oppia.proto.v1.structure;
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
+// TODO: split up this proto into rule-spec based objects & update the versions accordingly.
+// Anything not typed to rule inputs should go into the correct file with the correct versions.
+
 // Proto message representing a single fraction or mixed number.
 message Fraction {
-
   // Whether the fraction is negative.
   bool is_negative = 1;
 

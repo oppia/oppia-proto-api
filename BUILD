@@ -28,6 +28,7 @@ proto_library(
     deps = [
       "//proto/v1/api:android_proto",
       "//proto/v1/structure:structure_proto",
+      "//proto/v1/versions:versions_proto",
     ],
 )
 
