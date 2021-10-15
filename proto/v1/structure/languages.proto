@@ -7,144 +7,167 @@ import "org/oppia/proto/v1/versions/structure_versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// A list of languages supported by the Android app.
-enum Language {
-  // TODO: Add docstring to explain why this is needed and when it should be used.
+// NOTE: many of the structures in this file share a common LanguageProtosVersion version. See the
+// documentation on that structure for details as to why.
+
+// The language types supported by this API. These are used both for content string localization and
+// to represent voiceover subtitles. Note that any changes to this structure will correspond to
+// changes to LanguageProtosVersion (similar to the proto structures that use this version below).
+// Note also that from a design perspective, languages should always be represented using this as a
+// strong type rather than string-based language codes which can introduce support issues and
+// inconsistencies.
+enum LanguageType {
+  option (org.oppia.proto.v1.versions.structure_enum_version_type) = LANGUAGE_PROTOS_VERSION;
+
+  // The default language. This generally corresponds to cases when a language isn't defined, is
+  // unsupported, or it's not known whether the language is supported. Clients are expected to
+  // default to no-op behaviors when they encounter this language type.
   LANGUAGE_CODE_UNSPECIFIED = 0;
+
+  // Corresponds to general English (that is, not particularly regionally tied). This is the assumed
+  // default language for all content strings.
   ENGLISH = 1;
+
+  // Corresponds to general Arabic (that is, not particularly regionally tied).
   ARABIC = 2;
+
+  // Corresponds to general Hindi (that is, not particularly regionally tied).
   HINDI = 3;
+
+  // Corresponds to the macaronic language Hinglish which combines Hindi and English. This
+  // corresponds to a generic 'Hinglish' which combines localisms from different areas, but is not
+  // predominantly tied to a particular region.
   HINGLISH = 4;
+
+  // Corresponds to a regional Portuguese that's primarily used in Brazil.
   BRAZILIAN_PORTUGUESE = 5;
 }
 
-// Proto message representing a block of (subtitled) HTML.
-message SubtitledHtml {
+// Represents a block of (subtitled) text. This structure is used for content strings so that they
+// may be supplemented with audio translations, or localized by replacing the text string with a
+// language-specific translation of it.
+//
+// Note that this represents both ASCII & Unicode HTML & plain text strings, and combines two
+// different Oppia's backend structures ('SubtitledHtml' and 'SubtitledUnicode'). Protobuf takes
+// care of properly representing Unicode strings internally by using UTF-8 encoding, so no special
+// care is needed by implementations or clients.
+message SubtitledText {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
-  // The proto version defining the internal structure of this proto message.
-  // TODO: Add more explanation for why this is dependent on a common LanguageProtosVersion.
+  // The version defining the internal structure of this message.
   org.oppia.proto.v1.versions.LanguageProtosVersion protos_version = 1;
 
-  // The content ID for this SubtitledHtml. This is unique within a State.
+  // The content ID for this text that can be used to retrieve a voiceover or translation
+  // representation of this text. This ID is unique in its local context (e.g. a 'State' for
+  // subtitled texts used within states).
   string content_id = 2;
 
-  // The HTML content of the SubtitledHtml.
-  string html = 3;
+  // The user-readable HTML/plain text content (which may be in Unicode). This is expected to always
+  // be in English, and in situations where non-English variants are desired the content ID should
+  // be matched to a language-specific translation (see WrittenTranslations for details).
+  string text = 3;
 }
 
-// Proto message representing recorded voiceovers.
+// Represents a group of voiceovers that correspond to subtitled texts in a particular content
+// context (such as a revision card or a 'State' in an exploration).
 message RecordedVoiceovers {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
-  // The proto version defining the internal structure of this proto message.
-  // TODO: Add more explanation for why this is dependent on a common LanguageProtosVersion.
+  // The version defining the internal structure of this message.
   org.oppia.proto.v1.versions.LanguageProtosVersion protos_version = 1;
 
-  // A list of mappings from language codes to voiceover bundles (which each map individual
-  // SubtitledHtml content IDs to their voiceovers in that language).
-  repeated VoiceoverContentMapping voiceover_language_mapping = 2;
+  // A list of mappings from language to voiceover content mappings (see the message's documentation
+  // for specifics on the latter).
+  repeated VoiceoverContentMapping voiceover_content_mapping = 2;
 }
 
-// Proto message mapping SubtitledHtml fields to their corresponding voiceovers for a particular
-// language.
+// Represents a mapping of SubtitledText content IDs to voiceovers for a particular language.
 message VoiceoverContentMapping {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
-  // The language that this mapping is for.
-  Language language = 1;
+  // The language corresponding to this mapping.
+  LanguageType language = 1;
 
-  // The mapping of content IDs to their corresponding voiceover files.
-  map<string, Voiceover> voiceover_content_mapping = 2;
+  // The mapping of SubtitledText content IDs to their corresponding voiceover files.
+  map<string, VoiceoverFile> voiceover_content_mapping = 2;
 }
 
-// Proto message representing a specific voiceover file.
-message Voiceover {
+// Represents an audio file that, when played, reads out content text in a particular language.
+message VoiceoverFile {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
-  // The file name of the voiceover.
+  // The name of the voiceover audio file. This will never be a URL (and can always be expected to
+  // just be a filename). The audio file is stored in GCS static file storage and must be downloaded
+  // or streamed separately by the client. The client can expect that this file is immutable on the
+  // server. Further, the client can also assume that all audio files are always of the format MP3.
+  // There's no support for transcoding audio at a given bitrate, it's always fixed based on the
+  // uploaded bitrate (as managed by Oppia's backend).
   string filename = 1;
 
   // The size of the voiceover file, in bytes.
-  int32 file_size_bytes = 2;
+  uint32 file_size_bytes = 2;
 
-  // The duration of the voiceover, in seconds.
+  // The duration of the voiceover audio track, in seconds.
   float duration_secs = 3;
 }
 
-// Proto message representing a set of written translations.
+// Represents a group of written translations that correspond to subtitled texts in a particular
+// content context (such as a revision card or a 'State' in an exploration).
 message WrittenTranslations {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
-  // The proto version defining the internal structure of this proto message.
-  // TODO: Add more explanation for why this is dependent on a common LanguageProtosVersion.
+  // The version defining the internal structure of this message.
   org.oppia.proto.v1.versions.LanguageProtosVersion protos_version = 1;
 
-  // A list of mappings from language codes to written translations (which each map individual
-  // SubtitledHtml content IDs to their written translations in that language).
+  // A list of mappings from language to written translation content mappings (see the message's
+  // documentation for specifics on the latter).
   repeated WrittenTranslationContentMapping translation_language_mapping = 2;
 }
 
-// Proto message mapping SubtitledHtml fields to their corresponding written translations in a
-// particular language.
+// Represents a mapping of SubtitledText content IDs to written translations for a particular
+// language.
 message WrittenTranslationContentMapping {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
-  // The language that this mapping is for.
-  Language language = 1;
+  // The language corresponding to this mapping.
+  LanguageType language = 1;
 
-  // The mapping of content IDs to their corresponding written translations.
+  // The mapping of SubtitledText content IDs to their corresponding written translations.
   map<string, WrittenTranslation> translation_content_mapping = 2;
 }
 
-// Proto message representing a single written translation.
+// Represents a single textual translation of specific content text in a particular language.
 message WrittenTranslation {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
   // The data format of the source material for this translation.
   oneof data_format {
-    // The translation for an HTML string.
-    WrittenTranslatableHtml translatable_html = 1;
+    // Indicates that this translation corresponds to a single piece of text.
+    WrittenTranslatableText translatable_text = 1;
 
-    // The translation for a unicode string.
-    WrittenTranslatableUnicode translatable_unicode = 2;
-
-    // The translation for a set of normalized strings.
-    WrittenTranslatableSetOfNormalizedString translatable_set_of_normalized_string = 3;
-
-    // The translation for a set of unicode strings.
-    WrittenTranslatableSetOfUnicodeString translatable_set_of_unicode_string = 4;
+    // Indicates that this translation corresponds to a list of translated texts.
+    SetOfWrittenTranslatableText set_of_translatable_text = 2;
   }
 }
 
-// Proto message representing the translation of a single HTML string.
-message WrittenTranslatableHtml {
+// Represents the translation of a single text string (which may be either plain text or HTML, and
+// is generally expected to potentially contain Unicode characters).
+message WrittenTranslatableText {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
+  // The human-readable translated string.
   string translation = 1;
 }
 
-// Proto message representing the translation of a single unicode string.
-message WrittenTranslatableUnicode {
+// Represents a set of translated strings. As indicated in WrittenTranslatableText, each string may
+// be either plain text or HTML, and generally can be expected to contain Unicode characters.
+//
+// Note that while the list of translated strings roughly corresponds to the original source
+// material (i.e. the default, untranslated content strings specified directly in SubtitledText),
+// neither the order nor the length are expected to exactly match.
+message SetOfWrittenTranslatableText {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
-  string translation = 1;
-}
-
-// Proto message representing the translation of a set of normalized strings. Note that such
-// translations have a variable number of strings, the number of which may be different from the
-// number of strings in the original set.
-message WrittenTranslatableSetOfNormalizedString {
-  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
-
-  repeated string translation = 1;
-}
-
-// Proto message representing the translation of a set of unicode strings. Note that such
-// translations have a variable number of strings, the number of which may be different from the
-// number of strings in the original set.
-message WrittenTranslatableSetOfUnicodeString {
-  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
-
-  repeated string translation = 1;
+  // The list of human-readable translated strings.
+  repeated string translations = 1;
 }

@@ -1,6 +1,9 @@
 """
-TODO: document
+Defines Starlark macros that are used to import the dependencies needed to build the Oppia proto API
+project (such as for cases when another Bazel workspace depends on this project). See the importing
+instructions in the README for more details.
 """
+
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # Note to developers: Please keep this dict sorted by key to make it easier to find dependencies.
@@ -60,8 +63,17 @@ def _setUpRulesJava():
   _setUpHttpArchiveDependency(name = "rules_java")
 
 def initializeDepsForWorkspace():
-  # TODO: docstring. Explain toolchain initializations that must be called may need to be called.
+  """
+  Loads the dependencies needed to be able to build the Oppia proto API project.
 
+  Note that this must be called after loading in this deps file, for example:
+
+      load("//repo:deps.bzl", "initializeDepsForWorkspace")
+      initializeDepsForWorkspace()
+
+  Note also that toolchains may need to be set up after loading this dependencies (see
+  toolchains.bzl).
+  """
   # Set up Python (as a prerequisite dependency for Protobuf).
   _setUpPython()
 

@@ -1,5 +1,5 @@
 """
-This file lists and imports all external dependencies needed to build Oppia Proto API.
+The top-level WORKSPACE definition for the Oppia proto API Bazel workspace.
 """
 
 load("//repo:deps.bzl", "initializeDepsForWorkspace")

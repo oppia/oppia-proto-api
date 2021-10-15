@@ -14,73 +14,138 @@ extend google.protobuf.MessageOptions {
   // Defines the version type corresponding to a structure proto.
   StructureProtoVersionType structure_proto_version_type = 1000;
 }
+extend google.protobuf.EnumOptions {
+  // Defines the version type corresponding to a structure enum.
+  StructureProtoVersionType structure_enum_version_type = 1001;
+}
 
-// The version of the TopicSummary proto.
+// Represents the version of the proto structures for topic summary messages. This structure is
+// never expected to change.
+//
+// See the README for details on how these versions are meant to be used.
 message TopicSummaryProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
 
-  int32 version = 1;
+  // The numeric version corresponding to the containing proto's structure.
+  uint32 version = 1;
 }
 
-// The version of the RevisionCard proto.
+// Represents the version of the proto structures for revision card messages. This structure is
+// never expected to change.
+//
+// See the README for details on how these versions are meant to be used.
 message RevisionCardProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
 
-  int32 version = 1;
+  // The numeric version corresponding to the containing proto's structure.
+  uint32 version = 1;
 }
 
-// The version of the ConceptCard proto.
+// Represents the version of the proto structures for concept card messages. This structure is never
+// expected to change.
+//
+// See the README for details on how these versions are meant to be used.
 message ConceptCardProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
 
-  int32 version = 1;
+  // The numeric version corresponding to the containing proto's structure.
+  uint32 version = 1;
 }
 
-// The version of the Exploration proto.
+// Represents the version of the proto structures for explorations messages. This structure is never
+// expected to change.
+//
+// See the README for details on how these versions are meant to be used.
 message ExplorationProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
 
-  int32 version = 1;
+  // The numeric version corresponding to the containing proto's structure.
+  uint32 version = 1;
 }
 
-// The version of the Question proto.
+// Represents the version of the proto structures for question messages. This structure is never
+// expected to change.
+//
+// See the README for details on how these versions are meant to be used.
 message QuestionProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
 
-  int32 version = 1;
+  // The numeric version corresponding to the containing proto's structure.
+  uint32 version = 1;
 }
 
-// This version implies interaction compatibility since interactions are tightly defined in the
-// structures. The version of the State proto.
+// Represents the version of the proto structures for state messages.
+// This structure is never expected to change.
+//
+// Note that this version also implies compatibility among changes to interactions since
+// interactions are defined using strong types, and all of those proto messages are bound to this
+// version.
+//
+// See the README for details on how these versions are meant to be used.
 message StateProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
 
-  int32 version = 1;
+  // The numeric version corresponding to the containing proto's structure.
+  uint32 version = 1;
 }
 
-// The version of the Language proto.
+// Represents the proto version of multiple language-tied messages. Note that these are versioned
+// separately from the structures that reference them since multiple topic substructures reference
+// common messages (e.g. RecordedVoiceovers), so changes in the structures need to be properly
+// shared across all use cases without necessarily updating the individual proto versions for each
+// of those messages. Note also that this structrure is never expected to change.
+//
+// See also the README for details on how these versions are meant to be used.
 message LanguageProtosVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
 
-  int32 version = 1;
+  // The numeric version corresponding to the containing proto's structure.
+  uint32 version = 1;
 }
 
-// The version of the Image proto.
+// Represents the version of the proto structures for image messages. This structure is never
+// expected to change. This also shares some characteristics with LanguageProtosVersion in that it's
+// used to track versioning for highly centralized & shared structures.
+//
+// See the README for details on how these versions are meant to be used.
 message ImageProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
 
-  int32 version = 1;
+  // The numeric version corresponding to the containing proto's structure.
+  uint32 version = 1;
 }
 
+// Represents the type of versioning corresponding to a structure proto message.
 enum StructureProtoVersionType {
+  // The default version type (that is, unspecified and not corresponding to any versioning scheme).
+  // This generally should not be used.
   STRUCTURE_PROTO_VERSION_TYPES_UNSPECIFIED = 0;
+
+  // Indicates that the proto is not bound by a version, and thus extreme care must be taken in
+  // changing its structure.
   UNVERSIONED_STRUCTURE_PROTO = 1;
+
+  // Indicates that the proto is bound by TopicSummaryProtoVersion.
   TOPIC_SUMMARY_PROTO_VERSION = 2;
+
+  // Indicates that the proto is bound by RevisionCardProtoVersion.
   REVISION_CARD_PROTO_VERSION = 3;
+
+  // Indicates that the proto is bound by ConceptCardProtoVersion.
   CONCEPT_CARD_PROTO_VERSION = 4;
+
+  // Indicates that the proto is bound by ExplorationProtoVersion.
   EXPLORATION_PROTO_VERSION = 5;
+
+  // Indicates that the proto is bound by QuestionProtoVersion.
   QUESTION_PROTO_VERSION = 6;
+
+  // Indicates that the proto is bound by StateProtoVersion.
   STATE_PROTO_VERSION = 7;
+
+  // Indicates that the proto is bound by LanguageProtosVersion.
   LANGUAGE_PROTOS_VERSION = 8;
+
+  // Indicates that the proto is bound by ImageProtoVersion.
   IMAGE_PROTO_VERSION = 9;
 }

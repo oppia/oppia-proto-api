@@ -8,101 +8,114 @@ import "org/oppia/proto/v1/versions/structure_versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// Structure for a single topic summary.
-message TopicSummary {
+// Represents the summary of a topic that is available to the user to download. A topic is a fully
+// contained module of lessons, explanations, and practice questions to learn a specific subcategory
+// of a subject area (such as 'place values' or 'fractions').
+//
+// Topics organize lessons into stories which organize teaching around a plot to help contextualize
+// the lessons and to make them more engaging to learners.
+//
+// Topics organize 'skills' (i.e. granular units of learning) into groups called 'subtopics' which
+// have corresponding revision cards that learners may use to get a high-level refresher of the
+// corresponding skills.
+message DownloadableTopicSummary {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
+  // The version defining the internal structure of this message.
   org.oppia.proto.v1.versions.TopicSummaryProtoVersion proto_version = 1;
 
-  // The id of the topic.
+  // The ID of the topic.
   string id = 2;
 
-  // The name of the topic.
+  // The human-readable name of the topic. This is expected to be in English.
   string name = 3;
 
-  // The description of the topic.
+  // The human-readable description of the topic. This is expected to be in English.
   string description = 4;
 
-  // A list of story summaries related to this TopicSummary.
+  // The list of stories available to play in the topic corresponding to this sumamry.
   repeated StorySummary story_summaries = 5;
 
-  // A list of all subtopics corresponding to this topic.
+  // The list of subtopics available in the topic corresponding to this sumamry.
   repeated SubtopicSummary subtopic_summaries = 6;
 
   // The thumbnail image corresponding to this topic.
-  Thumbnail thumbnail = 7; // TODO
-
-  // Whether the corresponding topic has been published.
-  bool is_published = 8;
+  Thumbnail thumbnail = 7;
 
   // The version of this topic's contents.
-  int32 content_version = 9;
+  uint32 content_version = 8;
 }
 
-// Structure of a single story summary.
+// Represents the summary of a story that can be played within a particular topic. Stories aim to
+// teach all of the skills covered by a topic (as defined by the topic's subtopics) via a linear
+// pathway of 'chapters' (which correspond to explorations).
 message StorySummary {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
-  // The id of the story.
+  // The ID of the story.
   string id = 1;
 
-  // The title of the story.
+  // The human-readable title of the story. This is expected to be in English.
   string title = 2;
 
-  // The description of the story.
+  // The human-readable description of the story. This is expected to be in English.
   string description = 3;
 
   // The thumbnail image of the story.
-  Thumbnail thumbnail = 4; // TODO
+  Thumbnail thumbnail = 4;
 
   // The summaries of all chapters in this story.
   repeated ChapterSummary chapters = 5;
 
   // The version of this story's contents.
-  int32 content_version = 6;
+  uint32 content_version = 6;
 }
 
-// Structure of a single chapter summary.
+// Represents the summary of a single chapter within a story of a topic. Each chapter corresponds to
+// a single exploration (see Exploration's documentation for more details).
 message ChapterSummary {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
   // The thumbnail image for this chapter.
-  Thumbnail thumbnail = 1; // TODO
+  Thumbnail thumbnail = 1;
 
-  // The title of the chapter.
+  // The human-radable title of the chapter. This is expected to be in English, and is expected to
+  // exactly match the title of the exploration associated to this chapter.
   string title = 2;
 
-  // The id of the exploration to which this ChapterSummary is associated.
+  // The ID of the exploration to which this ChapterSummary is associated.
   string exploration_id = 3;
 
-  // The version of this chapter's contents.
-  int32 content_version = 4;
+  // The version of this chapter's contents. This is expected to always match the exploration
+  // associated to this chapter.
+  uint32 content_version = 4;
 }
 
-// Structure of a single subtopic summary.
+// Represents the summary of a subtopic (that is, a group of skills logically organized within a
+// topic).
 message SubtopicSummary {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
   // The index of the subtopic (within its correspnoding topic).
-  int32 index = 1;
+  uint32 index = 1;
 
-  // All the skills in this subtopic.
+  // The list of all skills grouped by this subtopic.
   repeated SkillSummary skill_summaries = 2;
 
   // The version of this subtopic's contents.
-  int32 content_version = 3;
+  uint32 content_version = 3;
 }
 
-// Structure of a single skill summary.
+// Represents the summary of a skill (see DownloadableTopicSummary for context on skills).
 message SkillSummary {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
-  // The id of the skill.
+  // The ID of the skill.
   string id = 1;
 
-  // The name of the skill.
+  // The human-readable name of the skill. This is expected to be in English.
   string name = 2;
 
   // The version of this skill's contents.
-  int32 content_version = 3;
+  uint32 content_version = 3;
 }

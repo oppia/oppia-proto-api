@@ -15,23 +15,41 @@ extend google.protobuf.MessageOptions {
   ApiProtoVersionType api_proto_version_type = 2000;
 }
 
-// The only currently-supported proto version for the TopicListRequestResponse.
+// Represents the version of the proto structures for topic list request & response messages. This
+// structure is never expected to change.
+//
+// See the README for details on how these versions are meant to be used.
 message TopicListRequestResponseProtoVersion {
   option (api_proto_version_type) = UNVERSIONED_API_PROTO;
 
-  int32 version = 1;
+  // The numeric version corresponding to the containing proto's structure.
+  uint32 version = 1;
 }
 
-// The only currently-supported proto version for the TopicContentRequestResponse.
+// Represents the version of the proto structures for topic content request & response messages.
+// This structure is never expected to change.
+//
+// See the README for details on how these versions are meant to be used.
 message TopicContentRequestResponseProtoVersion {
   option (api_proto_version_type) = UNVERSIONED_API_PROTO;
 
-  int32 version = 1;
+  // The numeric version corresponding to the containing proto's structure.
+  uint32 version = 1;
 }
 
+// Represents the type of versioning corresponding to an API proto message.
 enum ApiProtoVersionType {
+  // The default version type (that is, unspecified and not corresponding to any versioning scheme).
+  // This generally should not be used.
   API_PROTO_VERSION_TYPES_UNSPECIFIED = 0;
+
+  // Indicates that the proto is not bound by a version, and thus extreme care must be taken in
+  // changing its structure.
   UNVERSIONED_API_PROTO = 1;
+
+  // Indicates that the proto is bound by TopicListRequestResponseProtoVersion.
   TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION = 2;
+
+  // Indicates that the proto is bound by TopicContentRequestResponseProtoVersion.
   TOPIC_CONTENT_REQUEST_RESPONSE_PROTO_VERSION = 3;
 }

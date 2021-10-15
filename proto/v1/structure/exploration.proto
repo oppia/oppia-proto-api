@@ -9,29 +9,32 @@ import "org/oppia/proto/v1/versions/structure_versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// Proto message representing a single exploration.
+// Represents a single exploration that can be played by a learner. Explorations are interactive
+// lessons that are meant to teach or build on specific skills.
 message Exploration {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = EXPLORATION_PROTO_VERSION;
 
-  // The proto version defining the internal structure of this exploration proto message.
+  // The version defining the internal structure of this message.
   org.oppia.proto.v1.versions.ExplorationProtoVersion proto_version = 1;
 
   // The ID of the exploration.
   string id = 2;
 
-  // The title of the exploration.
+  // The human-readable title of the exploration. This is expected to be in English.
   string title = 3;
 
-  // The name of the initial state of the exploration.
+  // The name of the initial state of the exploration. This corresponds to keys in the 'states'
+  // field.
   string init_state_name = 4;
 
-  // The mapping from state names to state objects.
+  // The mapping from state names to state objects. State names are not meant to be
+  // learner-readable.
   map<string, State> states = 5;
 
-  // The version of the contents of this exploration. (This corresponds to the 'version' field on
-  // the server.)
-  int32 content_version = 6;
+  // The version of the contents of this exploration (which corresponds to the 'version' field on
+  // the server).
+  uint32 content_version = 6;
 
-  // A list of all the images contained in SubtitledHtml subfields of this exploration.
+  // A list of all the images contained in SubtitledText subfields of this exploration.
   ReferencedImageList referenced_image_list = 7;
 }

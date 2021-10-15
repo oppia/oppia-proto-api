@@ -1,5 +1,6 @@
 """
-TODO
+Libraries that define proto versions used by API & structural protos for client-server
+compatibility.
 """
 
 load("@rules_proto//proto:defs.bzl", "proto_library")

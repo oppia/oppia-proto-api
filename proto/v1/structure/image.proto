@@ -7,27 +7,44 @@ import "org/oppia/proto/v1/versions/structure_versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// Proto message representing a single thumbnail image.
+// Represents a single thumbnail image that may be shown for various lesson structures (including
+// topics, stories, chapters, and revision cards). Note that while this message doesn't define a
+// particular image resolution, it's expected that:
+// - Topic and story thumbnails should work in both 4:3 and 16:9 contexts
+// - Revision card thumbnails should work in 4:3 contexts
+// - Chapter (exploration) thumbnaisl should work in 16:9 contexts
+// - All other thumbnails should default to 4:3 (since that can be made workable to 16:9)
 message Thumbnail {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = IMAGE_PROTO_VERSION;
 
-  // The proto version defining the internal structure of this image proto message.
+  // The version defining the internal structure of this message.
   org.oppia.proto.v1.versions.ImageProtoVersion proto_version = 1;
 
-  // The name of the thumbnail image file.
+  // The name of the thumbnail image file. This will never be a URL (and can always be expected to
+  // just be a filename). The image is stored in GCS static file storage and must be downloaded
+  // separately by the client. The client can expect that this image is immutable on the server.
+  // Further, the client can also assume that all images are one of three formats:
+  // - PNG (indicated with a .png extension)
+  // - WebP (indicated with a .webp extension)
+  // - SVG (indicated with a .svg extension)
   string filename = 2;
 
-  // The background color to be shown behind the thumbnail image.
-  int32 background_color_rgb = 3;
+  // The RGB background color to be shown behind the thumbnail image. Note that this is given in
+  // RGB888 format, following local endianness (which is automatically handled by protobuf). There
+  // is never expected to be an alpha component on this color, but it's also not guaranteed that the
+  // upper 8 bits will be zeroed (so it's recommended to always mask those out when extracting the
+  // red component of the color, or when treating it as a proper RGB value).
+  uint32 background_color_rgb = 3;
 }
 
-// Proto representing a list of images.
+// Represents a list of images that may be referenced by various topic structures.
 message ReferencedImageList {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = IMAGE_PROTO_VERSION;
 
-  // The proto version defining the internal structure of this list of images.
+  // The version defining the internal structure of this message.
   org.oppia.proto.v1.versions.ImageProtoVersion proto_version = 1;
 
-  // The list of filenames of all the images in the list.
+  // The list of filenames of all the images in the list. See the 'filename' field in Thumbnail for
+  // specifics on the expected values of these filenames.
   repeated string referenced_image_filenames = 2;
 }

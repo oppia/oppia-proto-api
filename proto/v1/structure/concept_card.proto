@@ -9,43 +9,51 @@ import "org/oppia/proto/v1/versions/structure_versions.proto";
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// Proto message representing a single concept card that can be displayed for a specific skill.
+// Represents a single concept card that can be displayed for a specific skill. Skills are expected
+// to have exactly one concept card associated with them. Concept cards provide a lightweight
+// reminder experience for learners that can help them get unstuck when they might have forgotten
+// aspects of a certain skill that they need to demonstrate in a practice session or exploration.
 message ConceptCard {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = CONCEPT_CARD_PROTO_VERSION;
 
-  // The proto version defining the internal structure of this concept card proto message.
+  // The version defining the internal structure of this message.
   org.oppia.proto.v1.versions.ConceptCardProtoVersion proto_version = 1;
 
   // The ID corresponding to the skill this concept is representing.
   string skill_id = 2;
 
-  //A human-readable description for the skill.
+  // A human-readable description for the skill. This is expected to be in English.
   string description = 3;
 
-  // The explanation of the skill that is shown in the concept card.
-  SubtitledHtml explanation = 4;
+  // The localizable explanation of the skill that is to be shown in the concept card.
+  SubtitledText explanation = 4;
 
   // A list of worked examples to present to the learner.
   repeated WorkedExample worked_examples = 5;
 
-  // The recorded voiceovers for SubtitledHtml subfields of this concept card.
+  // The recorded voiceovers for SubtitledText subfields of this concept card.
   RecordedVoiceovers recorded_voiceovers = 6;
 
-  // The translations of SubtitledHtml subfields of this concept card.
+  // The translations of SubtitledText subfields of this concept card.
   WrittenTranslations written_translations = 7;
 
-  // The list of all images that are included within SubtitledHtml subfields of this concept card.
+  // The list of all images that are included within SubtitledText subfields of this concept card.
+  // This is expected to include all references images, including in translations.
   ReferencedImageList referenced_image_list = 8;
 
-  // Each worked example provides a sample question and answer for the student to read and learn
-  // from.
+  // The version of the contents of this concept card (which corresponds to the 'version' field for
+  // the concept card's skill on the server).
+  uint32 content_version = 9;
+
+  // Represents a worked example (which provides a sample question and answer for the learner to
+  // read and learn from).
   message WorkedExample {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = CONCEPT_CARD_PROTO_VERSION;
 
-    // The question for this worked example.
-    SubtitledHtml question = 1;
+    // The localizable question for this worked example.
+    SubtitledText question = 1;
 
-    // The explanation for how to solve this worked example.
-    SubtitledHtml explanation = 2;
+    // The localizable explanation for how to solve this worked example.
+    SubtitledText explanation = 2;
   }
 }

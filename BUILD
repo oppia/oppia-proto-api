@@ -1,5 +1,7 @@
 """
-TODO: fill in
+Top-level definitions for Oppia's proto API project. Only libraries that are part of the project's
+public, importable API should be defined here (and all such libraries should be defined here and
+nowhere else).
 """
 
 load("@rules_proto//proto:defs.bzl", "proto_library")
@@ -19,7 +21,9 @@ package_group(
     ],
 )
 
-# Note that  'deps' specifically needs to be used (versus just 'exports') since downstream
+# The protos needed to interact with Oppia's proto API. This is meant to be used in cases when these
+# protos are used by domain-specific protos in downstream projects.
+# NOTE TO DEVELOPERS: 'deps' specifically needs to be used (versus just 'exports') since downstream
 # proto_library targets otherwise won't pull in the protos, and language libraries need it to
 # actually generate corresponding proto code.
 proto_library(
@@ -32,12 +36,14 @@ proto_library(
     ],
 )
 
+# The Java versions of the protos needed to interact with Oppia's proto API.
 java_proto_library(
     name = "android_java_protos",
     visibility = ["//visibility:public"],
     deps = [":android_protos"],
 )
 
+# The Java lite versions of the protos needed to interact with Oppia's proto API.
 java_lite_proto_library(
     name = "android_java_lite_protos",
     visibility = ["//visibility:public"],
