@@ -1,0 +1,38 @@
+# Contains job corresponding to bazel build.
+
+name: Bazel Build
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      # Push events on develop branch
+      - develop
+
+jobs:
+  bazel_build_app:
+    name: Build Binary with Bazel
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 9
+        uses: actions/setup-java@v1
+        with:
+          java-version: 9
+
+      - name: Set up Bazel
+        uses: abhinavsingh/setup-bazel@v3
+        with:
+          version: 4.0.0
+
+      # Note that caching only works on non-forks.
+      - name: Build Oppia Proto API
+        run: |
+          bazel build -- //:android_protos
