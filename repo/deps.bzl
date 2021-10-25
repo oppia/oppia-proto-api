@@ -32,10 +32,6 @@ _DEPENDENCY_VERSIONS = {
         "url": "https://github.com/bazelbuild/rules_java/releases/download/{0}/rules_java-{0}.tar.gz",
         "version": "0.1.1",
     },
-    "io_bazel_rules_go": {
-        "sha": "2b1641428dff9018f9e85c0384f03ec6c10660d935b750e3fa1492a281a53b0f",
-        "url": "",
-    },
 }
 
 def _setUpHttpArchiveDependency(name):
