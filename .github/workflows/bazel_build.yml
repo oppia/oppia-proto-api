@@ -30,7 +30,7 @@ jobs:
       - name: Set up Bazel
         uses: abhinavsingh/setup-bazel@v3
         with:
-          version: 4.0.0
+          version: 4.2.0
 
       # Note that caching only works on non-forks.
       - name: Build Oppia Proto API
