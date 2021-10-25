@@ -11,8 +11,8 @@ on:
       - develop
 
 jobs:
-  bazel_build_app:
-    name: Build Binary with Bazel
+  lint_check:
+    name: Lint check
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
