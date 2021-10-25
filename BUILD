@@ -4,8 +4,13 @@ public, importable API should be defined here (and all such libraries should be 
 nowhere else).
 """
 
+load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_java//java:defs.bzl", "java_lite_proto_library", "java_proto_library")
+
+buildifier(
+    name = "buildifier",
+)
 
 package_group(
     name = "api_visibility",
@@ -30,9 +35,9 @@ proto_library(
     name = "android_protos",
     visibility = ["//visibility:public"],
     deps = [
-      "//proto/v1/api:android_proto",
-      "//proto/v1/structure:structure_proto",
-      "//proto/v1/versions:versions_proto",
+        "//proto/v1/api:android_proto",
+        "//proto/v1/structure:structure_proto",
+        "//proto/v1/versions:versions_proto",
     ],
 )
 
