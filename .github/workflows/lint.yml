@@ -1,6 +1,6 @@
-# Contains job corresponding to bazel build.
+# Contains job corresponding to lint check of Bazel files.
 
-name: Bazel Build
+name: Lint check
 
 on:
   workflow_dispatch:
@@ -32,6 +32,6 @@ jobs:
         with:
           version: 4.2.0
 
-      - name: Build Oppia Proto API
+      - name: Lint check using Buildifier
         run: |
-          bazel build -- //:android_protos
+          bazel run -- //:buildifier
