@@ -17,7 +17,7 @@ package_group(
 package_group(
     name = "proto_impl_visibility",
     packages = [
-        "//proto/...",
+        "//org/oppia/proto/...",
     ],
 )
 
@@ -30,9 +30,9 @@ proto_library(
     name = "android_protos",
     visibility = ["//visibility:public"],
     deps = [
-      "//proto/v1/api:android_proto",
-      "//proto/v1/structure:structure_proto",
-      "//proto/v1/versions:versions_proto",
+      "//org/oppia/proto/v1/api:android_proto",
+      "//org/oppia/proto/v1/structure:structure_proto",
+      "//org/oppia/proto/v1/versions:versions_proto",
     ],
 )
 

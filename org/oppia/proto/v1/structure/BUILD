@@ -24,6 +24,6 @@ proto_library(
         "//:proto_impl_visibility",
     ],
     deps = [
-      "//proto/v1/versions:versions_proto",
+      "//org/oppia/proto/v1/versions:versions_proto",
     ],
 )
