@@ -15,24 +15,24 @@ option java_multiple_files = true;
 // fractions or text). When users submit answers to this interaction, they receive feedback in the
 // form of a textual response and may be routed to the same state, or to a new state (which may be a
 // repeat of one they've completed in the past).
-message State {
+message StateDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The version defining the internal structure of this message.
   org.oppia.proto.v1.versions.StateProtoVersion proto_version = 1;
 
   // The main content of the state which is the first thing shown to a learner viewing this state.
-  SubtitledText content = 2;
+  SubtitledTextDto content = 2;
 
   // The interaction of the state (which must be interacted with by the learner in order to
   // proceed).
-  InteractionInstance interaction = 3;
+  InteractionInstanceDto interaction = 3;
 
   // The recorded voiceovers for SubtitledText subfields of this state.
-  RecordedVoiceovers recorded_voiceovers = 4;
+  RecordedVoiceoversDto recorded_voiceovers = 4;
 
   // The translations of SubtitledText subfields of this state.
-  WrittenTranslations written_translations = 5;
+  WrittenTranslationsDto written_translations = 5;
 }
 
 // Represents an instance of a single interaction within a state. Note that interactions are
@@ -62,49 +62,49 @@ message State {
 // Finally, interactions may have 'customization arguments' which are creator-provided options to
 // specialize the interaction for that particular context (such as tweaking hint or placeholder text
 // for input boxes).
-message InteractionInstance {
+message InteractionInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The type of the interaction.
   oneof interaction_type {
     // An interaction that takes the form of a simple 'Continue' button.
-    ContinueInstance continue_instance = 1;
+    ContinueInstanceDto continue_instance = 1;
 
     // An interaction for inputting fractions.
-    FractionInputInstance fraction_input = 2;
+    FractionInputInstanceDto fraction_input = 2;
 
     // An interaction for selecting one or more items from a list.
-    ItemSelectionInputInstance item_selection_input = 3;
+    ItemSelectionInputInstanceDto item_selection_input = 3;
 
     // An interaction for selecting a single option among multiple presented choices.
-    MultipleChoiceInputInstance multiple_choice_input = 4;
+    MultipleChoiceInputInstanceDto multiple_choice_input = 4;
 
     // An interaction for inputting numbers.
-    NumericInputInstance numeric_input = 5;
+    NumericInputInstanceDto numeric_input = 5;
 
     // An interaction for inputting a line of text.
-    TextInputInstance text_input = 6;
+    TextInputInstanceDto text_input = 6;
 
     // An interaction for rearranging a list of items by dragging & dropping them.
-    DragAndDropSortInputInstance drag_and_drop_sort_input = 7;
+    DragAndDropSortInputInstanceDto drag_and_drop_sort_input = 7;
 
     // An interaction for selecting a learner-identified part of an image.
-    ImageClickInputInstance image_click_input = 8;
+    ImageClickInputInstanceDto image_click_input = 8;
 
     // An interaction for inputting ratios.
-    RatioExpressionInputInstance ratio_expression_input = 9;
+    RatioExpressionInputInstanceDto ratio_expression_input = 9;
 
-    AlgebraicExpressionInputInstance algebraic_expression_input = 10;
+    AlgebraicExpressionInputInstanceDto algebraic_expression_input = 10;
 
-    MathEquationInputInstance MathEquationInput = 11;
+    MathEquationInputInstanceDto MathEquationInput = 11;
 
-    NumericExpressionInputInstance numeric_expression_input = 12;
+    NumericExpressionInputInstanceDto numeric_expression_input = 12;
 
-    NumberWithUnitsInstance number_with_units = 13;
+    NumberWithUnitsInstanceDto number_with_units = 13;
 
     // An interaction that represents the end of an exploration and takes no direct user input other
     // than navigating away from the exploration. This is not used in question play sessions.
-    EndExplorationInstance end_exploration = 14;
+    EndExplorationInstanceDto end_exploration = 14;
   }
 }
 
@@ -113,25 +113,25 @@ message InteractionInstance {
 // - Has a default outcome: yes (it's actually the only outcome)
 // - Has support for showing hints: no
 // - Has support for showing a solution: no
-message ContinueInstance {
+message ContinueInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The customization arguments for this interaction.
-  CustomizationArgs customization_args = 1;
+  CustomizationArgsDto customization_args = 1;
 
   // The default outcome for this interaction.
-  Outcome default_outcome = 2;
+  OutcomeDto default_outcome = 2;
 
   // Continue interactions cannot have custom answer groups, and do not support solutions. Users
   // cannot receive hints since only one answer is possible (clicking the button).
 
   // Represents the customization arguments available for instances of the continue interaction.
-  message CustomizationArgs {
+  message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Custom text to use for the 'Continue' button displayed for this interaction rather than using
     // the button's default text ('Continue').
-    SubtitledText button_text = 1;
+    SubtitledTextDto button_text = 1;
   }
 }
 
@@ -140,27 +140,27 @@ message ContinueInstance {
 // - Has a default outcome: yes
 // - Has support for showing hints: yes
 // - Has support for showing a solution: yes
-message FractionInputInstance {
+message FractionInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The customization arguments for this interaction.
-  CustomizationArgs customization_args = 1;
+  CustomizationArgsDto customization_args = 1;
 
   // The answer groups for this interaction.
-  repeated AnswerGroup answer_groups = 2;
+  repeated AnswerGroupDto answer_groups = 2;
 
   // The default outcome for this interaction.
-  Outcome default_outcome = 3;
+  OutcomeDto default_outcome = 3;
 
   // The hints corresponding to this interaction.
-  repeated Hint hints = 4;
+  repeated HintDto hints = 4;
 
   // The solution corresponding to this interaction.
-  Solution solution = 5;
+  SolutionDto solution = 5;
 
   // Represents the customization arguments available for instances of the fraction input
   // interaction.
-  message CustomizationArgs {
+  message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Specifics whether fractions must be provided in simplest form (that is, '2/4' would not be
@@ -177,117 +177,117 @@ message FractionInputInstance {
 
     // Specifies the placeholder/hint text that should be shown in the fraction input box prior to
     // the user starting to enter an answer. Note that this will override the client's default text.
-    SubtitledText placeholder = 4;
+    SubtitledTextDto placeholder = 4;
   }
 
   // Represents the specific solution available to instances of the fraction input interaction.
-  message Solution {
+  message SolutionDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the solution.
-    BaseSolution base_solution = 1;
+    BaseSolutionDto base_solution = 1;
 
     // The correct answer for this interaction that should be shown to the user.
-    Fraction correct_answer = 2;
+    FractionDto correct_answer = 2;
   }
 
   // Represents the specific answer group used by instances of the fraction input interaction.
-  message AnswerGroup {
+  message AnswerGroupDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the answer group.
-    BaseAnswerGroup base_answer_group = 1;
+    BaseAnswerGroupDto base_answer_group = 1;
 
     // The list of all rules to match for this answer group.
-    repeated RuleSpec rule_specs = 2;
+    repeated RuleSpecDto rule_specs = 2;
   }
 
   // Represents specific rule specs used by instances of the fraction input interaction.
-  message RuleSpec {
+  message RuleSpecDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Possible rule types for fraction answers.
     oneof rule_type {
       // See the specific message's documentation for details on this rule type.
-      IsExactlyEqualToSpec is_exactly_equal_to = 1;
+      IsExactlyEqualToSpecDto is_exactly_equal_to = 1;
 
       // See the specific message's documentation for details on this rule type.
-      IsEquivalentToSpec is_equivalent_to = 2;
+      IsEquivalentToSpecDto is_equivalent_to = 2;
 
       // See the specific message's documentation for details on this rule type.
-      IsEquivalentToAndInSimplestFormSpec is_equivalent_to_and_in_simplest_form = 3;
+      IsEquivalentToAndInSimplestFormSpecDto is_equivalent_to_and_in_simplest_form = 3;
 
       // See the specific message's documentation for details on this rule type.
-      IsLessThanSpec is_less_than = 4;
+      IsLessThanSpecDto is_less_than = 4;
 
       // See the specific message's documentation for details on this rule type.
-      IsGreaterThanSpec is_greater_than = 5;
+      IsGreaterThanSpecDto is_greater_than = 5;
 
       // See the specific message's documentation for details on this rule type.
-      HasNumeratorEqualToSpec has_numerator_equal_to = 6;
+      HasNumeratorEqualToSpecDto has_numerator_equal_to = 6;
 
       // See the specific message's documentation for details on this rule type.
-      HasDenominatorEqualToSpec has_denominator_equal_to = 7;
+      HasDenominatorEqualToSpecDto has_denominator_equal_to = 7;
 
       // See the specific message's documentation for details on this rule type.
-      HasIntegerPartEqualToSpec has_integer_part_equal_to = 8;
+      HasIntegerPartEqualToSpecDto has_integer_part_equal_to = 8;
 
       // See the specific message's documentation for details on this rule type.
-      HasNoFractionalPartSpec has_no_fractional_part = 9;
+      HasNoFractionalPartSpecDto has_no_fractional_part = 9;
 
       // See the specific message's documentation for details on this rule type.
-      HasFractionalPartExactlyEqualToSpec has_fractional_part_exactly_equal_to = 10;
+      HasFractionalPartExactlyEqualToSpecDto has_fractional_part_exactly_equal_to = 10;
     }
 
     // Represents a rule spec for checking whether an answer exactly matches a creator-specified
     // fraction.
-    message IsExactlyEqualToSpec {
+    message IsExactlyEqualToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified fraction to match against the user's answer.
-      Fraction input = 1;
+      FractionDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer is equivalent to a creator-specified
     // fraction (but not necessarily exactly the same).
-    message IsEquivalentToSpec {
+    message IsEquivalentToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified fraction to match against the user's answer.
-      Fraction input = 1;
+      FractionDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer is equivalent to a creator-specified
     // fraction, in a similar way to IsEquivalentToSpec, except this also requires that the user's
     // answer is in simplest form.
-    message IsEquivalentToAndInSimplestFormSpec {
+    message IsEquivalentToAndInSimplestFormSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified fraction to match against the user's answer.
-      Fraction input = 1;
+      FractionDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer is mathematically less than a
     // creator-specified fraction.
-    message IsLessThanSpec {
+    message IsLessThanSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified fraction to match against the user's answer.
-      Fraction input = 1;
+      FractionDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer is mathematically greater than a
     // creator-specified fraction.
-    message IsGreaterThanSpec {
+    message IsGreaterThanSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified fraction to match against the user's answer.
-      Fraction input = 1;
+      FractionDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer has a numerator equal to a
     // creator-specified numerator.
-    message HasNumeratorEqualToSpec {
+    message HasNumeratorEqualToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified numerator to match against the user's answer.
@@ -296,7 +296,7 @@ message FractionInputInstance {
 
     // Represents a rule spec for checking whether an answer has a denominator equal to a
     // creator-specified denominator.
-    message HasDenominatorEqualToSpec {
+    message HasDenominatorEqualToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified denominator to match against the user's answer.
@@ -305,7 +305,7 @@ message FractionInputInstance {
 
     // Represents a rule spec for checking whether an answer has an integer part equal to a
     // creator-specified integer part.
-    message HasIntegerPartEqualToSpec {
+    message HasIntegerPartEqualToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified integer part to match against the user's answer.
@@ -314,7 +314,7 @@ message FractionInputInstance {
 
     // Represents a rule spec for checking whether an answer is missing its fractional part (i.e.
     // that it's just a whole number).
-    message HasNoFractionalPartSpec {
+    message HasNoFractionalPartSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // No inputs for this rule spec.
@@ -322,11 +322,11 @@ message FractionInputInstance {
 
     // Represents a rule spec for checking whether an answer has a fractional part exactly equal to
     // a creator-specified fraction (whose integer part is ignored during classification).
-    message HasFractionalPartExactlyEqualToSpec {
+    message HasFractionalPartExactlyEqualToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified fraction to match against the user's answer.
-      Fraction input = 1;
+      FractionDto input = 1;
     }
   }
 }
@@ -337,26 +337,26 @@ message FractionInputInstance {
 // - Has a default outcome: yes
 // - Has support for showing hints: yes
 // - Has support for showing a solution: no
-message ItemSelectionInputInstance {
+message ItemSelectionInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The customization arguments for this interaction.
-  CustomizationArgs customization_args = 1;
+  CustomizationArgsDto customization_args = 1;
 
   // The answer groups for this interaction.
-  repeated AnswerGroup answer_groups = 2;
+  repeated AnswerGroupDto answer_groups = 2;
 
   // The default outcome for this interaction.
-  Outcome default_outcome = 3;
+  OutcomeDto default_outcome = 3;
 
   // The hints corresponding to this interaction.
-  repeated Hint hints = 4;
+  repeated HintDto hints = 4;
 
   // Item selection does not support solutions.
 
   // Represents the customization arguments available for instances of the item selection input
   // interaction.
-  message CustomizationArgs {
+  message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Specifies the minimum number of items that must be selected before an answer can be
@@ -368,79 +368,79 @@ message ItemSelectionInputInstance {
     uint32 max_allowable_selection_count = 2;
 
     // The list of selectable items.
-    repeated SubtitledText choices = 3;
+    repeated SubtitledTextDto choices = 3;
   }
 
   // Represents the specific answer group used by instances of the item selection input interaction.
-  message AnswerGroup {
+  message AnswerGroupDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the answer group.
-    BaseAnswerGroup base_answer_group = 1;
+    BaseAnswerGroupDto base_answer_group = 1;
 
     // The list of all rules to match for this answer group.
-    repeated RuleSpec rule_specs = 2;
+    repeated RuleSpecDto rule_specs = 2;
   }
 
   // Represents specific rule specs used by instances of the item selection input interaction.
-  message RuleSpec {
+  message RuleSpecDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Possible rule types for item selection answers.
     oneof rule_type {
       // See the specific message's documentation for details on this rule type.
-      EqualsSpec equals = 1;
+      EqualsSpecDto equals = 1;
 
       // See the specific message's documentation for details on this rule type.
-      ContainsAtLeastOneOfSpec contains_at_least_one_of = 2;
+      ContainsAtLeastOneOfSpecDto contains_at_least_one_of = 2;
 
       // See the specific message's documentation for details on this rule type.
-      DoesNotContainAtLeastOneOfSpec does_not_contain_at_least_one_of = 3;
+      DoesNotContainAtLeastOneOfSpecDto does_not_contain_at_least_one_of = 3;
 
       // See the specific message's documentation for details on this rule type.
-      IsProperSubsetOfSpec is_proper_subset_of = 4;
+      IsProperSubsetOfSpecDto is_proper_subset_of = 4;
     }
 
     // Represents a rule spec for checking whether an answer has exactly the same items as a
     // creator-specified list of item selections. Note that order does not matter for these items.
-    message EqualsSpec {
+    message EqualsSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified list of item selections to match against the user's
       // answer.
-      SetOfTranslatableHtmlContentIds input = 1;
+      SetOfTranslatableHtmlContentIdsDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer has at least one of the items defined
     // in a creator-specified list of item selections. Note that order does not matter for these
     // items.
-    message ContainsAtLeastOneOfSpec {
+    message ContainsAtLeastOneOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified list of item selections to match against the user's
       // answer.
-      SetOfTranslatableHtmlContentIds input = 1;
+      SetOfTranslatableHtmlContentIdsDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer has none of the items defined in a
     // creator-specified list of item selections. Note that order does not matter for these items.
-    message DoesNotContainAtLeastOneOfSpec {
+    message DoesNotContainAtLeastOneOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified list of item selections to match against the user's
       // answer.
-      SetOfTranslatableHtmlContentIds input = 1;
+      SetOfTranslatableHtmlContentIdsDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer is a proper subset of a
     // creator-specified list of item selections (treated as a set), that is, that it's fully
     // contained in the creator-specified set but is not exactly equal to it.
-    message IsProperSubsetOfSpec {
+    message IsProperSubsetOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified list of item selections to match against the user's
       // answer.
-      SetOfTranslatableHtmlContentIds input = 1;
+      SetOfTranslatableHtmlContentIdsDto input = 1;
     }
   }
 }
@@ -450,57 +450,57 @@ message ItemSelectionInputInstance {
 // - Has a default outcome: yes
 // - Has support for showing hints: yes
 // - Has support for showing a solution: no
-message MultipleChoiceInputInstance {
+message MultipleChoiceInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The customization arguments for this interaction.
-  CustomizationArgs customization_args = 1;
+  CustomizationArgsDto customization_args = 1;
 
   // The answer groups for this interaction.
-  repeated AnswerGroup answer_groups = 2;
+  repeated AnswerGroupDto answer_groups = 2;
 
   // The default outcome for this interaction.
-  Outcome default_outcome = 3;
+  OutcomeDto default_outcome = 3;
 
   // The hints corresponding to this interaction.
-  repeated Hint hints = 4;
+  repeated HintDto hints = 4;
 
   // Multiple choice does not support solutions.
 
   // Represents the customization arguments available for instances of the multiple choice input
   // interaction.
-  message CustomizationArgs {
+  message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The list of selectable items.
-    repeated SubtitledText choices = 1;
+    repeated SubtitledTextDto choices = 1;
   }
 
   // Represents the specific answer group used by instances of the multiple choice input
   // interaction.
-  message AnswerGroup {
+  message AnswerGroupDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the answer group.
-    BaseAnswerGroup base_answer_group = 1;
+    BaseAnswerGroupDto base_answer_group = 1;
 
     // The list of all rules to match for this answer group.
-    repeated RuleSpec rule_specs = 2;
+    repeated RuleSpecDto rule_specs = 2;
   }
 
   // Represents specific rule specs used by instances of the multiple choice input interaction.
-  message RuleSpec {
+  message RuleSpecDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Possible rule types for multiple choice answers.
     oneof rule_type {
       // See the specific message's documentation for details on this rule type.
-      EqualsSpec equals = 1;
+      EqualsSpecDto equals = 1;
     }
 
     // Represents a rule spec for checking whether an answer matches to a creator-specified multiple
     // choice option index.
-    message EqualsSpec {
+    message EqualsSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified multiple choice option index to match against the
@@ -515,77 +515,77 @@ message MultipleChoiceInputInstance {
 // - Has a default outcome: yes
 // - Has support for showing hints: yes
 // - Has support for showing a solution: yes
-message NumericInputInstance {
+message NumericInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The answer groups for this interaction.
-  repeated AnswerGroup answer_groups = 1;
+  repeated AnswerGroupDto answer_groups = 1;
 
   // The default outcome for this interaction.
-  Outcome default_outcome = 2;
+  OutcomeDto default_outcome = 2;
 
   // The hints corresponding to this interaction.
-  repeated Hint hints = 3;
+  repeated HintDto hints = 3;
 
   // The solution corresponding to this interaction.
-  Solution solution = 4;
+  SolutionDto solution = 4;
 
   // Numeric input does not have any customization arguments.
 
   // Represents the specific solution available to instances of the numeric input interaction.
-  message Solution {
+  message SolutionDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the solution.
-    BaseSolution base_solution = 1;
+    BaseSolutionDto base_solution = 1;
 
     // The correct answer for this interaction that should be shown to the user.
     double correct_answer = 2;
   }
 
   // Represents the specific answer group used by instances of the numeric input interaction.
-  message AnswerGroup {
+  message AnswerGroupDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the answer group.
-    BaseAnswerGroup base_answer_group = 1;
+    BaseAnswerGroupDto base_answer_group = 1;
 
     // The list of all rules to match for this answer group.
-    repeated RuleSpec rule_specs = 2;
+    repeated RuleSpecDto rule_specs = 2;
   }
 
   // Represents specific rule specs used by instances of the numeric input interaction.
-  message RuleSpec {
+  message RuleSpecDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Possible rule types for numeric input answers.
     oneof rule_type {
       // See the specific message's documentation for details on this rule type.
-      EqualsSpec equals = 1;
+      EqualsSpecDto equals = 1;
 
       // See the specific message's documentation for details on this rule type.
-      IsLessThanSpec is_less_than = 2;
+      IsLessThanSpecDto is_less_than = 2;
 
       // See the specific message's documentation for details on this rule type.
-      IsGreaterThanSpec is_greater_than = 3;
+      IsGreaterThanSpecDto is_greater_than = 3;
 
       // See the specific message's documentation for details on this rule type.
-      IsLessThanOrEqualToSpec is_less_than_or_equal_to = 4;
+      IsLessThanOrEqualToSpecDto is_less_than_or_equal_to = 4;
 
       // See the specific message's documentation for details on this rule type.
-      IsGreaterThanOrEqualToSpec is_greater_than_or_equal_to = 5;
+      IsGreaterThanOrEqualToSpecDto is_greater_than_or_equal_to = 5;
 
       // See the specific message's documentation for details on this rule type.
-      IsInclusivelyBetweenSpec is_inclusively_between = 6;
+      IsInclusivelyBetweenSpecDto is_inclusively_between = 6;
 
       // See the specific message's documentation for details on this rule type.
-      IsWithinToleranceSpec is_within_tolerance = 7;
+      IsWithinToleranceSpecDto is_within_tolerance = 7;
     }
 
     // Represents a rule spec for checking whether an answer exactly* equals a creator-specified real
     // value. *Note that the match here uses an epsilon comparison to account for IEEE 754 floating
     // point rounding errors.
-    message EqualsSpec {
+    message EqualsSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified real value to match against the user's answer.
@@ -594,7 +594,7 @@ message NumericInputInstance {
 
     // Represents a rule spec for checking whether an answer is numerically less than a
     // creator-specified real value.
-    message IsLessThanSpec {
+    message IsLessThanSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified real value to match against the user's answer.
@@ -603,7 +603,7 @@ message NumericInputInstance {
 
     // Represents a rule spec for checking whether an answer is numerically greater than a
     // creator-specified real value.
-    message IsGreaterThanSpec {
+    message IsGreaterThanSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified real value to match against the user's answer.
@@ -612,7 +612,7 @@ message NumericInputInstance {
 
     // Represents a rule spec for checking whether an answer is numerically less than or exactly
     // equal to a creator-specified real value.
-    message IsLessThanOrEqualToSpec {
+    message IsLessThanOrEqualToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified real value to match against the user's answer.
@@ -621,7 +621,7 @@ message NumericInputInstance {
 
     // Represents a rule spec for checking whether an answer is numerically greater than or exactly
     // equal to a creator-specified real value.
-    message IsGreaterThanOrEqualToSpec {
+    message IsGreaterThanOrEqualToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified real value to match against the user's answer.
@@ -630,7 +630,7 @@ message NumericInputInstance {
 
     // Represents a rule spec for checking whether an answer is within a creator-specified fully
     // closed/inclusive range.
-    message IsInclusivelyBetweenSpec {
+    message IsInclusivelyBetweenSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified inclusive lower bound for comparison against the
@@ -644,7 +644,7 @@ message NumericInputInstance {
 
     // Represents a rule spec for checking whether an answer is equal to a creator-specified value
     // when accounting for a creator-specific tolerance range.
-    message IsWithinToleranceSpec {
+    message IsWithinToleranceSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified tolerance to consider when matching against the user's
@@ -666,116 +666,116 @@ message NumericInputInstance {
 // Note that all answers submitted to this interaction undergo 'string normalization' which involves
 // trimming leading & trailing whitespace, removing all non-space whitespace, and replacing extra
 // spaces such that at most one space separates characters.
-message TextInputInstance {
+message TextInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The customization arguments for this interaction.
-  CustomizationArgs customization_args = 1;
+  CustomizationArgsDto customization_args = 1;
 
   // The answer groups for this interaction.
-  repeated AnswerGroup answer_groups = 2;
+  repeated AnswerGroupDto answer_groups = 2;
 
   // The default outcome for this interaction.
-  Outcome default_outcome = 3;
+  OutcomeDto default_outcome = 3;
 
   // The hints corresponding to this interaction.
-  repeated Hint hints = 4;
+  repeated HintDto hints = 4;
 
   // The solution corresponding to this interaction.
-  Solution solution = 5;
+  SolutionDto solution = 5;
 
   // Represents the customization arguments available for instances of the text input interaction.
-  message CustomizationArgs {
+  message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Specifies the placeholder/hint text that should be shown in the text input box prior to the
     // user starting to enter an answer. Note that this will override the client's default text.
-    SubtitledText placeholder = 1;
+    SubtitledTextDto placeholder = 1;
 
     // Specifies the number of rows (visual lines) that should be allowed for text input.
     uint32 rows = 2;
   }
 
   // Represents the specific solution available to instances of the text input interaction.
-  message Solution {
+  message SolutionDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the solution.
-    BaseSolution base_solution = 1;
+    BaseSolutionDto base_solution = 1;
 
     // The correct answer for this interaction that should be shown to the user.
     string correct_answer = 2;
   }
 
   // Represents the specific answer group used by instances of the text input interaction.
-  message AnswerGroup {
+  message AnswerGroupDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the answer group.
-    BaseAnswerGroup base_answer_group = 1;
+    BaseAnswerGroupDto base_answer_group = 1;
 
     // The list of all rules to match for this answer group.
-    repeated RuleSpec rule_specs = 2;
+    repeated RuleSpecDto rule_specs = 2;
   }
 
   // Represents specific rule specs used by instances of the text input interaction.
-  message RuleSpec {
+  message RuleSpecDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Possible rule types for text input answers.
     oneof rule_type {
       // See the specific message's documentation for details on this rule type.
-      EqualsSpec equals = 1;
+      EqualsSpecDto equals = 1;
 
       // See the specific message's documentation for details on this rule type.
-      StartsWithSpec starts_with = 2;
+      StartsWithSpecDto starts_with = 2;
 
       // See the specific message's documentation for details on this rule type.
-      ContainsSpec contains = 3;
+      ContainsSpecDto contains = 3;
 
       // See the specific message's documentation for details on this rule type.
-      FuzzyEqualsSpec fuzzy_equals = 4;
+      FuzzyEqualsSpecDto fuzzy_equals = 4;
     }
 
     // Represents a rule spec for checking whether an answer is exactly equal to (after string
     // normalization) to any of the strings in a creator-specified string list.
-    message EqualsSpec {
+    message EqualsSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified set of text input values to match against the user's
       // answer.
-      TranslatableSetOfNormalizedString input = 1;
+      TranslatableSetOfNormalizedStringDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer starts with any of the strings in a
     // creator-specified string list (with string normalization).
-    message StartsWithSpec {
+    message StartsWithSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified set of text input values to match against the user's
       // answer.
-      TranslatableSetOfNormalizedString input = 1;
+      TranslatableSetOfNormalizedStringDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer contains any of the strings in a
     // creator-specified string list (with string normalization).
-    message ContainsSpec {
+    message ContainsSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified set of text input values to match against the user's
       // answer.
-      TranslatableSetOfNormalizedString input = 1;
+      TranslatableSetOfNormalizedStringDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer fuzzily equals any of the strings in a
     // creator-specified string list (with string normalization), that is, whether it equals one of
     // the strings with at most one character misspelled.
-    message FuzzyEqualsSpec {
+    message FuzzyEqualsSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified set of text input values to match against the user's
       // answer.
-      TranslatableSetOfNormalizedString input = 1;
+      TranslatableSetOfNormalizedStringDto input = 1;
     }
   }
 }
@@ -786,31 +786,31 @@ message TextInputInstance {
 // - Has a default outcome: yes
 // - Has support for showing hints: yes
 // - Has support for showing a solution: yes
-message DragAndDropSortInputInstance {
+message DragAndDropSortInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The customization arguments for this interaction.
-  CustomizationArgs customization_args = 1;
+  CustomizationArgsDto customization_args = 1;
 
   // The answer groups for this interaction.
-  repeated AnswerGroup answer_groups = 2;
+  repeated AnswerGroupDto answer_groups = 2;
 
   // The default outcome for this interaction.
-  Outcome default_outcome = 3;
+  OutcomeDto default_outcome = 3;
 
   // The hints corresponding to this interaction.
-  repeated Hint hints = 4;
+  repeated HintDto hints = 4;
 
   // The solution corresponding to this interaction.
-  Solution solution = 5;
+  SolutionDto solution = 5;
 
   // Represents the customization arguments available for instances of the drag and drop sort input
   // interaction.
-  message CustomizationArgs {
+  message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The list of items that can be dragged & dropped.
-    repeated SubtitledText choices = 1;
+    repeated SubtitledTextDto choices = 1;
 
     // Specifies whether items can be allowed at the same position in the list (i.e. linked or
     // unlinked).
@@ -819,78 +819,78 @@ message DragAndDropSortInputInstance {
 
   // Represents the specific solution available to instances of the drag and drop sort input
   // interaction.
-  message Solution {
+  message SolutionDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the solution.
-    BaseSolution base_solution = 1;
+    BaseSolutionDto base_solution = 1;
 
     // The correct answer for this interaction that should be shown to the user.
-    ListOfSetsOfTranslatableHtmlContentIds correct_answer = 2;
+    ListOfSetsOfTranslatableHtmlContentIdsDto correct_answer = 2;
   }
 
   // Represents the specific answer group used by instances of the drag and drop sort input
   // interaction.
-  message AnswerGroup {
+  message AnswerGroupDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the answer group.
-    BaseAnswerGroup base_answer_group = 1;
+    BaseAnswerGroupDto base_answer_group = 1;
 
     // The list of all rules to match for this answer group.
-    repeated RuleSpec rule_specs = 2;
+    repeated RuleSpecDto rule_specs = 2;
   }
 
   // Represents specific rule specs used by instances of the drag and drop sort input interaction.
-  message RuleSpec {
+  message RuleSpecDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Possible rule types for drag and drop answers.
     oneof rule_type {
       // See the specific message's documentation for details on this rule type.
-      IsEqualToOrderingSpec is_equal_to_ordering = 1;
+      IsEqualToOrderingSpecDto is_equal_to_ordering = 1;
 
       // See the specific message's documentation for details on this rule type.
-      IsEqualToOrderingWithOneItemAtIncorrectPositionSpec is_equal_to_ordering_with_one_item_at_incorrect_position = 2;
+      IsEqualToOrderingWithOneItemAtIncorrectPositionSpecDto is_equal_to_ordering_with_one_item_at_incorrect_position = 2;
 
       // See the specific message's documentation for details on this rule type.
-      HasElementXAtPositionYSpec has_element_x_at_position_y = 3;
+      HasElementXAtPositionYSpecDto has_element_x_at_position_y = 3;
 
       // See the specific message's documentation for details on this rule type.
-      HasElementXBeforeElementYSpec has_element_x_before_element_y = 4;
+      HasElementXBeforeElementYSpecDto has_element_x_before_element_y = 4;
     }
 
     // Represents a rule spec for checking whether an answer exactly matches a creator-specified
     // drag and drop configuration (that is, a list of drag and drop items with some items
     // potentially on the same line), with ordering being considered.
-    message IsEqualToOrderingSpec {
+    message IsEqualToOrderingSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified drag and drop configuration to match against the
       // user's answer.
-      ListOfSetsOfTranslatableHtmlContentIds input = 1;
+      ListOfSetsOfTranslatableHtmlContentIdsDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer exactly matches a creator-specified
     // drag and drop configuration (that is, a list of drag and drop items with some items
     // potentially on the same line), with ordering being considered and with exactly one item being
     // in the incorrect position.
-    message IsEqualToOrderingWithOneItemAtIncorrectPositionSpec {
+    message IsEqualToOrderingWithOneItemAtIncorrectPositionSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified drag and drop configuration to match against the
       // user's answer.
-      ListOfSetsOfTranslatableHtmlContentIds input = 1;
+      ListOfSetsOfTranslatableHtmlContentIdsDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer has an element at a creator-specified
     // position exactly matched a creator-specified option (which should correspond to one of the
     // options defined in the interaction's customization arguments).
-    message HasElementXAtPositionYSpec {
+    message HasElementXAtPositionYSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified single element to match against the user's answer.
-      TranslatableHtmlContentId element = 1;
+      TranslatableHtmlContentIdDto element = 1;
 
       // Corresponds to the creator-specified element index with which to extract from the user's
       // answer a value to compare against the defined element.
@@ -901,16 +901,16 @@ message DragAndDropSortInputInstance {
     // that one of the particular elements occurs before another one of the specified elements,
     // where both elements should correspond to options defined in the interaction's customization
     // arguments).
-    message HasElementXBeforeElementYSpec {
+    message HasElementXBeforeElementYSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified element that's expected to be contained in the user's
       // answer.
-      TranslatableHtmlContentId considered_element = 1;
+      TranslatableHtmlContentIdDto considered_element = 1;
 
       // Corresponds to the creator-specified element that's expected to be contained in the user's
       // answer.
-      TranslatableHtmlContentId later_element = 2;
+      TranslatableHtmlContentIdDto later_element = 2;
     }
   }
 }
@@ -920,57 +920,57 @@ message DragAndDropSortInputInstance {
 // - Has a default outcome: yes
 // - Has support for showing hints: yes
 // - Has support for showing a solution: no
-message ImageClickInputInstance {
+message ImageClickInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The customization arguments for this interaction.
-  CustomizationArgs customization_args = 1;
+  CustomizationArgsDto customization_args = 1;
 
   // The answer groups for this interaction.
-  repeated AnswerGroup answer_groups = 2;
+  repeated AnswerGroupDto answer_groups = 2;
 
   // The default outcome for this interaction.
-  Outcome default_outcome = 3;
+  OutcomeDto default_outcome = 3;
 
   // The hints corresponding to this interaction.
-  repeated Hint hints = 4;
+  repeated HintDto hints = 4;
 
   // Image click input doesn't yet support solutions.
 
   // Represents the customization arguments available for instances of the image click input
   // interaction.
-  message CustomizationArgs {
+  message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Defines the image to display to the user, and all of the constituent regions that the user
     // may selected.
-    ImageWithRegions image_and_regions = 1;
+    ImageWithRegionsDto image_and_regions = 1;
   }
 
   // Represents the specific answer group used by instances of the image click input interaction.
-  message AnswerGroup {
+  message AnswerGroupDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the answer group.
-    BaseAnswerGroup base_answer_group = 1;
+    BaseAnswerGroupDto base_answer_group = 1;
 
     // The list of all rules to match for this answer group.
-    repeated RuleSpec rule_specs = 2;
+    repeated RuleSpecDto rule_specs = 2;
   }
 
   // Represents specific rule specs used by instances of the image click input interaction.
-  message RuleSpec {
+  message RuleSpecDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Possible rule types for image click answers.
     oneof rule_type {
       // See the specific message's documentation for details on this rule type.
-      IsInRegionSpec is_in_region = 1;
+      IsInRegionSpecDto is_in_region = 1;
     }
 
     // Represents a rule spec for checking whether an answer corresponds to a creator-specified
     // region (as a determination of that region being clicked by the user).
-    message IsInRegionSpec {
+    message IsInRegionSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified image region label to match against the user's answer.
@@ -984,32 +984,32 @@ message ImageClickInputInstance {
 // - Has a default outcome: yes
 // - Has support for showing hints: yes
 // - Has support for showing a solution: yes
-message RatioExpressionInputInstance {
+message RatioExpressionInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The customization arguments for this interaction.
-  CustomizationArgs customization_args = 1;
+  CustomizationArgsDto customization_args = 1;
 
   // The answer groups for this interaction.
-  repeated AnswerGroup answer_groups = 2;
+  repeated AnswerGroupDto answer_groups = 2;
 
   // The default outcome for this interaction.
-  Outcome default_outcome = 3;
+  OutcomeDto default_outcome = 3;
 
   // The hints corresponding to this interaction.
-  repeated Hint hints = 4;
+  repeated HintDto hints = 4;
 
   // The solution corresponding to this interaction.
-  Solution solution = 5;
+  SolutionDto solution = 5;
 
   // Represents the customization arguments available for instances of the ratio expression input
   // interaction.
-  message CustomizationArgs {
+  message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Specifies the placeholder/hint text that should be shown in the ratio input box prior to the
     // user starting to enter an answer. Note that this will override the client's default text.
-    SubtitledText placeholder = 1;
+    SubtitledTextDto placeholder = 1;
 
     // The number of elements that the answer must have, or 0 to indicate that a ratio of any length
     // will be accepted. For example, if this is set to '5' then the ratio must have 5 components
@@ -1019,68 +1019,68 @@ message RatioExpressionInputInstance {
 
   // Represents the specific solution available to instances of the ratio expression input
   // interaction.
-  message Solution {
+  message SolutionDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the solution.
-    BaseSolution base_solution = 1;
+    BaseSolutionDto base_solution = 1;
 
     // The correct answer for this interaction that should be shown to the user.
-    RatioExpression correct_answer = 2;
+    RatioExpressionDto correct_answer = 2;
   }
 
   // Represents the specific answer group used by instances of the ratio expression input
   // interaction.
-  message AnswerGroup {
+  message AnswerGroupDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the answer group.
-    BaseAnswerGroup base_answer_group = 1;
+    BaseAnswerGroupDto base_answer_group = 1;
 
     // The list of all rules to match for this answer group.
-    repeated RuleSpec rule_specs = 2;
+    repeated RuleSpecDto rule_specs = 2;
   }
 
   // Represents specific rule specs used by instances of the ratio expression input interaction.
-  message RuleSpec {
+  message RuleSpecDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // Possible rule types for ratio expression answers.
     oneof rule_type {
       // See the specific message's documentation for details on this rule type.
-      EqualsSpec equals = 1;
+      EqualsSpecDto equals = 1;
 
       // See the specific message's documentation for details on this rule type.
-      IsEquivalentSpec is_equivalent = 2;
+      IsEquivalentSpecDto is_equivalent = 2;
 
       // See the specific message's documentation for details on this rule type.
-      HasNumberOfTermsEqualToSpec has_number_of_terms_equal_to = 3;
+      HasNumberOfTermsEqualToSpecDto has_number_of_terms_equal_to = 3;
 
       // See the specific message's documentation for details on this rule type.
-      HasSpecificTermEqualToSpec has_specific_term_equal_to = 4;
+      HasSpecificTermEqualToSpecDto has_specific_term_equal_to = 4;
     }
 
     // Represents a rule spec for checking whether an answer exactly equals a creator-specified
     // ratio expression.
-    message EqualsSpec {
+    message EqualsSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified ratio expression to match against the user's answer.
-      RatioExpression input = 1;
+      RatioExpressionDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer is equivalent to a creator-specified
     // ratio expression (e.g. '1:2' amd '2:4' would be considered equivalent, but not equal).
-    message IsEquivalentSpec {
+    message IsEquivalentSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified ratio expression to match against the user's answer.
-      RatioExpression input = 1;
+      RatioExpressionDto input = 1;
     }
 
     // Represents a rule spec for checking whether an answer has a creator-specified number of
     // terms.
-    message HasNumberOfTermsEqualToSpec {
+    message HasNumberOfTermsEqualToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified number of terms to match against the user's answer.
@@ -1089,7 +1089,7 @@ message RatioExpressionInputInstance {
 
     // Represents a rule spec for checking whether an answer has a creator-specified term value at a
     // creator-specified term position within the answer.
-    message HasSpecificTermEqualToSpec {
+    message HasSpecificTermEqualToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       // Corresponds to the creator-specified term index to match against the user's answer.
@@ -1102,75 +1102,75 @@ message RatioExpressionInputInstance {
   }
 }
 
-message AlgebraicExpressionInputInstance {
+message AlgebraicExpressionInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-  CustomizationArgs customization_args = 1;
+  CustomizationArgsDto customization_args = 1;
 
-  Outcome default_outcome = 2;
+  OutcomeDto default_outcome = 2;
 
-  repeated Hint hints = 3;
+  repeated HintDto hints = 3;
 
-  repeated AnswerGroup answer_groups = 4;
+  repeated AnswerGroupDto answer_groups = 4;
 
-  Solution solution = 5;
+  SolutionDto solution = 5;
 
-  message CustomizationArgs {
+  message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     repeated string value = 1;
   }
 
-  message AnswerGroup {
+  message AnswerGroupDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the answer group.
-    BaseAnswerGroup base_answer_group = 1;
+    BaseAnswerGroupDto base_answer_group = 1;
 
     // The list of all rules to match for this answer group.
-    repeated RuleSpec rule_specs = 2;
+    repeated RuleSpecDto rule_specs = 2;
   }
 
-  message RuleSpec {
+  message RuleSpecDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     oneof rule_type {
-      MatchesExactlyWithSpec matches_exactly_with = 1;
+      MatchesExactlyWithSpecDto matches_exactly_with = 1;
 
-      IsEquivalentToSpec is_equivalent_to = 2;
+      IsEquivalentToSpecDto is_equivalent_to = 2;
 
-      ContainsSomeOfSpec contains_some_of = 3;
+      ContainsSomeOfSpecDto contains_some_of = 3;
 
-      OmitsSomeOfSpec omits_some_of = 4;
+      OmitsSomeOfSpecDto omits_some_of = 4;
 
-      MatchesWithGeneralFormSpec matches_with_general_form = 5;
+      MatchesWithGeneralFormSpecDto matches_with_general_form = 5;
     }
 
-    message MatchesExactlyWithSpec {
+    message MatchesExactlyWithSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string inputString = 1;
     }
 
-    message IsEquivalentToSpec {
+    message IsEquivalentToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string inputString = 1;
     }
 
-    message ContainsSomeOfSpec {
+    message ContainsSomeOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string inputString = 1;
     }
 
-    message OmitsSomeOfSpec {
+    message OmitsSomeOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string inputString = 1;
     }
 
-    message MatchesWithGeneralFormSpec {
+    message MatchesWithGeneralFormSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string inputString = 1;
@@ -1179,62 +1179,62 @@ message AlgebraicExpressionInputInstance {
     }
   }
 
-  message Solution {
+  message SolutionDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the solution.
-    BaseSolution base_solution = 1;
+    BaseSolutionDto base_solution = 1;
 
     // The correct answer for this interaction that should be shown to the user.
     string correct_answer = 2;
   }
 }
 
-message MathEquationInputInstance {
+message MathEquationInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-  CustomizationArgs customization_args = 1;
+  CustomizationArgsDto customization_args = 1;
 
-  Outcome default_outcome = 2;
+  OutcomeDto default_outcome = 2;
 
-  repeated Hint hints = 3;
+  repeated HintDto hints = 3;
 
-  repeated AnswerGroup answer_groups = 4;
+  repeated AnswerGroupDto answer_groups = 4;
 
-  Solution solution = 5;
+  SolutionDto solution = 5;
 
-  message CustomizationArgs {
+  message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     repeated string value = 1;
   }
 
-  message AnswerGroup {
+  message AnswerGroupDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the answer group.
-    BaseAnswerGroup base_answer_group = 1;
+    BaseAnswerGroupDto base_answer_group = 1;
 
     // The list of all rules to match for this answer group.
-    repeated RuleSpec rule_specs = 2;
+    repeated RuleSpecDto rule_specs = 2;
   }
 
-  message RuleSpec {
+  message RuleSpecDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     oneof rule_type {
-      MatchesExactlyWithSpec matches_exactly_with = 1;
+      MatchesExactlyWithSpecDto matches_exactly_with = 1;
 
-      IsEquivalentToSpec is_equivalent_to = 2;
+      IsEquivalentToSpecDto is_equivalent_to = 2;
 
-      ContainsSomeOfSpec contains_some_of = 3;
+      ContainsSomeOfSpecDto contains_some_of = 3;
 
-      OmitsSomeOfSpec omits_some_of = 4;
+      OmitsSomeOfSpecDto omits_some_of = 4;
 
-      MatchesWithGeneralFormSpec matches_with_general_form = 5;
+      MatchesWithGeneralFormSpecDto matches_with_general_form = 5;
     }
 
-    message MatchesExactlyWithSpec {
+    message MatchesExactlyWithSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string inputString = 1;
@@ -1242,21 +1242,13 @@ message MathEquationInputInstance {
       string positionOfTerms = 2;
     }
 
-    message IsEquivalentToSpec {
+    message IsEquivalentToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string inputString = 1;
     }
 
-    message ContainsSomeOfSpec {
-      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
-
-      string inputString = 1;
-
-      string positionOfTerms = 2;
-    }
-
-    message OmitsSomeOfSpec {
+    message ContainsSomeOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string inputString = 1;
@@ -1264,7 +1256,15 @@ message MathEquationInputInstance {
       string positionOfTerms = 2;
     }
 
-    message MatchesWithGeneralFormSpec {
+    message OmitsSomeOfSpecDto {
+      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
+
+      string inputString = 1;
+
+      string positionOfTerms = 2;
+    }
+
+    message MatchesWithGeneralFormSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string input = 1;
@@ -1273,144 +1273,144 @@ message MathEquationInputInstance {
     }
   }
 
-  message Solution {
+  message SolutionDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the solution.
-    BaseSolution base_solution = 1;
+    BaseSolutionDto base_solution = 1;
 
     // The correct answer for this interaction that should be shown to the user.
     string correct_answer = 2;
   }
 }
 
-message NumericExpressionInputInstance {
+message NumericExpressionInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-  CustomizationArgs customization_args = 1;
+  CustomizationArgsDto customization_args = 1;
 
-  Outcome default_outcome = 2;
+  OutcomeDto default_outcome = 2;
 
-  repeated Hint hints = 3;
+  repeated HintDto hints = 3;
 
-  repeated AnswerGroup answer_groups = 4;
+  repeated AnswerGroupDto answer_groups = 4;
 
-  Solution solution = 5;
+  SolutionDto solution = 5;
 
-  message CustomizationArgs {
+  message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-    SubtitledText placeholder = 1;
+    SubtitledTextDto placeholder = 1;
   }
 
-  message AnswerGroup {
+  message AnswerGroupDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the answer group.
-    BaseAnswerGroup base_answer_group = 1;
+    BaseAnswerGroupDto base_answer_group = 1;
 
     // The list of all rules to match for this answer group.
-    repeated RuleSpec rule_specs = 2;
+    repeated RuleSpecDto rule_specs = 2;
   }
 
-  message RuleSpec {
+  message RuleSpecDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     oneof rule_type {
-      MatchesExactlyWithSpec matches_exactly_with = 1;
+      MatchesExactlyWithSpecDto matches_exactly_with = 1;
 
-      IsEquivalentToSpec is_equivalent_to = 2;
+      IsEquivalentToSpecDto is_equivalent_to = 2;
 
-      ContainsSomeOfSpec contains_some_of = 3;
+      ContainsSomeOfSpecDto contains_some_of = 3;
 
-      OmitsSomeOfSpec omits_some_of = 4;
+      OmitsSomeOfSpecDto omits_some_of = 4;
     }
 
-    message MatchesExactlyWithSpec {
+    message MatchesExactlyWithSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string inputString = 1;
     }
 
-    message IsEquivalentToSpec {
+    message IsEquivalentToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string inputString = 1;
     }
 
-    message ContainsSomeOfSpec {
+    message ContainsSomeOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string inputString = 1;
     }
 
-    message OmitsSomeOfSpec {
+    message OmitsSomeOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string inputString = 1;
     }
   }
 
-  message Solution {
+  message SolutionDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the solution.
-    BaseSolution base_solution = 1;
+    BaseSolutionDto base_solution = 1;
 
     // The correct answer for this interaction that should be shown to the user.
     string correct_answer = 2;
   }
 }
 
-message NumberWithUnitsInstance {
+message NumberWithUnitsInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-  Outcome default_outcome = 1;
+  OutcomeDto default_outcome = 1;
 
-  repeated AnswerGroup answer_groups = 2;
+  repeated AnswerGroupDto answer_groups = 2;
 
-  Solution solution = 3;
+  SolutionDto solution = 3;
 
-  message AnswerGroup {
+  message AnswerGroupDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the answer group.
-    BaseAnswerGroup base_answer_group = 1;
+    BaseAnswerGroupDto base_answer_group = 1;
 
     // The list of all rules to match for this answer group.
-    repeated RuleSpec rule_specs = 2;
+    repeated RuleSpecDto rule_specs = 2;
   }
 
-  message RuleSpec {
+  message RuleSpecDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     oneof rule_type {
-      IsEqualToSpec is_equal_to = 1;
+      IsEqualToSpecDto is_equal_to = 1;
 
-      IsEquivalentToSpec is_equivalent_to = 2;
+      IsEquivalentToSpecDto is_equivalent_to = 2;
     }
 
-    message IsEqualToSpec {
+    message IsEqualToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      Fraction input = 1;
+      FractionDto input = 1;
     }
 
-    message IsEquivalentToSpec {
+    message IsEquivalentToSpecDtoc {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      Fraction input = 1;
+      FractionDto input = 1;
     }
   }
 
-  message Solution {
+  message SolutionDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     // The base properties of the solution.
-    BaseSolution base_solution = 1;
+    BaseSolutionDto base_solution = 1;
 
     // The correct answer for this interaction that should be shown to the user.
-    Fraction correct_answer = 2;
+    FractionDto correct_answer = 2;
   }
 }
 
@@ -1420,7 +1420,7 @@ message NumberWithUnitsInstance {
 // - Has a default outcome: no (N/A since there's no state routing after this state; it's terminal)
 // - Has support for showing hints: no
 // - Has support for showing a solution: no
-message EndExplorationInstance {
+message EndExplorationInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // No answers can be submitted to the end exploration interaction, so there are neither answer
@@ -1431,18 +1431,18 @@ message EndExplorationInstance {
 
 // Represents the base structure for an answer group (that is, the group of fields common among all
 // interaction answer groups).
-message BaseAnswerGroup {
+message BaseAnswerGroupDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The outcome details for how the platform should response to an answer matched to this group.
-  Outcome outcome = 1;
+  OutcomeDto outcome = 1;
 
   // The misconception (if any) associated with answers matched to this group.
-  Misconception tagged_skill_misconception = 2;
+  MisconceptionDto tagged_skill_misconception = 2;
 }
 
 // Represents the response the platform should provide for a particular answer.
-message Outcome {
+message OutcomeDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The name of the state to which the user should next be navigated (which may be the same as the
@@ -1450,7 +1450,7 @@ message Outcome {
   string destination_state = 1;
 
   // The textual feedback, if any, to show the user based on their response.
-  SubtitledText feedback = 2;
+  SubtitledTextDto feedback = 2;
 
   // Whether the answer matched to this outcome should be considered 'correct' (which may lead to
   // different platform behavior, such as showing a 'correct' banner). Note that some correct
@@ -1462,24 +1462,24 @@ message Outcome {
 // Represents a hint that may be shown to the learner to help them get unstuck (in cases when the
 // platform detects that the learner may be having difficulty proceeding in a lesson or training
 // session).
-message Hint {
+message HintDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The main content of the hint to show the user.
-  SubtitledText hint_content = 1;
+  SubtitledTextDto hint_content = 1;
 }
 
 // Represents the base structure for a solution (that is, the group of fields common among all
 // interaction solutions).
-message BaseSolution {
+message BaseSolutionDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The explanation of the solution to show the user.
-  SubtitledText explanation = 1;
+  SubtitledTextDto explanation = 1;
 }
 
 // Represents a single misconception of a particular skill.
-message Misconception {
+message MisconceptionDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
   // The ID of the skill that the user is likely misunderstanding.

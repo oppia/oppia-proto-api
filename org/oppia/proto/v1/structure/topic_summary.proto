@@ -18,7 +18,7 @@ option java_multiple_files = true;
 // Topics organize 'skills' (i.e. granular units of learning) into groups called 'subtopics' which
 // have corresponding revision cards that learners may use to get a high-level refresher of the
 // corresponding skills.
-message DownloadableTopicSummary {
+message DownloadableTopicSummaryDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
   // The version defining the internal structure of this message.
@@ -34,13 +34,13 @@ message DownloadableTopicSummary {
   string description = 4;
 
   // The list of stories available to play in the topic corresponding to this sumamry.
-  repeated StorySummary story_summaries = 5;
+  repeated StorySummaryDto story_summaries = 5;
 
   // The list of subtopics available in the topic corresponding to this sumamry.
-  repeated SubtopicSummary subtopic_summaries = 6;
+  repeated SubtopicSummaryDto subtopic_summaries = 6;
 
   // The thumbnail image corresponding to this topic.
-  Thumbnail thumbnail = 7;
+  ThumbnailDto thumbnail = 7;
 
   // The version of this topic's contents.
   uint32 content_version = 8;
@@ -49,7 +49,7 @@ message DownloadableTopicSummary {
 // Represents the summary of a story that can be played within a particular topic. Stories aim to
 // teach all of the skills covered by a topic (as defined by the topic's subtopics) via a linear
 // pathway of 'chapters' (which correspond to explorations).
-message StorySummary {
+message StorySummaryDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
   // The ID of the story.
@@ -62,10 +62,10 @@ message StorySummary {
   string description = 3;
 
   // The thumbnail image of the story.
-  Thumbnail thumbnail = 4;
+  ThumbnailDto thumbnail = 4;
 
   // The summaries of all chapters in this story.
-  repeated ChapterSummary chapters = 5;
+  repeated ChapterSummaryDto chapters = 5;
 
   // The version of this story's contents.
   uint32 content_version = 6;
@@ -73,11 +73,11 @@ message StorySummary {
 
 // Represents the summary of a single chapter within a story of a topic. Each chapter corresponds to
 // a single exploration (see Exploration's documentation for more details).
-message ChapterSummary {
+message ChapterSummaryDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
   // The thumbnail image for this chapter.
-  Thumbnail thumbnail = 1;
+  ThumbnailDto thumbnail = 1;
 
   // The human-radable title of the chapter. This is expected to be in English, and is expected to
   // exactly match the title of the exploration associated to this chapter.
@@ -93,21 +93,21 @@ message ChapterSummary {
 
 // Represents the summary of a subtopic (that is, a group of skills logically organized within a
 // topic).
-message SubtopicSummary {
+message SubtopicSummaryDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
   // The index of the subtopic (within its correspnoding topic).
   uint32 index = 1;
 
   // The list of all skills grouped by this subtopic.
-  repeated SkillSummary skill_summaries = 2;
+  repeated SkillSummaryDto skill_summaries = 2;
 
   // The version of this subtopic's contents.
   uint32 content_version = 3;
 }
 
 // Represents the summary of a skill (see DownloadableTopicSummary for context on skills).
-message SkillSummary {
+message SkillSummaryDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
   // The ID of the skill.

@@ -51,7 +51,7 @@ enum LanguageType {
 // different Oppia's backend structures ('SubtitledHtml' and 'SubtitledUnicode'). Protobuf takes
 // care of properly representing Unicode strings internally by using UTF-8 encoding, so no special
 // care is needed by implementations or clients.
-message SubtitledText {
+message SubtitledTextDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
   // The version defining the internal structure of this message.
@@ -70,7 +70,7 @@ message SubtitledText {
 
 // Represents a group of voiceovers that correspond to subtitled texts in a particular content
 // context (such as a revision card or a 'State' in an exploration).
-message RecordedVoiceovers {
+message RecordedVoiceoversDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
   // The version defining the internal structure of this message.
@@ -78,22 +78,22 @@ message RecordedVoiceovers {
 
   // A list of mappings from language to voiceover content mappings (see the message's documentation
   // for specifics on the latter).
-  repeated VoiceoverContentMapping voiceover_content_mapping = 2;
+  repeated VoiceoverContentMappingDto voiceover_content_mapping = 2;
 }
 
 // Represents a mapping of SubtitledText content IDs to voiceovers for a particular language.
-message VoiceoverContentMapping {
+message VoiceoverContentMappingDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
   // The language corresponding to this mapping.
   LanguageType language = 1;
 
   // The mapping of SubtitledText content IDs to their corresponding voiceover files.
-  map<string, VoiceoverFile> voiceover_content_mapping = 2;
+  map<string, VoiceoverFileDto> voiceover_content_mapping = 2;
 }
 
 // Represents an audio file that, when played, reads out content text in a particular language.
-message VoiceoverFile {
+message VoiceoverFileDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
   // The name of the voiceover audio file. This will never be a URL (and can always be expected to
@@ -113,7 +113,7 @@ message VoiceoverFile {
 
 // Represents a group of written translations that correspond to subtitled texts in a particular
 // content context (such as a revision card or a 'State' in an exploration).
-message WrittenTranslations {
+message WrittenTranslationsDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
   // The version defining the internal structure of this message.
@@ -121,38 +121,38 @@ message WrittenTranslations {
 
   // A list of mappings from language to written translation content mappings (see the message's
   // documentation for specifics on the latter).
-  repeated WrittenTranslationContentMapping translation_language_mapping = 2;
+  repeated WrittenTranslationContentMappingDto translation_language_mapping = 2;
 }
 
 // Represents a mapping of SubtitledText content IDs to written translations for a particular
 // language.
-message WrittenTranslationContentMapping {
+message WrittenTranslationContentMappingDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
   // The language corresponding to this mapping.
   LanguageType language = 1;
 
   // The mapping of SubtitledText content IDs to their corresponding written translations.
-  map<string, WrittenTranslation> translation_content_mapping = 2;
+  map<string, WrittenTranslationDto> translation_content_mapping = 2;
 }
 
 // Represents a single textual translation of specific content text in a particular language.
-message WrittenTranslation {
+message WrittenTranslationDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
   // The data format of the source material for this translation.
   oneof data_format {
     // Indicates that this translation corresponds to a single piece of text.
-    WrittenTranslatableText translatable_text = 1;
+    WrittenTranslatableTextDto translatable_text = 1;
 
     // Indicates that this translation corresponds to a list of translated texts.
-    SetOfWrittenTranslatableText set_of_translatable_text = 2;
+    SetOfWrittenTranslatableTextDto set_of_translatable_text = 2;
   }
 }
 
 // Represents the translation of a single text string (which may be either plain text or HTML, and
 // is generally expected to potentially contain Unicode characters).
-message WrittenTranslatableText {
+message WrittenTranslatableTextDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
   // The human-readable translated string.
@@ -165,7 +165,7 @@ message WrittenTranslatableText {
 // Note that while the list of translated strings roughly corresponds to the original source
 // material (i.e. the default, untranslated content strings specified directly in SubtitledText),
 // neither the order nor the length are expected to exactly match.
-message SetOfWrittenTranslatableText {
+message SetOfWrittenTranslatableTextDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
   // The list of human-readable translated strings.

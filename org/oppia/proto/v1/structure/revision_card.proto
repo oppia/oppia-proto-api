@@ -16,36 +16,36 @@ option java_multiple_files = true;
 //
 // Topics may contain one or more subtopics, but subtopics only ever belong to a single topic.
 // Each subtopic always has a single corresponding revision card.
-message RevisionCard {
+message RevisionCardDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = REVISION_CARD_PROTO_VERSION;
 
   // The version defining the internal structure of this message.
   org.oppia.proto.v1.versions.RevisionCardProtoVersion proto_version = 1;
 
   // The structured ID of the subtopic corresponding to this revision card.
-  SubtopicId id = 2;
+  SubtopicIdDto id = 2;
 
   // The human-readable title of the revision card. This is expected to be in English.
   string title = 3;
 
   // The main content of this revision card.
-  SubtitledText content = 4;
+  SubtitledTextDto content = 4;
 
   // The recorded voiceovers for SubtitledText subfields of this revision card.
-  RecordedVoiceovers recorded_voiceovers = 5;
+  RecordedVoiceoversDto recorded_voiceovers = 5;
 
   // The written translations for SubtitledText subfields of this revision card.
-  WrittenTranslations written_translations = 6;
+  WrittenTranslationsDto written_translations = 6;
 
   // The thumbnail image for this revision card.
-  Thumbnail thumbnail = 7;
+  ThumbnailDto thumbnail = 7;
 
   // The list of all images that are included within SubtitledText subfields of this revision card.
-  ReferencedImageList referenced_image_list = 8;
+  ReferencedImageListDto referenced_image_list = 8;
 }
 
 // Represents the identifier for a subtopic (which are tightly tied to specific topics).
-message SubtopicId {
+message SubtopicIdDto {
   // This proto message type is shared among multiple protos, so it has no direct migration pathway.
   // Changes here should be carefully done in a way that does not break compatibility or assumptions
   // across all relevant proto versions, or the proto should be duplicated according to whichever

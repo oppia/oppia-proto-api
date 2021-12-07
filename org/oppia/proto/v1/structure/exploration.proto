@@ -11,7 +11,7 @@ option java_multiple_files = true;
 
 // Represents a single exploration that can be played by a learner. Explorations are interactive
 // lessons that are meant to teach or build on specific skills.
-message Exploration {
+message ExplorationDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = EXPLORATION_PROTO_VERSION;
 
   // The version defining the internal structure of this message.
@@ -29,12 +29,12 @@ message Exploration {
 
   // The mapping from state names to state objects. State names are not meant to be
   // learner-readable.
-  map<string, State> states = 5;
+  map<string, StateDto> states = 5;
 
   // The version of the contents of this exploration (which corresponds to the 'version' field on
   // the server).
   uint32 content_version = 6;
 
   // A list of all the images contained in SubtitledText subfields of this exploration.
-  ReferencedImageList referenced_image_list = 7;
+  ReferencedImageListDto referenced_image_list = 7;
 }

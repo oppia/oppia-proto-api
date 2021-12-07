@@ -14,7 +14,7 @@ option java_multiple_files = true;
 // - Revision card thumbnails should work in 4:3 contexts
 // - Chapter (exploration) thumbnaisl should work in 16:9 contexts
 // - All other thumbnails should default to 4:3 (since that can be made workable to 16:9)
-message Thumbnail {
+message ThumbnailDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = IMAGE_PROTO_VERSION;
 
   // The version defining the internal structure of this message.
@@ -38,7 +38,7 @@ message Thumbnail {
 }
 
 // Represents a list of images that may be referenced by various topic structures.
-message ReferencedImageList {
+message ReferencedImageListDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = IMAGE_PROTO_VERSION;
 
   // The version defining the internal structure of this message.

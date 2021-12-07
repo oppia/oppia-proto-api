@@ -13,7 +13,7 @@ option java_multiple_files = true;
 // to have exactly one concept card associated with them. Concept cards provide a lightweight
 // reminder experience for learners that can help them get unstuck when they might have forgotten
 // aspects of a certain skill that they need to demonstrate in a practice session or exploration.
-message ConceptCard {
+message ConceptCardDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = CONCEPT_CARD_PROTO_VERSION;
 
   // The version defining the internal structure of this message.
@@ -26,20 +26,20 @@ message ConceptCard {
   string description = 3;
 
   // The localizable explanation of the skill that is to be shown in the concept card.
-  SubtitledText explanation = 4;
+  SubtitledTextDto explanation = 4;
 
   // A list of worked examples to present to the learner.
-  repeated WorkedExample worked_examples = 5;
+  repeated WorkedExampleDto worked_examples = 5;
 
   // The recorded voiceovers for SubtitledText subfields of this concept card.
-  RecordedVoiceovers recorded_voiceovers = 6;
+  RecordedVoiceoversDto recorded_voiceovers = 6;
 
   // The translations of SubtitledText subfields of this concept card.
-  WrittenTranslations written_translations = 7;
+  WrittenTranslationsDto written_translations = 7;
 
   // The list of all images that are included within SubtitledText subfields of this concept card.
   // This is expected to include all references images, including in translations.
-  ReferencedImageList referenced_image_list = 8;
+  ReferencedImageListDto referenced_image_list = 8;
 
   // The version of the contents of this concept card (which corresponds to the 'version' field for
   // the concept card's skill on the server).
@@ -47,13 +47,13 @@ message ConceptCard {
 
   // Represents a worked example (which provides a sample question and answer for the learner to
   // read and learn from).
-  message WorkedExample {
+  message WorkedExampleDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = CONCEPT_CARD_PROTO_VERSION;
 
     // The localizable question for this worked example.
-    SubtitledText question = 1;
+    SubtitledTextDto question = 1;
 
     // The localizable explanation for how to solve this worked example.
-    SubtitledText explanation = 2;
+    SubtitledTextDto explanation = 2;
   }
 }

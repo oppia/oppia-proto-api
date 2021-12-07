@@ -15,7 +15,7 @@ option java_multiple_files = true;
 //
 // Questions are not directly tied to topics, but clients are expected to initiate training sessions
 // by picking questions that correspond to the skills of the topic's subtopics.
-message Question {
+message QuestionDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = QUESTION_PROTO_VERSION;
 
   // The version defining the internal structure of this message.
@@ -25,7 +25,7 @@ message Question {
   string id = 2;
 
   // The State object that makes up the main part of this question.
-  State question_state = 3;
+  StateDto question_state = 3;
 
   // The list of all skill IDs that are linked to this question.
   repeated string linked_skill_ids = 4;
@@ -34,5 +34,5 @@ message Question {
   uint32 content_version = 5;
 
   // The list of all images that are included within SubtitledText subfields of this question.
-  ReferencedImageList referenced_image_list = 6;
+  ReferencedImageListDto referenced_image_list = 6;
 }
