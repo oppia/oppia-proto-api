@@ -100,11 +100,9 @@ message InteractionInstanceDto {
 
     NumericExpressionInputInstanceDto numeric_expression_input = 12;
 
-    NumberWithUnitsInstanceDto number_with_units = 13;
-
     // An interaction that represents the end of an exploration and takes no direct user input other
     // than navigating away from the exploration. This is not used in question play sessions.
-    EndExplorationInstanceDto end_exploration = 14;
+    EndExplorationInstanceDto end_exploration = 13;
   }
 }
 
@@ -1118,7 +1116,9 @@ message AlgebraicExpressionInputInstanceDto {
   message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-    repeated string value = 1;
+    repeated string custom_osk_letters = 1;
+
+    bool use_fraction_for_division = 2;
   }
 
   message AnswerGroupDto {
@@ -1149,33 +1149,33 @@ message AlgebraicExpressionInputInstanceDto {
     message MatchesExactlyWithSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string inputString = 1;
+      string algebraic_expression = 1;
     }
 
     message IsEquivalentToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string inputString = 1;
+      string algebraic_expression = 1;
     }
 
     message ContainsSomeOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string inputString = 1;
+      string algebraic_expression = 1;
     }
 
     message OmitsSomeOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string inputString = 1;
+      string algebraic_expression = 1;
     }
 
     message MatchesWithGeneralFormSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string inputString = 1;
+      string algebraic_expression = 1;
 
-      repeated string list = 2;
+      repeated string set_of_algebraic_identifier = 2;
     }
   }
 
@@ -1206,7 +1206,9 @@ message MathEquationInputInstanceDto {
   message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-    repeated string value = 1;
+    repeated string custom_osk_letters = 1;
+
+    bool use_fraction_for_division = 2;
   }
 
   message AnswerGroupDto {
@@ -1237,39 +1239,39 @@ message MathEquationInputInstanceDto {
     message MatchesExactlyWithSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string inputString = 1;
+      string math_equation = 1;
 
-      string positionOfTerms = 2;
+      string position_of_terms = 2;
     }
 
     message IsEquivalentToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string inputString = 1;
+      string math_equation = 1;
     }
 
     message ContainsSomeOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string inputString = 1;
+      string math_equation = 1;
 
-      string positionOfTerms = 2;
+      string position_of_terms = 2;
     }
 
     message OmitsSomeOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string inputString = 1;
+      string math_equation = 1;
 
-      string positionOfTerms = 2;
+      string position_of_terms = 2;
     }
 
     message MatchesWithGeneralFormSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string input = 1;
+      string math_equation = 1;
 
-      repeated string list = 2;
+      repeated string set_of_algebraic_identifier = 2;
     }
   }
 
@@ -1301,6 +1303,8 @@ message NumericExpressionInputInstanceDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
     SubtitledTextDto placeholder = 1;
+
+    bool use_fraction_for_division = 2;
   }
 
   message AnswerGroupDto {
@@ -1329,25 +1333,25 @@ message NumericExpressionInputInstanceDto {
     message MatchesExactlyWithSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string inputString = 1;
+      string numeric_expression = 1;
     }
 
     message IsEquivalentToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string inputString = 1;
+      string numeric_expression = 1;
     }
 
     message ContainsSomeOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string inputString = 1;
+      string numeric_expression = 1;
     }
 
     message OmitsSomeOfSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string inputString = 1;
+      string numeric_expression = 1;
     }
   }
 
@@ -1359,58 +1363,6 @@ message NumericExpressionInputInstanceDto {
 
     // The correct answer for this interaction that should be shown to the user.
     string correct_answer = 2;
-  }
-}
-
-message NumberWithUnitsInstanceDto {
-  option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
-
-  OutcomeDto default_outcome = 1;
-
-  repeated AnswerGroupDto answer_groups = 2;
-
-  SolutionDto solution = 3;
-
-  message AnswerGroupDto {
-    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
-
-    // The base properties of the answer group.
-    BaseAnswerGroupDto base_answer_group = 1;
-
-    // The list of all rules to match for this answer group.
-    repeated RuleSpecDto rule_specs = 2;
-  }
-
-  message RuleSpecDto {
-    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
-
-    oneof rule_type {
-      IsEqualToSpecDto is_equal_to = 1;
-
-      IsEquivalentToSpecDto is_equivalent_to = 2;
-    }
-
-    message IsEqualToSpecDto {
-      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
-
-      FractionDto input = 1;
-    }
-
-    message IsEquivalentToSpecDtoc {
-      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
-
-      FractionDto input = 1;
-    }
-  }
-
-  message SolutionDto {
-    option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
-
-    // The base properties of the solution.
-    BaseSolutionDto base_solution = 1;
-
-    // The correct answer for this interaction that should be shown to the user.
-    FractionDto correct_answer = 2;
   }
 }
 
