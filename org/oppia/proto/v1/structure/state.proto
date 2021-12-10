@@ -94,10 +94,13 @@ message InteractionInstanceDto {
     // An interaction for inputting ratios.
     RatioExpressionInputInstanceDto ratio_expression_input = 9;
 
+    // An interaction for inputting algebric expressions.
     AlgebraicExpressionInputInstanceDto algebraic_expression_input = 10;
 
-    MathEquationInputInstanceDto MathEquationInput = 11;
+    // An interaction for inputting math equations.
+    MathEquationInputInstanceDto math_equation_input = 11;
 
+    // An interaction for inputting numeric equations.
     NumericExpressionInputInstanceDto numeric_expression_input = 12;
 
     // An interaction that represents the end of an exploration and takes no direct user input other
@@ -1100,19 +1103,31 @@ message RatioExpressionInputInstanceDto {
   }
 }
 
+// Represents an interaction where the user can input the algebric expressions. Details:
+// - Answer type: normalized string (protobuf type: string)
+// - Has a default outcome: yes
+// - Has support for showing hints: yes
+// - Has support for showing a solution: yes
 message AlgebraicExpressionInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
+  // The customization arguments for this interaction.
   CustomizationArgsDto customization_args = 1;
 
+  // The default outcome for this interaction.
   OutcomeDto default_outcome = 2;
 
+  // The hints corresponding to this interaction.
   repeated HintDto hints = 3;
 
+  // The answer groups for this interaction.
   repeated AnswerGroupDto answer_groups = 4;
 
+  // The solution corresponding to this interaction.
   SolutionDto solution = 5;
 
+  // Represents the customization arguments available for instances of the algebric expression input
+  // interaction.
   message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
@@ -1179,6 +1194,8 @@ message AlgebraicExpressionInputInstanceDto {
     }
   }
 
+  // Represents the specific solution available to instances of the algebric expression input
+  // interaction.
   message SolutionDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
@@ -1190,19 +1207,31 @@ message AlgebraicExpressionInputInstanceDto {
   }
 }
 
+// Represents an interaction where the user can input the math equaltions. Details:
+// - Answer type: normalized string (protobuf type: string)
+// - Has a default outcome: yes
+// - Has support for showing hints: yes
+// - Has support for showing a solution: yes
 message MathEquationInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
+  // The customization arguments for this interaction.
   CustomizationArgsDto customization_args = 1;
 
+  // The default outcome for this interaction.
   OutcomeDto default_outcome = 2;
 
+  // The hints corresponding to this interaction.
   repeated HintDto hints = 3;
 
+  // The answer groups for this interaction.
   repeated AnswerGroupDto answer_groups = 4;
 
+  // The solution corresponding to this interaction.
   SolutionDto solution = 5;
 
+  // Represents the customization arguments available for instances of the math equation input
+  // interaction.
   message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
@@ -1275,6 +1304,8 @@ message MathEquationInputInstanceDto {
     }
   }
 
+  // Represents the specific solution available to instances of the math equation input
+  // interaction.
   message SolutionDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
@@ -1286,19 +1317,31 @@ message MathEquationInputInstanceDto {
   }
 }
 
+// Represents an interaction where the user can input the numeric expressions. Details:
+// - Answer type: normalized string (protobuf type: string)
+// - Has a default outcome: yes
+// - Has support for showing hints: yes
+// - Has support for showing a solution: yes
 message NumericExpressionInputInstanceDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
+  // The customization arguments for this interaction.
   CustomizationArgsDto customization_args = 1;
 
+  // The default outcome for this interaction.
   OutcomeDto default_outcome = 2;
 
+  // The hints corresponding to this interaction.
   repeated HintDto hints = 3;
 
+  // The answer groups for this interaction.
   repeated AnswerGroupDto answer_groups = 4;
 
+  // The solution corresponding to this interaction.
   SolutionDto solution = 5;
 
+  // Represents the customization arguments available for instances of the numeric expression input
+  // interaction.
   message CustomizationArgsDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
@@ -1355,6 +1398,8 @@ message NumericExpressionInputInstanceDto {
     }
   }
 
+  // Represents the specific solution available to instances of the numeric expression input
+  // interaction.
   message SolutionDto {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
