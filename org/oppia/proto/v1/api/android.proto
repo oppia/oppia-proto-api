@@ -236,7 +236,7 @@ message TopicContentResponseDto {
       org.oppia.proto.v1.structure.ExplorationDto exploration = 7;
 
       // The result is a requested list of question IDs.
-      QuestionIdList question_id_list = 8;
+      QuestionIdListDto question_id_list = 8;
 
       // The result is a requested question.
       org.oppia.proto.v1.structure.QuestionDto question = 9;

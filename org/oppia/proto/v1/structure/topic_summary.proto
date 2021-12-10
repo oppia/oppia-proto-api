@@ -106,7 +106,7 @@ message SubtopicSummaryDto {
   uint32 content_version = 3;
 }
 
-// Represents the summary of a skill (see DownloadableTopicSummary for context on skills).
+// Represents the summary of a skill (see DownloadableTopicSummaryDto for context on skills).
 message SkillSummaryDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
