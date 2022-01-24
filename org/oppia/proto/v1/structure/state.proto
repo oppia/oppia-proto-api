@@ -1154,11 +1154,7 @@ message AlgebraicExpressionInputInstanceDto {
 
       IsEquivalentToSpecDto is_equivalent_to = 2;
 
-      ContainsSomeOfSpecDto contains_some_of = 3;
-
-      OmitsSomeOfSpecDto omits_some_of = 4;
-
-      MatchesWithGeneralFormSpecDto matches_with_general_form = 5;
+      MatchesUpToTrivialManipulationsSpecDto matches_upTo_trivial_manipulations = 3;
     }
 
     message MatchesExactlyWithSpecDto {
@@ -1173,24 +1169,10 @@ message AlgebraicExpressionInputInstanceDto {
       string algebraic_expression = 1;
     }
 
-    message ContainsSomeOfSpecDto {
+    message MatchesUpToTrivialManipulationsSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string algebraic_expression = 1;
-    }
-
-    message OmitsSomeOfSpecDto {
-      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
-
-      string algebraic_expression = 1;
-    }
-
-    message MatchesWithGeneralFormSpecDto {
-      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
-
-      string algebraic_expression = 1;
-
-      repeated string set_of_algebraic_identifier = 2;
     }
   }
 
@@ -1258,11 +1240,7 @@ message MathEquationInputInstanceDto {
 
       IsEquivalentToSpecDto is_equivalent_to = 2;
 
-      ContainsSomeOfSpecDto contains_some_of = 3;
-
-      OmitsSomeOfSpecDto omits_some_of = 4;
-
-      MatchesWithGeneralFormSpecDto matches_with_general_form = 5;
+      MatchesUpToTrivialManipulationsSpecDto matches_upTo_trivial_manipulations = 3;
     }
 
     message MatchesExactlyWithSpecDto {
@@ -1279,28 +1257,12 @@ message MathEquationInputInstanceDto {
       string math_equation = 1;
     }
 
-    message ContainsSomeOfSpecDto {
+    message MatchesUpToTrivialManipulationsSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string math_equation = 1;
+      string lhs_equation = 1;
 
-      string position_of_terms = 2;
-    }
-
-    message OmitsSomeOfSpecDto {
-      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
-
-      string math_equation = 1;
-
-      string position_of_terms = 2;
-    }
-
-    message MatchesWithGeneralFormSpecDto {
-      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
-
-      string math_equation = 1;
-
-      repeated string set_of_algebraic_identifier = 2;
+      string rhs_equation = 2;
     }
   }
 
@@ -1368,9 +1330,7 @@ message NumericExpressionInputInstanceDto {
 
       IsEquivalentToSpecDto is_equivalent_to = 2;
 
-      ContainsSomeOfSpecDto contains_some_of = 3;
-
-      OmitsSomeOfSpecDto omits_some_of = 4;
+      MatchesUpToTrivialManipulationsSpecDto matches_upTo_trivial_manipulations = 3;
     }
 
     message MatchesExactlyWithSpecDto {
@@ -1385,13 +1345,7 @@ message NumericExpressionInputInstanceDto {
       string numeric_expression = 1;
     }
 
-    message ContainsSomeOfSpecDto {
-      option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
-
-      string numeric_expression = 1;
-    }
-
-    message OmitsSomeOfSpecDto {
+    message MatchesUpToTrivialManipulationsSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string numeric_expression = 1;
