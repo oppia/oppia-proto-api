@@ -1152,9 +1152,9 @@ message AlgebraicExpressionInputInstanceDto {
     oneof rule_type {
       MatchesExactlyWithSpecDto matches_exactly_with = 1;
 
-      IsEquivalentToSpecDto is_equivalent_to = 2;
-
-      MatchesUpToTrivialManipulationsSpecDto matches_upTo_trivial_manipulations = 3;
+      MatchesUpToTrivialManipulationsSpecDto matches_upTo_trivial_manipulations = 2;
+  
+      IsEquivalentToSpecDto is_equivalent_to = 3;
     }
 
     message MatchesExactlyWithSpecDto {
@@ -1163,13 +1163,13 @@ message AlgebraicExpressionInputInstanceDto {
       string algebraic_expression = 1;
     }
 
-    message IsEquivalentToSpecDto {
+    message MatchesUpToTrivialManipulationsSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string algebraic_expression = 1;
     }
 
-    message MatchesUpToTrivialManipulationsSpecDto {
+    message IsEquivalentToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string algebraic_expression = 1;
@@ -1238,9 +1238,9 @@ message MathEquationInputInstanceDto {
     oneof rule_type {
       MatchesExactlyWithSpecDto matches_exactly_with = 1;
 
-      IsEquivalentToSpecDto is_equivalent_to = 2;
-
-      MatchesUpToTrivialManipulationsSpecDto matches_upTo_trivial_manipulations = 3;
+      MatchesUpToTrivialManipulationsSpecDto matches_upTo_trivial_manipulations = 2;
+  
+      IsEquivalentToSpecDto is_equivalent_to = 3;
     }
 
     message MatchesExactlyWithSpecDto {
@@ -1251,18 +1251,16 @@ message MathEquationInputInstanceDto {
       string position_of_terms = 2;
     }
 
-    message IsEquivalentToSpecDto {
+    message MatchesUpToTrivialManipulationsSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string math_equation = 1;
     }
 
-    message MatchesUpToTrivialManipulationsSpecDto {
+    message IsEquivalentToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
-      string lhs_equation = 1;
-
-      string rhs_equation = 2;
+      string math_equation = 1;
     }
   }
 
@@ -1328,9 +1326,9 @@ message NumericExpressionInputInstanceDto {
     oneof rule_type {
       MatchesExactlyWithSpecDto matches_exactly_with = 1;
 
-      IsEquivalentToSpecDto is_equivalent_to = 2;
-
-      MatchesUpToTrivialManipulationsSpecDto matches_upTo_trivial_manipulations = 3;
+      MatchesUpToTrivialManipulationsSpecDto matches_upTo_trivial_manipulations = 2;
+  
+      IsEquivalentToSpecDto is_equivalent_to = 3;
     }
 
     message MatchesExactlyWithSpecDto {
@@ -1339,13 +1337,13 @@ message NumericExpressionInputInstanceDto {
       string numeric_expression = 1;
     }
 
-    message IsEquivalentToSpecDto {
+    message MatchesUpToTrivialManipulationsSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string numeric_expression = 1;
     }
 
-    message MatchesUpToTrivialManipulationsSpecDto {
+    message IsEquivalentToSpecDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string numeric_expression = 1;
