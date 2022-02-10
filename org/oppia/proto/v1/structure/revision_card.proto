@@ -45,7 +45,7 @@ message RevisionCardDto {
 }
 
 // Represents the identifier for a subtopic (which are tightly tied to specific topics).
-message SubtopicIdDto {
+message SubtopicPageIdDto {
   // This proto message type is shared among multiple protos, so it has no direct migration pathway.
   // Changes here should be carefully done in a way that does not break compatibility or assumptions
   // across all relevant proto versions, or the proto should be duplicated according to whichever
@@ -55,6 +55,6 @@ message SubtopicIdDto {
   // The ID of the topic that contains this subtopic.
   string topic_id = 1;
 
-  // The index of this subtopic within its topic.
-  uint32 index = 2;
+  // The ID of the subtopic.
+  uint32 subtopic_id = 2;
 }
