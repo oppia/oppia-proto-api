@@ -335,7 +335,7 @@ message VersionedStructureDetailsDto {
     string topic_summary_id = 3;
 
     // Indicates that these details correspond to a revision card, as specified by its ID structure.
-    org.oppia.proto.v1.structure.SubtopicIdDto revision_card_id = 4;
+    org.oppia.proto.v1.structure.SubtopicPageIdDto revision_card_id = 4;
 
     // Indicates that these details correspond to a concept card, as specified by its skill ID.
     string concept_card_id = 5;
@@ -373,7 +373,7 @@ message DownloadRequestStructureIdentifierDto {
     string topic_summary_id = 2;
 
     // Indicates that a revision card ("subtopic") should be downloaded, as specified by its ID.
-    org.oppia.proto.v1.structure.SubtopicIdDto revision_card_id = 3;
+    org.oppia.proto.v1.structure.SubtopicPageIdDto revision_card_id = 3;
 
     // Indicates that a concept card should be downloaded, as specified by its skill ID.
     string concept_card_id = 4;

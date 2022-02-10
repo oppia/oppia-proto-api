@@ -23,7 +23,7 @@ message RevisionCardDto {
   org.oppia.proto.v1.versions.RevisionCardProtoVersion proto_version = 1;
 
   // The structured ID of the subtopic corresponding to this revision card.
-  SubtopicIdDto id = 2;
+  SubtopicPageIdDto id = 2;
 
   // The human-readable title of the revision card. This is expected to be in English.
   string title = 3;
