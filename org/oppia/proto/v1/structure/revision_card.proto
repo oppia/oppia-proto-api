@@ -56,5 +56,5 @@ message SubtopicPageIdDto {
   string topic_id = 1;
 
   // The ID of the subtopic.
-  uint32 subtopic_id = 2;
+  string subtopic_id = 2;
 }
