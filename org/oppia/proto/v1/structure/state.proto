@@ -1247,8 +1247,6 @@ message MathEquationInputInstanceDto {
       option (org.oppia.proto.v1.versions.structure_proto_version_type) = STATE_PROTO_VERSION;
 
       string math_equation = 1;
-
-      string position_of_terms = 2;
     }
 
     message MatchesUpToTrivialManipulationsSpecDto {
