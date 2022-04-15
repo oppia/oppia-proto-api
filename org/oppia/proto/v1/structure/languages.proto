@@ -41,6 +41,9 @@ enum LanguageType {
 
   // Corresponds to a regional Portuguese that's primarily used in Brazil.
   BRAZILIAN_PORTUGUESE = 5;
+
+  // Corresponds to general Swahili (that is, not particularly regionally tied).
+  SWAHILI = 6;
 }
 
 // Represents a block of (subtitled) text. This structure is used for content strings so that they
