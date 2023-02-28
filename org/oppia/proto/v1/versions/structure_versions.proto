@@ -7,16 +7,19 @@ import "google/protobuf/descriptor.proto";
 option java_package = "org.oppia.proto.v1.versions";
 option java_multiple_files = true;
 
-// Custom options. Note that these do not actually enforce semantics--they're
-// just hints. Implementation code is expected to define the actual versioning
-// semantics. See the README for more details.
+// Custom options. Note that these do not actually enforce semantics--they're just hints.
+// Implementation code is expected to define the actual versioning semantics. See the README for
+// more details.
 extend google.protobuf.MessageOptions {
   // Defines the version type corresponding to a structure proto.
   StructureProtoVersionType structure_proto_version_type = 1000;
+
+  // Indicates the actual structure version. This should only be used in version protos.
+  uint32 latest_structure_proto_version = 1001;
 }
 extend google.protobuf.EnumOptions {
   // Defines the version type corresponding to a structure enum.
-  StructureProtoVersionType structure_enum_version_type = 1001;
+  StructureProtoVersionType structure_enum_version_type = 1002;
 }
 
 // Represents the version of the proto structures for topic summary messages. This structure is
@@ -25,6 +28,7 @@ extend google.protobuf.EnumOptions {
 // See the README for details on how these versions are meant to be used.
 message TopicSummaryProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+  option (latest_structure_proto_version) = 1;
 
   // The numeric version corresponding to the containing proto's structure.
   uint32 version = 1;
@@ -36,6 +40,7 @@ message TopicSummaryProtoVersion {
 // See the README for details on how these versions are meant to be used.
 message RevisionCardProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+  option (latest_structure_proto_version) = 1;
 
   // The numeric version corresponding to the containing proto's structure.
   uint32 version = 1;
@@ -47,6 +52,7 @@ message RevisionCardProtoVersion {
 // See the README for details on how these versions are meant to be used.
 message ConceptCardProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+  option (latest_structure_proto_version) = 1;
 
   // The numeric version corresponding to the containing proto's structure.
   uint32 version = 1;
@@ -58,6 +64,7 @@ message ConceptCardProtoVersion {
 // See the README for details on how these versions are meant to be used.
 message ExplorationProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+  option (latest_structure_proto_version) = 1;
 
   // The numeric version corresponding to the containing proto's structure.
   uint32 version = 1;
@@ -69,6 +76,7 @@ message ExplorationProtoVersion {
 // See the README for details on how these versions are meant to be used.
 message QuestionProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+  option (latest_structure_proto_version) = 1;
 
   // The numeric version corresponding to the containing proto's structure.
   uint32 version = 1;
@@ -84,6 +92,7 @@ message QuestionProtoVersion {
 // See the README for details on how these versions are meant to be used.
 message StateProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+  option (latest_structure_proto_version) = 1;
 
   // The numeric version corresponding to the containing proto's structure.
   uint32 version = 1;
@@ -98,6 +107,7 @@ message StateProtoVersion {
 // See also the README for details on how these versions are meant to be used.
 message LanguageProtosVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+  option (latest_structure_proto_version) = 1;
 
   // The numeric version corresponding to the containing proto's structure.
   uint32 version = 1;
@@ -110,6 +120,7 @@ message LanguageProtosVersion {
 // See the README for details on how these versions are meant to be used.
 message ImageProtoVersion {
   option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+  option (latest_structure_proto_version) = 1;
 
   // The numeric version corresponding to the containing proto's structure.
   uint32 version = 1;

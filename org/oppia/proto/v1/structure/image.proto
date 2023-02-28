@@ -20,14 +20,8 @@ message ThumbnailDto {
   // The version defining the internal structure of this message.
   org.oppia.proto.v1.versions.ImageProtoVersion proto_version = 1;
 
-  // The name of the thumbnail image file. This will never be a URL (and can always be expected to
-  // just be a filename). The image is stored in GCS static file storage and must be downloaded
-  // separately by the client. The client can expect that this image is immutable on the server.
-  // Further, the client can also assume that all images are one of three formats:
-  // - PNG (indicated with a .png extension)
-  // - WebP (indicated with a .webp extension)
-  // - SVG (indicated with a .svg extension)
-  string filename = 2;
+  // A reference to the actual thumbnail image.
+  ReferencedImageDto referenced_image = 2;
 
   // The RGB background color to be shown behind the thumbnail image. Note that this is given in
   // RGB888 format, following local endianness (which is automatically handled by protobuf). There
@@ -37,6 +31,24 @@ message ThumbnailDto {
   uint32 background_color_rgb = 3;
 }
 
+// Represents an image that may be referenced by various topic structures.
+message ReferencedImageDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = IMAGE_PROTO_VERSION;
+
+  // The name of the image file. This will never be a URL (and can always be expected to just be a
+  // filename). The image is stored in GCS static file storage and must be downloaded separately by
+  // the client. The client can expect that this image is immutable on the server. Further, the
+  // client can also assume that all images are one of four formats:
+  // - PNG (indicated with a .png extension)
+  // - WebP (indicated with a .webp extension)
+  // - SVG (indicated with a .svg extension)
+  // - SVGZ (indicated with a .svgz extension)
+  string filename = 1;
+
+  // The size of the voiceover file, in bytes.
+  uint32 file_size_bytes = 2;
+}
+
 // Represents a list of images that may be referenced by various topic structures.
 message ReferencedImageListDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = IMAGE_PROTO_VERSION;
@@ -44,7 +56,6 @@ message ReferencedImageListDto {
   // The version defining the internal structure of this message.
   org.oppia.proto.v1.versions.ImageProtoVersion proto_version = 1;
 
-  // The list of filenames of all the images in the list. See the 'filename' field in Thumbnail for
-  // specifics on the expected values of these filenames.
-  repeated string referenced_image_filenames = 2;
+  // The list of referenced images contained in the list.
+  repeated ReferencedImageDto referenced_images = 2;
 }

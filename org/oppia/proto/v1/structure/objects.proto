@@ -5,8 +5,12 @@ package org.oppia.proto.v1.structure;
 option java_package = "org.oppia.proto.v1.structure";
 option java_multiple_files = true;
 
-// TODO: split up this proto into rule-spec based objects & update the versions accordingly.
-// Anything not typed to rule inputs should go into the correct file with the correct versions.
+// TODO: Figure out how to cleanly organize and version this file's protos. Some are specific to
+//  rule inputs, some are used as solution answers, and some can correspond to both. Perhaps
+//  structures should be duplicated such that there are distinct answer & input proto files, with
+//  all protos versioned by the state proto structure version. This probably has the cleaner typing
+//  even if it is slightly duplicative. That being said, some core structures could easily be
+//  isolated and shared (such as fractions & normalized point). More thought is needed here.
 
 // Proto message representing a single fraction or mixed number.
 message FractionDto {
@@ -66,11 +70,9 @@ message RatioExpressionDto {
 // replacement strings for a different language can be found in the WrittenTranslations structure of
 // the containing State.
 message TranslatableSetOfNormalizedStringDto {
-  // The content ID corresponding to this set of normalized strings.
+  // The content ID corresponding to this set of normalized strings where the activity's
+  // translations should include a list of translated strings corresponding to this content ID.
   string content_id = 1;
-
-  // The set of normalized strings to be translated as a whole.
-  repeated string normalized_strings = 2;
 }
 
 // Proto representing an image that is overlaid with labeled regions.
@@ -85,13 +87,13 @@ message ImageWithRegionsDto {
   // Proto representing a labeled region of the image.
   message LabeledRegionDto {
     // The name of the region's label.
-    string label = 3;
+    string label = 1;
 
     // The type of the region.
     oneof region_type {
       // A rectangle that is normalized so that its boundary coordinates are within the range [0,1],
       // where 0 corresponds to one end of the image and 1 to the other.
-      NormalizedRectangle2dDto normalized_rectangle_2d = 1;
+      NormalizedRectangle2dDto normalized_rectangle_2d = 2;
     }
 
     // Proto representing a 2D rectangle defined using normalized coordinates relative to the image.

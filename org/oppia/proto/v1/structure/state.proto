@@ -27,12 +27,6 @@ message StateDto {
   // The interaction of the state (which must be interacted with by the learner in order to
   // proceed).
   InteractionInstanceDto interaction = 3;
-
-  // The recorded voiceovers for SubtitledText subfields of this state.
-  RecordedVoiceoversDto recorded_voiceovers = 4;
-
-  // The translations of SubtitledText subfields of this state.
-  WrittenTranslationsDto written_translations = 5;
 }
 
 // Represents an instance of a single interaction within a state. Note that interactions are
@@ -636,11 +630,11 @@ message NumericInputInstanceDto {
 
       // Corresponds to the creator-specified inclusive lower bound for comparison against the
       // user's answer.
-      double inputLowerInclusive = 1;
+      double input_lower_inclusive = 1;
 
       // Corresponds to the creator-specified inclusive upper bound for comparison against the
       // user's answer.
-      double inputUpperInclusive = 2;
+      double input_upper_inclusive = 2;
     }
 
     // Represents a rule spec for checking whether an answer is equal to a creator-specified value
@@ -650,10 +644,10 @@ message NumericInputInstanceDto {
 
       // Corresponds to the creator-specified tolerance to consider when matching against the user's
       // answer.
-      double inputTolerance = 1;
+      double input_tolerance = 1;
 
       // Corresponds to the creator-specified value to compare against the user's answer.
-      double inputComparedValue = 2;
+      double input_compared_value = 2;
     }
   }
 }
@@ -815,7 +809,7 @@ message DragAndDropSortInputInstanceDto {
 
     // Specifies whether items can be allowed at the same position in the list (i.e. linked or
     // unlinked).
-    bool allowMultipleItemsInSamePosition = 2;
+    bool allow_multiple_items_in_same_position = 2;
   }
 
   // Represents the specific solution available to instances of the drag and drop sort input
@@ -1152,7 +1146,7 @@ message AlgebraicExpressionInputInstanceDto {
     oneof rule_type {
       MatchesExactlyWithSpecDto matches_exactly_with = 1;
 
-      MatchesUpToTrivialManipulationsSpecDto matches_upTo_trivial_manipulations = 2;
+      MatchesUpToTrivialManipulationsSpecDto matches_up_to_trivial_manipulations = 2;
   
       IsEquivalentToSpecDto is_equivalent_to = 3;
     }
@@ -1238,7 +1232,7 @@ message MathEquationInputInstanceDto {
     oneof rule_type {
       MatchesExactlyWithSpecDto matches_exactly_with = 1;
 
-      MatchesUpToTrivialManipulationsSpecDto matches_upTo_trivial_manipulations = 2;
+      MatchesUpToTrivialManipulationsSpecDto matches_up_to_trivial_manipulations = 2;
   
       IsEquivalentToSpecDto is_equivalent_to = 3;
     }
@@ -1324,7 +1318,7 @@ message NumericExpressionInputInstanceDto {
     oneof rule_type {
       MatchesExactlyWithSpecDto matches_exactly_with = 1;
 
-      MatchesUpToTrivialManipulationsSpecDto matches_upTo_trivial_manipulations = 2;
+      MatchesUpToTrivialManipulationsSpecDto matches_up_to_trivial_manipulations = 2;
   
       IsEquivalentToSpecDto is_equivalent_to = 3;
     }

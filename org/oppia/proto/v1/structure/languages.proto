@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package org.oppia.proto.v1.structure;
 
+import "org/oppia/proto/v1/structure/image.proto";
 import "org/oppia/proto/v1/versions/structure_versions.proto";
 
 option java_package = "org.oppia.proto.v1.structure";
@@ -64,35 +65,54 @@ message SubtitledTextDto {
   // representation of this text. This ID is unique in its local context (e.g. a 'State' for
   // subtitled texts used within states).
   string content_id = 2;
-
-  // The user-readable HTML/plain text content (which may be in Unicode). This is expected to always
-  // be in English, and in situations where non-English variants are desired the content ID should
-  // be matched to a language-specific translation (see WrittenTranslations for details).
-  string text = 3;
 }
 
-// Represents a group of voiceovers that correspond to subtitled texts in a particular content
-// context (such as a revision card or a 'State' in an exploration).
-message RecordedVoiceoversDto {
+// Represents all localizations of a particular activity (like an exploration or topic) for all
+// supported languages of that activity. See ContentLocalizationDto for more details on the specific
+// content included.
+message ContentLocalizationsDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
   // The version defining the internal structure of this message.
   org.oppia.proto.v1.versions.LanguageProtosVersion protos_version = 1;
 
-  // A list of mappings from language to voiceover content mappings (see the message's documentation
-  // for specifics on the latter).
-  repeated VoiceoverContentMappingDto voiceover_content_mapping = 2;
+  // The default mapping (including the language that the activity was originally created in). This
+  // contains the base strings and images of the activity that will be used as fallbacks if there
+  // are no corresponding localizations, as per the behavior of the client.
+  ContentLocalizationDto default_mapping = 2;
+
+  // A list of mappings from language to content localization mappings (see the message's
+  // documentation for specifics on the latter). A missing mapping indicates no localization support
+  // for the corresponding language.
+  repeated ContentLocalizationDto localizations = 3;
 }
 
-// Represents a mapping of SubtitledText content IDs to voiceovers for a particular language.
-message VoiceoverContentMappingDto {
+// Represents a language-specific localization of a top-level activity (like an exploration or a
+// topic). This message is meant to contain all of the necesary data to fully localize that specific
+// activity to the specified language. The mapping will also only contain localizations for that
+// specific activity, and not any referenced ones (e.g. the topic itself but not its subtopics).
+message ContentLocalizationDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
+  // The version defining the internal structure of this message.
+  org.oppia.proto.v1.versions.LanguageProtosVersion protos_version = 1;
+
   // The language corresponding to this mapping.
-  LanguageType language = 1;
+  LanguageType language = 2;
+
+  // The mapping of SubtitledText content IDs to their corresponding localized text representations.
+  map<string, LocalizableTextDto> localizable_text_content_mapping = 3;
 
   // The mapping of SubtitledText content IDs to their corresponding voiceover files.
-  map<string, VoiceoverFileDto> voiceover_content_mapping = 2;
+  map<string, VoiceoverFileDto> voiceover_content_mapping = 4;
+
+  // The thumbnail that should be used for this activity when it's viewed in the mapping's
+  // corresponding language. This field's absence indicates that the default thumbnail should be
+  // used.
+  ThumbnailDto thumbnail = 5;
+
+  // The list of images localized to this mapping (within content).
+  ReferencedImageListDto localized_image_list = 6;
 }
 
 // Represents an audio file that, when played, reads out content text in a particular language.
@@ -114,63 +134,38 @@ message VoiceoverFileDto {
   float duration_secs = 3;
 }
 
-// Represents a group of written translations that correspond to subtitled texts in a particular
-// content context (such as a revision card or a 'State' in an exploration).
-message WrittenTranslationsDto {
+// Represents a textual representation of specific content text in a particular language.
+message LocalizableTextDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
-  // The version defining the internal structure of this message.
-  org.oppia.proto.v1.versions.LanguageProtosVersion protos_version = 1;
-
-  // A list of mappings from language to written translation content mappings (see the message's
-  // documentation for specifics on the latter).
-  repeated WrittenTranslationContentMappingDto translation_language_mapping = 2;
-}
-
-// Represents a mapping of SubtitledText content IDs to written translations for a particular
-// language.
-message WrittenTranslationContentMappingDto {
-  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
-
-  // The language corresponding to this mapping.
-  LanguageType language = 1;
-
-  // The mapping of SubtitledText content IDs to their corresponding written translations.
-  map<string, WrittenTranslationDto> translation_content_mapping = 2;
-}
-
-// Represents a single textual translation of specific content text in a particular language.
-message WrittenTranslationDto {
-  option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
-
-  // The data format of the source material for this translation.
+  // The data format of the source material for this localization.
   oneof data_format {
-    // Indicates that this translation corresponds to a single piece of text.
-    WrittenTranslatableTextDto translatable_text = 1;
+    // Indicates that this localization corresponds to a single piece of text.
+    SingleLocalizableTextDto single_localizable_text = 1;
 
-    // Indicates that this translation corresponds to a list of translated texts.
-    SetOfWrittenTranslatableTextDto set_of_translatable_text = 2;
+    // Indicates that this localization corresponds to a list of texts.
+    SetOfLocalizableTextDto set_of_localizable_text = 2;
   }
 }
 
-// Represents the translation of a single text string (which may be either plain text or HTML, and
-// is generally expected to potentially contain Unicode characters).
-message WrittenTranslatableTextDto {
+// Represents the localization of a single text string (which may be either plain text or HTML, and
+// should always be expected to potentially contain Unicode characters).
+message SingleLocalizableTextDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
-  // The human-readable translated string.
-  string translation = 1;
+  // TODO: Add support for fully structured HTML (to ensure proper RTE & structure validation and versioning). Also, differentiate between HTML & non-HTML.
+  // The human-readable and localized text.
+  string text = 1;
 }
 
-// Represents a set of translated strings. As indicated in WrittenTranslatableText, each string may
-// be either plain text or HTML, and generally can be expected to contain Unicode characters.
+// Represents a set of localized strings. As indicated in SingleLocalizableTextDto, each string may
+// be either plain text or HTML, and can contain Unicode characters.
 //
-// Note that while the list of translated strings roughly corresponds to the original source
-// material (i.e. the default, untranslated content strings specified directly in SubtitledText),
-// neither the order nor the length are expected to exactly match.
-message SetOfWrittenTranslatableTextDto {
+// Note that there are no guarantees of the length or order of each element of the set to correspond
+// to localizations of this same text in other languages.
+message SetOfLocalizableTextDto {
   option (org.oppia.proto.v1.versions.structure_proto_version_type) = LANGUAGE_PROTOS_VERSION;
 
-  // The list of human-readable translated strings.
-  repeated string translations = 1;
+  // The list of human-readable localized strings.
+  repeated string text = 1;
 }

@@ -2,16 +2,17 @@
 Libraries that define endpoint API protos for interacting with Oppia's backend.
 """
 
-load("@rules_proto//proto:defs.bzl", "proto_library")
+load("//defs:defs.bzl", "define_buildifier_tests", "oppia_proto_library")
 
-proto_library(
+oppia_proto_library(
     name = "android_proto",
     srcs = ["android.proto"],
+    relative_parent_dir_path = "org/oppia/proto/v1/api",
     visibility = ["//:api_visibility"],
-    strip_import_prefix = "",  # Strip the default file prefix so that it may be redefined.
-    import_prefix = "org/oppia/proto/v1/api",  # Make directory prefix match declared package.
     deps = [
-      "//org/oppia/proto/v1/structure:structure_proto",
-      "//org/oppia/proto/v1/versions:versions_proto",
+        "//org/oppia/proto/v1/structure:structure_proto",
+        "//org/oppia/proto/v1/versions:versions_proto",
     ],
 )
+
+define_buildifier_tests()

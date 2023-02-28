@@ -13,6 +13,9 @@ option java_multiple_files = true;
 extend google.protobuf.MessageOptions {
   // Defines the version type corresponding to an API proto.
   ApiProtoVersionType api_proto_version_type = 2000;
+
+  // Indicates the actual structure version. This should only be used in version protos.
+  uint32 latest_api_proto_version = 2001;
 }
 
 // Represents the version of the proto structures for topic list request & response messages. This
@@ -21,6 +24,7 @@ extend google.protobuf.MessageOptions {
 // See the README for details on how these versions are meant to be used.
 message TopicListRequestResponseProtoVersion {
   option (api_proto_version_type) = UNVERSIONED_API_PROTO;
+  option (latest_api_proto_version) = 1;
 
   // The numeric version corresponding to the containing proto's structure.
   uint32 version = 1;
@@ -32,6 +36,7 @@ message TopicListRequestResponseProtoVersion {
 // See the README for details on how these versions are meant to be used.
 message TopicContentRequestResponseProtoVersion {
   option (api_proto_version_type) = UNVERSIONED_API_PROTO;
+  option (latest_api_proto_version) = 1;
 
   // The numeric version corresponding to the containing proto's structure.
   uint32 version = 1;

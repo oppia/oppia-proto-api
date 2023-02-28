@@ -4,8 +4,10 @@ public, importable API should be defined here (and all such libraries should be 
 nowhere else).
 """
 
-load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@com_github_bazelbuild_buildtools//buildifier:buildifier.bzl", "buildifier")
 load("@rules_java//java:defs.bzl", "java_lite_proto_library", "java_proto_library")
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("//defs:defs.bzl", "BUILDIFIER_LINT_WARNINGS", "define_buildifier_tests")
 
 package_group(
     name = "api_visibility",
@@ -30,9 +32,9 @@ proto_library(
     name = "android_protos",
     visibility = ["//visibility:public"],
     deps = [
-      "//org/oppia/proto/v1/api:android_proto",
-      "//org/oppia/proto/v1/structure:structure_proto",
-      "//org/oppia/proto/v1/versions:versions_proto",
+        "//org/oppia/proto/v1/api:android_proto",
+        "//org/oppia/proto/v1/structure:structure_proto",
+        "//org/oppia/proto/v1/versions:versions_proto",
     ],
 )
 
@@ -49,3 +51,11 @@ java_lite_proto_library(
     visibility = ["//visibility:public"],
     deps = [":android_protos"],
 )
+
+buildifier(
+    name = "fix_bazel_lint_problems",
+    lint_mode = "fix",
+    lint_warnings = BUILDIFIER_LINT_WARNINGS,
+)
+
+define_buildifier_tests()

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package org.oppia.proto.v1.structure;
 
-import "org/oppia/proto/v1/structure/image.proto";
+import "org/oppia/proto/v1/structure/languages.proto";
 import "org/oppia/proto/v1/structure/state.proto";
 import "org/oppia/proto/v1/versions/structure_versions.proto";
 
@@ -20,8 +20,8 @@ message ExplorationDto {
   // The ID of the exploration.
   string id = 2;
 
-  // The human-readable title of the exploration. This is expected to be in English.
-  string title = 3;
+  // The localizable title of the exploration.
+  SubtitledTextDto title = 3;
 
   // The name of the initial state of the exploration. This corresponds to keys in the 'states'
   // field.
@@ -35,6 +35,41 @@ message ExplorationDto {
   // the server).
   uint32 content_version = 6;
 
-  // A list of all the images contained in SubtitledText subfields of this exploration.
-  ReferencedImageListDto referenced_image_list = 7;
+  // The default localized text, images, and voiceovers of this exploration.
+  ContentLocalizationDto default_localization = 7;
+}
+
+// Represents a localized language pack corresponding to both a single exploration and a single
+// language.
+message ExplorationLanguagePackDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = EXPLORATION_PROTO_VERSION;
+
+  // The version defining the internal structure of this message.
+  org.oppia.proto.v1.versions.ExplorationProtoVersion proto_version = 1;
+
+  // The ID of the pack.
+  LocalizedExplorationIdDto id = 2;
+
+  // The language-specific localized text, images, and voiceovers of this exploration.
+  ContentLocalizationDto localization = 3;
+
+  // The version of the pack's contents (e.g. specific translations).
+  uint32 content_version = 4;
+}
+
+// Represents the identifier for a localized exploration, either indicating the exploration's
+// default language, or referencing a language pack for the exploration.
+message LocalizedExplorationIdDto {
+  // This proto message type is shared among multiple protos, so it has no direct migration pathway.
+  // Changes here should be carefully done in a way that does not break compatibility or assumptions
+  // across all relevant proto versions, or the proto should be duplicated according to whichever
+  // proto requires alterations.
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
+  // The ID of the exploration.
+  string exploration_id = 1;
+
+  // The language being localized either as the default for the exploration, or provided by a
+  // language pack.
+  LanguageType language = 2;
 }
