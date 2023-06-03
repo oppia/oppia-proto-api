@@ -37,7 +37,7 @@ enum LanguageType {
 
   // Corresponds to the macaronic language Hinglish which combines Hindi and English. This
   // corresponds to a generic 'Hinglish' which combines localisms from different areas, but is not
-  // predominantly tied to a particular region.
+  // predominately tied to a particular region.
   HINGLISH = 4;
 
   // Corresponds to a regional Portuguese that's primarily used in Brazil.
@@ -45,6 +45,9 @@ enum LanguageType {
 
   // Corresponds to general Swahili (that is, not particularly regionally tied).
   SWAHILI = 6;
+
+  // Corresponds to the creole language Naija that's predominately used in Nigeria.
+  NIGERIAN_PIDGIN = 7;
 }
 
 // Represents a block of (subtitled) text. This structure is used for content strings so that they
