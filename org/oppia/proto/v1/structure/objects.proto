@@ -49,7 +49,6 @@ message ListOfSetsOfTranslatableHtmlContentIdsDto {
 
 // Proto representing a 2D point for the ImageRegion interaction type.
 message NormalizedPoint2dDto {
-
   // Relative x-coordinate of the point within the image. This lies within the range [0, 1] and
   // measures horizontal distance (with the left boundary of the image as the origin).
   double x = 1;

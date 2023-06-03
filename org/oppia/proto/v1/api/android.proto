@@ -287,6 +287,11 @@ message TopicContentResponseDto {
       // expected to fail rather than a particular item within the response).
       bool skipped_from_failure = 3;
 
+      // The presence of thise value indicates that the request doesn't correspond to an actual
+      // structure for the given ID/version. Note that the value of the field itself doesn't matter,
+      // just its presence.
+      bool skipped_does_not_exist = 14;
+
       // The result is a requested topic summary.
       org.oppia.proto.v1.structure.DownloadableTopicSummaryDto topic_summary = 4;
 
