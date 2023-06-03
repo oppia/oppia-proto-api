@@ -91,29 +91,30 @@ message UpcomingTopicSummaryDto {
   message ReleaseTimeEstimation {
     option (org.oppia.proto.v1.versions.structure_proto_version_type) = TOPIC_SUMMARY_PROTO_VERSION;
 
-    // The year that the topic is expected to be available to download. This value should always be
-    // provided for a valid estimation. A value of 0 indicates that the release date is not known
-    // for the topic.
+    // The year that the topic is expected to be available to download, per the Gregorian calendar.
+    // This value should always be provided for a valid estimation. A value of 0 indicates that the
+    // release date is not known for the topic.
     int32 year = 1;
 
-    // The quarter within the year above that the topic is expected to be available. This should
-    // always be a value within [0, 4] as each year has only 4 quarters. A value of 0 indicates that
-    // this estimation is not granular to quarters. This value is ignored if year is 0.
+    // The quarter within the year above that the topic is expected to be available, per the
+    // Gregorian calendar. This should always be a value within [0, 4] as each year has only 4
+    // quarters. A value of 0 indicates that this estimation is not granular to quarters. This value
+    // is ignored if year is ignored.
     //
     // Quarters follow the calendar year, that is, quarter 1 corresponds to January, February, and
     // March.
     int32 quarter = 2;
 
-    // The month within the quarter defined above that the topic is expected to be available. This
-    // should always be a value within [0, 3] as each quarter hasb only 3 months. A value of 0
-    // indicates that this estimation is not granular to months. This value is ignored if quarter is
-    // 0.
+    // The month within the quarter defined above that the topic is expected to be available, per
+    // the Gregorian calendar. This should always be a value within [0, 3] as each quarter has only
+    // 3 months. A value of 0 indicates that this estimation is not granular to months. This value
+    // is ignored if quarter is ignored.
     int32 month = 3;
 
-    // The day within the month defined above that the topic is expected to be available. This
-    // should always be a value within [0, 31], though the upper bound will depend on the specific
-    // month estimated for release. A value of 0 indicates that this estimation is not granular to
-    // days. This value is ignored if month is 0.
+    // The day within the month defined above that the topic is expected to be available, per the
+    // Gregorian calendar. This should always be a value within [0, 31], though the upper bound will
+    // depend on the specific month estimated for release. A value of 0 indicates that this
+    // estimation is not granular to days. This value is ignored if month is ignored.
     int32 day = 4;
   }
 }
