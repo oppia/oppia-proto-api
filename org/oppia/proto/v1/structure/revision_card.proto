@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.structure;
+
+import "org/oppia/proto/v1/structure/languages.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
+
+option java_package = "org.oppia.proto.v1.structure";
+option java_multiple_files = true;
+
+// Represents a revision card that can be displayed for a specific subtopic. Revision cards are
+// longer reference cards for categories of skills taught by a topic, and are meant to be used on an
+// ad hoc basis by learners when they need to refresh previously learned skills before starting a
+// practice session or new exploration.
+//
+// Topics may contain one or more subtopics, but subtopics only ever belong to a single topic.
+// Each subtopic always has a single corresponding revision card.
+message RevisionCardDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = REVISION_CARD_PROTO_VERSION;
+
+  // The version defining the internal structure of this message.
+  org.oppia.proto.v1.versions.RevisionCardProtoVersion proto_version = 1;
+
+  // The structured ID of the subtopic corresponding to this revision card.
+  SubtopicPageIdDto id = 2;
+
+  // The localizable title of the revision card.
+  SubtitledTextDto title = 3;
+
+  // The main content of this revision card.
+  SubtitledTextDto content = 4;
+
+  // The default localized text, images, and voiceovers of this revision card.
+  ContentLocalizationDto default_localization = 5;
+
+  // The version of the revision card's contents.
+  uint32 content_version = 6;
+}
+
+// Represents a localized language pack corresponding to both a single revision card and a single
+// language.
+message RevisionCardLanguagePackDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = REVISION_CARD_PROTO_VERSION;
+
+  // The version defining the internal structure of this message.
+  org.oppia.proto.v1.versions.RevisionCardProtoVersion proto_version = 1;
+
+  // The ID of the pack.
+  LocalizedRevisionCardIdDto id = 2;
+
+  // The language-specific localized text, images, and voiceovers of this revision card.
+  ContentLocalizationDto localization = 3;
+
+  // The version of the pack's contents (e.g. specific translations).
+  uint32 content_version = 4;
+}
+
+// Represents the identifier for a subtopic (which are tightly tied to specific topics).
+message SubtopicPageIdDto {
+  // This proto message type is shared among multiple protos, so it has no direct migration pathway.
+  // Changes here should be carefully done in a way that does not break compatibility or assumptions
+  // across all relevant proto versions, or the proto should be duplicated according to whichever
+  // proto requires alterations.
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
+  // The ID of the topic that contains this subtopic.
+  string topic_id = 1;
+
+  // The index-based ID of the subtopic.
+  uint32 subtopic_index = 2;
+}
+
+// Represents the identifier for a localized revision card, either indicating the revision card's
+// default language, or referencing a language pack for the revision card.
+message LocalizedRevisionCardIdDto {
+  // This proto message type is shared among multiple protos, so it has no direct migration pathway.
+  // Changes here should be carefully done in a way that does not break compatibility or assumptions
+  // across all relevant proto versions, or the proto should be duplicated according to whichever
+  // proto requires alterations.
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
+  // The structured ID of the subtopic corresponding to the revision card.
+  SubtopicPageIdDto id = 1;
+
+  // The language being localized either as the default for the revision card, or provided by a
+  // language pack.
+  LanguageType language = 2;
+}

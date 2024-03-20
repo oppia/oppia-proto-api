@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.structure;
+
+import "org/oppia/proto/v1/structure/languages.proto";
+import "org/oppia/proto/v1/structure/state.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
+
+option java_package = "org.oppia.proto.v1.structure";
+option java_multiple_files = true;
+
+// Represents a single exploration that can be played by a learner. Explorations are interactive
+// lessons that are meant to teach or build on specific skills.
+message ExplorationDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = EXPLORATION_PROTO_VERSION;
+
+  // The version defining the internal structure of this message.
+  org.oppia.proto.v1.versions.ExplorationProtoVersion proto_version = 1;
+
+  // The ID of the exploration.
+  string id = 2;
+
+  // The localizable title of the exploration.
+  SubtitledTextDto title = 3;
+
+  // The name of the initial state of the exploration. This corresponds to keys in the 'states'
+  // field.
+  string init_state_name = 4;
+
+  // The mapping from state names to state objects. State names are not meant to be
+  // learner-readable.
+  map<string, StateDto> states = 5;
+
+  // The version of the contents of this exploration (which corresponds to the 'version' field on
+  // the server).
+  uint32 content_version = 6;
+
+  // The default localized text, images, and voiceovers of this exploration.
+  ContentLocalizationDto default_localization = 7;
+}
+
+// Represents a localized language pack corresponding to both a single exploration and a single
+// language.
+message ExplorationLanguagePackDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = EXPLORATION_PROTO_VERSION;
+
+  // The version defining the internal structure of this message.
+  org.oppia.proto.v1.versions.ExplorationProtoVersion proto_version = 1;
+
+  // The ID of the pack.
+  LocalizedExplorationIdDto id = 2;
+
+  // The language-specific localized text, images, and voiceovers of this exploration.
+  ContentLocalizationDto localization = 3;
+
+  // The version of the pack's contents (e.g. specific translations).
+  uint32 content_version = 4;
+}
+
+// Represents the identifier for a localized exploration, either indicating the exploration's
+// default language, or referencing a language pack for the exploration.
+message LocalizedExplorationIdDto {
+  // This proto message type is shared among multiple protos, so it has no direct migration pathway.
+  // Changes here should be carefully done in a way that does not break compatibility or assumptions
+  // across all relevant proto versions, or the proto should be duplicated according to whichever
+  // proto requires alterations.
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
+  // The ID of the exploration.
+  string exploration_id = 1;
+
+  // The language being localized either as the default for the exploration, or provided by a
+  // language pack.
+  LanguageType language = 2;
+}

@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.structure;
+
+import "org/oppia/proto/v1/versions/structure_versions.proto";
+
+option java_package = "org.oppia.proto.v1.structure";
+option java_multiple_files = true;
+
+// Represents a single thumbnail image that may be shown for various lesson structures (including
+// topics, stories, chapters, and revision cards). Note that while this message doesn't define a
+// particular image resolution, it's expected that:
+// - Topic and story thumbnails should work in both 4:3 and 16:9 contexts
+// - Revision card thumbnails should work in 4:3 contexts
+// - Chapter (exploration) thumbnaisl should work in 16:9 contexts
+// - All other thumbnails should default to 4:3 (since that can be made workable to 16:9)
+message ThumbnailDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = IMAGE_PROTO_VERSION;
+
+  // The version defining the internal structure of this message.
+  org.oppia.proto.v1.versions.ImageProtoVersion proto_version = 1;
+
+  // A reference to the actual thumbnail image.
+  ReferencedImageDto referenced_image = 2;
+
+  // The RGB background color to be shown behind the thumbnail image. Note that this is given in
+  // RGB888 format, following local endianness (which is automatically handled by protobuf). There
+  // is never expected to be an alpha component on this color, but it's also not guaranteed that the
+  // upper 8 bits will be zeroed (so it's recommended to always mask those out when extracting the
+  // red component of the color, or when treating it as a proper RGB value).
+  uint32 background_color_rgb = 3;
+}
+
+// Represents an image that may be referenced by various topic structures.
+message ReferencedImageDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = IMAGE_PROTO_VERSION;
+
+  // The name of the image file. This will never be a URL (and can always be expected to just be a
+  // filename). The image is stored in GCS static file storage and must be downloaded separately by
+  // the client. The client can expect that this image is immutable on the server. Further, the
+  // client can also assume that all images are one of four formats:
+  // - PNG (indicated with a .png extension)
+  // - WebP (indicated with a .webp extension)
+  // - SVG (indicated with a .svg extension)
+  // - SVGZ (indicated with a .svgz extension)
+  string filename = 1;
+
+  // The size of the voiceover file, in bytes.
+  uint32 file_size_bytes = 2;
+}
+
+// Represents a list of images that may be referenced by various topic structures.
+message ReferencedImageListDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = IMAGE_PROTO_VERSION;
+
+  // The version defining the internal structure of this message.
+  org.oppia.proto.v1.versions.ImageProtoVersion proto_version = 1;
+
+  // The list of referenced images contained in the list.
+  repeated ReferencedImageDto referenced_images = 2;
+}

@@ -1,0 +1,509 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.api;
+
+import "org/oppia/proto/v1/structure/classroom.proto";
+import "org/oppia/proto/v1/structure/concept_card.proto";
+import "org/oppia/proto/v1/structure/exploration.proto";
+import "org/oppia/proto/v1/structure/languages.proto";
+import "org/oppia/proto/v1/structure/question.proto";
+import "org/oppia/proto/v1/structure/revision_card.proto";
+import "org/oppia/proto/v1/structure/topic_summary.proto";
+import "org/oppia/proto/v1/versions/api_versions.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
+
+option java_package = "org.oppia.proto.v1.api";
+option java_multiple_files = true;
+
+// A request for the list of topics available to a local client.
+//
+// Note that the backend is principally responsible for providing the client with exact content
+// versions and structure IDs that are compatible with that client. For the most part, this involves
+// ensuring that the returned proto structures match the requested proto structures (and for cases
+// when that's not possible, such as if a new interaction is introduced, the corresponding topic
+// will not be provided as an available topic for downloading or updating).
+//
+// Another dimension of compatibility is the list of supported languages. For an optimal user
+// experience, the backend won't provide the client with topics or topic updates that aren't fully
+// localized to the languages expected by the client.
+message TopicListRequestDto {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
+  // The common proto version defining this request/response pair. Note that the response may be
+  // provided with a different version since it should match the requested proto version defined
+  // below. The request can use any version at the choice of the client since the server guarantees
+  // full backward compatibility for all proto structure versions.
+  org.oppia.proto.v1.versions.TopicListRequestResponseProtoVersion proto_version = 1;
+
+  // Details about the client that is making the request.
+  AndroidClientContextDto client_context = 2;
+
+  // Details about the latest proto versions that this client can support. The server is expected to
+  // only provide structures that exactly match the proto versions provided.
+  ClientCompatibilityContextDto compatibility_context = 3;
+
+  // The current structures that are downloaded by the local client. Note that this must be a
+  // comprehensive list of downloaded structures in order to leverage certain consistency guarantees
+  // by the backend, including ensuring that structures are never re-downloaded or violate the
+  // one-version expectation (that is, only the latest compatible version of a shared cross-topic
+  // structure is downloaded and never multiple versions of it).
+  repeated VersionedStructureDetailsDto current_downloads_context = 4;
+
+  // Dictates what default localizations should be included with all topics and lessons available to
+  // download. Note that this will guarantee exclusion of an topics or lessons that do not have 100%
+  // translations of the specified language (from the client's perspective, the topic will not even
+  // exist except possibly in the dependency graph provided by TopicListResponseDto).
+  //
+  // It is the *client's* responsibility to not change this language across requests. This should be
+  // a default language indicated by the client's infrastructure, not the user (as separate
+  // localization packs can be downloaded by the client). The server makes no compatibility
+  // guarantee for subsequent requests with different languages. Different languages should be
+  // downloaded using a topic content request.
+  //
+  // This value is required for proper functioning of the system. The server is may fail the request
+  // or return a suitable default if this value is omitted.
+  org.oppia.proto.v1.structure.LanguageType requested_default_language = 5;
+
+  // The list of additional languages supported by the client. This is only used for the purpose of
+  // localizing topic & topic substructure summaries, not downloaded content (which should use a
+  // topic content request, instead). The server makes no effort to remember these languages, nor
+  // guarantee compatibility in the returned list of topics. This list of languages is only meant to
+  // populate summary language data on a best-effort basis.
+  //
+  // This list may contain any languages (including the requested default language), except the
+  // requested default language will be ignored in this list if it's present. This list is optional
+  // for clients to populate if localization isn't needed. This list is *not* used to compute
+  // updates to language packs (as the context for those packs are defined as part of
+  // VersionedStructureDetailsDto).
+  repeated org.oppia.proto.v1.structure.LanguageType supported_additional_languages = 6;
+
+  // The list of additional languages that require 100% translations in order to be considered
+  // compatible with the client. If, for example, Swahili is included in this list but a topic was
+  // updated and is now at 99% Swahili translations, the previous version that contained 100% will
+  // be provided to the client. Topics that do not have any versions with 100% Swahili translations
+  // would be included as future topics.
+  repeated org.oppia.proto.v1.structure.LanguageType required_additional_languages = 7;
+}
+
+// The expected response from the server when provided with a TopicListRequest.
+message TopicListResponseDto {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
+  // The common proto version defining this request/response pair. This is expected to match the
+  // version provided in the compatibility context included in the topic list request.
+  org.oppia.proto.v1.versions.TopicListRequestResponseProtoVersion proto_version = 1;
+
+  // A list of all topics that are compatibly available to the client whose context corresponds to
+  // this response. Note that topics marked as available for downloading or updating will always be
+  // compatible with the local client, and topics that are marked as up-to-date are guaranteed to
+  // be at the latest compatible version for the local client. Clients are also expected to lean on
+  // existing local resources for topics that aren't yet downloaded.
+  repeated AvailableTopicDto available_topics = 2;
+
+  // A list of all topics that will be available to the client to install in the future.
+  repeated FutureTopicDto future_topics = 3;
+
+  // A list of available classrooms for learning. Clients may opt to only show topics that
+  // correspond to a classroom, and it is possible for a topic to belong to more than one classroom
+  // simultaneously.
+  repeated org.oppia.proto.v1.structure.ClassroomDto classrooms = 4;
+
+  // A topic that's available to & compatible with the local client.
+  message AvailableTopicDto {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
+    // The nature of the topic's availability.
+    oneof availability_type {
+      // Indicates a topic that's not yet downloaded by the local client, but is available to be
+      // downloaded.
+      DownloadableTopicDto downloadable_topic = 1;
+
+      // Indicates a topic that's downloaded by the local client, but has a compatible update.
+      UpdatableTopicDto updatable_topic = 2;
+
+      // Indicates a topic that's both downloaded by the local client & fully up-to-date. This
+      // mainly serves as a lightweight indicator to ensure that the server & client are properly
+      // in-sync with the state of the local client. This will only be sent if the client has the
+      // very latest version of the topic. If there's a newer version, either updatable_topic or
+      // not_updatable_topic will be sent.
+      UpToDateTopicDto up_to_date_topic = 3;
+
+      // Indicates a topic that cannot be updated due to a binary incompatibility with the local
+      // client. This will only be sent if there's a topic version that the client cannot download,
+      // and it already has the latest internally consistent representation of the topic downloaded.
+      NotUpdatableTopicDto not_updatable_topic = 4;
+    }
+  }
+
+  // Represents a topic that's available to download and is not yet downloaded by the local client.
+  message DownloadableTopicDto {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
+    // The ID of the topic that's available to newly download. This is expected to be used to
+    // identify the local copy of the topic's summary in the event that the topic_summary field is
+    // empty. Note that content_version is not also included since topic_summary is only missing if
+    // the local client already has the latest, most up-to-date summary (including the corresponding
+    // content version).
+    string topic_id = 1;
+
+    // The full summary for the current topic. Note that this will be absent if the local client
+    // already has the latest summary downloaded as indicated by its download state context.
+    org.oppia.proto.v1.structure.DownloadableTopicSummaryDto topic_summary = 2;
+
+    // The size, in bytes, needed to download the topic.
+    uint32 download_size_bytes = 3;
+  }
+
+  // Represents a topic that's available to be updated. Clients should use their existing topic
+  // summary when displaying this topic, and not update it until the user requests to download the
+  // topic. Future iterations of this API could include a preview summary here for clients to
+  // provide context on the changes to the topic to help inform users.
+  message UpdatableTopicDto {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
+    // The ID of the topic that's available to be updated. This is expected to correspond to an
+    // existing summary that the local client already has for the topic. In the event it doesn't, it
+    // may use the topic content API to retrieve the topic summary & treat this as a topic that's
+    // available to download.
+    string topic_id = 1;
+
+    // The new topic content version that may be updated to (as compared with the local summary for
+    // this topic which should have a smaller content version).
+    uint32 content_version = 2;
+
+    // The size, in bytes, required to download all missing pieces to update this topic.
+    uint32 update_size_bytes = 3;
+
+    // The precise list of structures that need to be updated in the local client in order to update
+    // the topic. This may be a full update of the topic, but the server may also attempt to perform
+    // an incremental update to minimize the download work & bandwidth needed by the local client.
+    // update_size_bytes will reflect the data determined by the server to be needed to update the
+    // topic.
+    repeated VersionedStructureDetailsDto updated_structures = 4;
+  }
+
+  // Represents a topic that's been downloaded by the local client and is fully up-to-date.
+  message UpToDateTopicDto {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
+    // The ID of the topic that the server believes the local client has downloaded. In the event
+    // that this is incorrect, this topic can be treated as downloadable & its summary can be
+    // fetched using the topic cnotent API.
+    string topic_id = 1;
+
+    // The content version of the topic that the server believes the local client has downloaded.
+    uint32 content_version = 2;
+  }
+
+  // Represents a topic that's not up-to-date, but that the app cannot install due to binary
+  // incompatibility.
+  message NotUpdatableTopicDto {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
+    // The ID of the topic that the server cannot create a compatible binary representation of, for
+    // its latest version.
+    string topic_id = 1;
+
+    // The content version of the topic that cannot be downloaded by the client. Clients can assume
+    // that the server has already provided the latest compatible content version.
+    uint32 content_version = 2;
+  }
+
+  // Represents a topic that's not yet available to download (due to it not being released).
+  message FutureTopicDto {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
+    // The ID of the topic that will eventually exist, but doesn't yet.
+    string topic_id = 1;
+
+    // A summary of the topic that will be later released and available to download.
+    org.oppia.proto.v1.structure.UpcomingTopicSummaryDto topic_summary = 2;
+  }
+}
+
+// The request made to the server to get the latest compatible content for specific topics. This
+// request is designed such that any number of structures may be requested to download along with a
+// max payload size, and multiple requests can be set in parallel and at any time. Together, this
+// enables pagination-based retrieval and download pausing/restarting in clients, if either feature
+// is needed by the client.
+message TopicContentRequestDto {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_CONTENT_REQUEST_RESPONSE_PROTO_VERSION;
+
+  // The common proto version defining this request/response pair.
+  org.oppia.proto.v1.versions.TopicContentRequestResponseProtoVersion proto_version = 1;
+
+  // Details about the client that is making the request.
+  AndroidClientContextDto client_context = 2;
+
+  // Specific structure identifiers that should be fetched, preferably in the order of the list.
+  // Note that the server only aims to prioritize earlier items in the list, but does not guarantee
+  // that they will be delivered if other factors affect sending a response for a particular item
+  // (such as the max payload size or a particular structure not existing). Note that no effort is
+  // made to ensure compatibility between the local client and the requested structures; the client
+  // is expected to make this determination based on the structure content & proto versions received
+  // from the topic list API. Finally, duplicates will be ignored to avoid repeating the same data
+  // multiple times.
+  repeated DownloadRequestStructureIdentifierDto identifiers = 3;
+
+  // The maximum payload size, in bytes, that the server should furnish as a single download
+  // operation. This is only a request, and may not be honoured by the server (which will only
+  // adhere to this field on a best-effort basis). This is calculated by taking the wire byte size
+  // (without compression) corresponding to a computed response (though the server may use estimates
+  // for efficiency, and will guarantee that the estimate isn't far off from the actual size sent).
+  uint32 requested_max_payload_size_bytes = 4;
+}
+
+// The expected response from the server when provided with a TopicContentRequest.
+message TopicContentResponseDto {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_CONTENT_REQUEST_RESPONSE_PROTO_VERSION;
+
+  // The common proto version defining this request/response pair.
+  org.oppia.proto.v1.versions.TopicContentRequestResponseProtoVersion proto_version = 1;
+
+  // A list of the individual items that were downloaded. Items in this list are expected to be
+  // relatively in the same order as the identifiers in the request, but some items may be missing
+  // (see the request's documentation for details). Note also that these will never include external
+  // assets such as voiceovers or images--those always must be downloaded separately.
+  repeated DownloadResultDto download_results = 2;
+
+  // The result of downloading a specific structure. This may either contain the result of the
+  // download, or an indication that the download was skipped and roughly why. The potential results
+  // correspond to the download requests that can be made per DownloadRequestStructureIdentifier.
+  message DownloadResultDto {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_CONTENT_REQUEST_RESPONSE_PROTO_VERSION;
+
+    // The entity type and ID corresponding to this download. This is guaranteed to exactly match at
+    // least one of the original identifiers in the request.
+    DownloadRequestStructureIdentifierDto identifier = 1;
+
+    // The type/nature of the download result (see fields for specifics).
+    oneof result_type {
+      // The presence of this value indicates that the request corresponding to this particular
+      // identifier was skipped and suggested to retry by the Oppia backend. Note that the presence
+      // of this value in the oneof is sufficient to indicate its state; its actual value does not
+      // matter.
+      bool skipped_should_retry = 2;
+
+      // The presence of this value indicates that the request outright failed for this particular
+      // identifier, potentially due to incorrect version/identifier information or an internal
+      // server failure. It is not recommended to retry the request since it's expected to fail
+      // again. Note that the presence of this value in the oneof is sufficient to indicate its
+      // state; its actual value does not matter. Note also that this is different than an HTTP
+      // error since certain error codes can be retried (in those cases, the entire response is
+      // expected to fail rather than a particular item within the response).
+      bool skipped_from_failure = 3;
+
+      // The presence of thise value indicates that the request doesn't correspond to an actual
+      // structure for the given ID/version. Note that the value of the field itself doesn't matter,
+      // just its presence.
+      bool skipped_does_not_exist = 14;
+
+      // The result is a requested topic summary.
+      org.oppia.proto.v1.structure.DownloadableTopicSummaryDto topic_summary = 4;
+
+      // The result is a requested revision card.
+      org.oppia.proto.v1.structure.RevisionCardDto revision_card = 5;
+
+      // The result is a requested concept card.
+      org.oppia.proto.v1.structure.ConceptCardDto concept_card = 6;
+
+      // The result is a requested exploration.
+      org.oppia.proto.v1.structure.ExplorationDto exploration = 7;
+
+      // The result is a requested list of question IDs.
+      QuestionIdListDto question_id_list = 8;
+
+      // The result is a requested question.
+      org.oppia.proto.v1.structure.QuestionDto question = 9;
+
+      // The result is a requested revision card language pack.
+      org.oppia.proto.v1.structure.RevisionCardLanguagePackDto revision_card_language_pack = 10;
+
+      // The result is a requested concept card language pack.
+      org.oppia.proto.v1.structure.ConceptCardLanguagePackDto concept_card_language_pack = 11;
+
+      // The result is a requested exploration language pack.
+      org.oppia.proto.v1.structure.ExplorationLanguagePackDto exploration_language_pack = 12;
+
+      // The result is a requested question language pack.
+      org.oppia.proto.v1.structure.QuestionLanguagePackDto question_language_pack = 13;
+    }
+  }
+
+  // A list of question IDs that directly correspond to a particular skill ID.
+  message QuestionIdListDto {
+    option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_CONTENT_REQUEST_RESPONSE_PROTO_VERSION;
+
+    // The list of question IDs that correspond to a particular skill ID.
+    repeated string question_ids = 1;
+  }
+}
+
+// Represents the Oppia Android client that's making a request to Oppia's backend. This message
+// includes metadata to help the backend understand the specific client that's connecting (generally
+// for enabling certain platform parameters, checking for app deprecation, adjusting response
+// protocols if necessary, and for telemetry).
+message AndroidClientContextDto {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = UNVERSIONED_API_PROTO;
+
+  // The app version name corresponding to the locally installed Android client. For more
+  // information, see: https://developer.android.com/studio/publish/versioning#appversioning.
+  string app_version_name = 1;
+
+  // The app version code corresponding to the locally installed Android client. For more
+  // information, see: https://developer.android.com/studio/publish/versioning#appversioning.
+  uint64 app_version_code = 2;
+}
+
+// Information about the latest proto versions that the client can support. The client is expected
+// to only support responses & response contents that match the exact versions provided in this
+// message, but it's permitted to send requests using any valid proto version for the request
+// structure. The backend is expected to always structure responses accordingly to the requested
+// versions provided here.
+message ClientCompatibilityContextDto {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
+  // The latest proto version for topic list responses that the client can support.
+  org.oppia.proto.v1.versions.TopicListRequestResponseProtoVersion topic_list_request_response_proto_version = 1;
+
+  // The latest proto version for topic content responses that the client can support.
+  org.oppia.proto.v1.versions.TopicContentRequestResponseProtoVersion topic_content_request_response_proto_version = 2;
+
+  // The latest proto version for topic summaries that the client can support.
+  org.oppia.proto.v1.versions.TopicSummaryProtoVersion topic_summary_proto_version = 3;
+
+  // The latest proto version for revision cards that the client can support.
+  org.oppia.proto.v1.versions.RevisionCardProtoVersion revision_card_proto_version = 4;
+
+  // The latest proto version for concept cards that the client can support.
+  org.oppia.proto.v1.versions.ConceptCardProtoVersion concept_card_proto_version = 5;
+
+  // The latest proto version for explorations that the client can support.
+  org.oppia.proto.v1.versions.ExplorationProtoVersion exploration_proto_version = 6;
+
+  // The latest proto version for questions that the client can support.
+  org.oppia.proto.v1.versions.QuestionProtoVersion question_proto_version = 7;
+
+  // The latest proto version for states that the client can support.
+  org.oppia.proto.v1.versions.StateProtoVersion state_proto_version = 8;
+
+  // The latest proto version for language-related protos that the client can support.
+  org.oppia.proto.v1.versions.LanguageProtosVersion language_protos_version = 9;
+
+  // The latest proto version for images that the client can support.
+  org.oppia.proto.v1.versions.ImageProtoVersion image_proto_version = 10;
+
+  // The latest proto version for classrooms that the client can support.
+  org.oppia.proto.v1.versions.ClassroomProtoVersion classroom_proto_version = 11;
+}
+
+// Details about a versione dstructure that's compatible with the local client. This can be used
+// both to indicate the local download state of a client's topics, and to provide details for
+// available changes to client-compatible topics.
+//
+// Note also that all structures represented by this message are considered "global" (that is, not
+// tied to any particular topics) even though this message may be used in the context of a topic
+// (generally to represent structures corresponding to the learning experience provided by that
+// topic). This is an important distinction since some structures (like concept cards) aren't
+// actually tied to any particular topics, and can be used across multiple topics. However, they are
+// downloaded with the first topic that references them, and shouldn't be re-downloaded in
+// subsequent topics (the backend makes guarantees to ensure that structures are never repeated).
+message VersionedStructureDetailsDto {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_LIST_REQUEST_RESPONSE_PROTO_VERSION;
+
+  // The backend-tracked and creator-affected content version of the structure. This is the primary
+  // indicator of how "new" a particular structure is, or whether it has updates available. This is
+  // always a monotonically increasing positive integer for newer versions.
+  uint32 content_version = 1;
+
+  // The type of structure being detailed.
+  oneof structure_type {
+    // Indicates that these details correspond to a complete topic, as specified by its ID.
+    string topic_id = 2;
+
+    // Indicates that these details correspond to a topic summary, as specified by a topic ID.
+    string topic_summary_id = 3;
+
+    // Indicates that these details correspond to a revision card, as specified by its ID structure.
+    org.oppia.proto.v1.structure.LocalizedRevisionCardIdDto revision_card = 4;
+
+    // Indicates that these details correspond to a concept card, as specified by its skill ID.
+    org.oppia.proto.v1.structure.LocalizedConceptCardIdDto concept_card = 5;
+
+    // Indicates that these details correspond to a story, as specified by its ID.
+    string story_id = 6;
+
+    // Indicates that these details correspond to an exploration, as specified by its ID.
+    org.oppia.proto.v1.structure.LocalizedExplorationIdDto exploration = 7;
+
+    // Indicates that these details correspond to a question, as specified by its ID.
+    org.oppia.proto.v1.structure.LocalizedQuestionIdDto question = 8;
+
+    // Indicates that these details correspond to a skill, as specified by its ID.
+    string skill_id = 9;
+
+    // Indicates these details correspond to a revision card language pack, as specified by its ID.
+    org.oppia.proto.v1.structure.LocalizedRevisionCardIdDto revision_card_language_pack = 10;
+
+    // Indicates these details correspond to a concept card language pack, as specified by its ID.
+    org.oppia.proto.v1.structure.LocalizedConceptCardIdDto concept_card_language_pack = 11;
+
+    // Indicates these details correspond to an exploration language pack, as specified by its ID.
+    org.oppia.proto.v1.structure.LocalizedExplorationIdDto exploration_language_pack = 12;
+
+    // Indicates that these details correspond to a question language pack, as specified by its ID.
+    org.oppia.proto.v1.structure.LocalizedQuestionIdDto question_language_pack = 13;
+  }
+}
+
+// TODO: Downloading topic summaries & representing topics, topic summaries, stories, and skills
+// probably requires having a similar language representation as those used for language packs (so
+// that language changes can trigger re-downloads).
+
+// An identifier used to download a specific structure at a particular content version as part of
+// the topic content API. It's expected that the server-provided structure will utilize the provided
+// proto version requested by the client.
+//
+// Note that there is a special caveat on the "global-ness" of the identifiers reference here. See
+// VersionedStructureDetails for more details as it shares the same caveat.
+message DownloadRequestStructureIdentifierDto {
+  option (org.oppia.proto.v1.versions.api_proto_version_type) = TOPIC_CONTENT_REQUEST_RESPONSE_PROTO_VERSION;
+
+  // The content (creator-affected) version of the request. See the similar field in
+  // VersionedStructureDetails for more details on what this value represents.
+  uint32 content_version = 1;
+
+  // The type of structure being requested for downloading.
+  oneof structure_type {
+    // Indicates that a topic summary should be downloaded, as specified by a topic ID.
+    string topic_summary_id = 2;
+
+    // Indicates that a revision card ("subtopic") should be downloaded, as specified by its ID.
+    org.oppia.proto.v1.structure.LocalizedRevisionCardIdDto revision_card = 3;
+
+    // Indicates that a concept card should be downloaded, as specified by its skill ID.
+    org.oppia.proto.v1.structure.LocalizedConceptCardIdDto concept_card = 4;
+
+    // Indicates that an exploration should be downloaded, as specified by its ID.
+    org.oppia.proto.v1.structure.LocalizedExplorationIdDto exploration = 5;
+
+    // Indicates that the list of questions associated with a specific skill ID should be
+    // downloaded, as specified by that ID.
+    string question_list_skill_id = 6;
+
+    // Indicates that a question should be downloaded, as specified by its ID.
+    org.oppia.proto.v1.structure.LocalizedQuestionIdDto question = 7;
+
+    // Indicates that a revision card language pack should be downloaded, as specified by its ID.
+    org.oppia.proto.v1.structure.LocalizedRevisionCardIdDto revision_card_language_pack = 8;
+
+    // Indicates that a concept card language pack should be downloaded, as specified by its ID.
+    org.oppia.proto.v1.structure.LocalizedConceptCardIdDto concept_card_language_pack = 9;
+
+    // Indicates that an exploration language pack should be downloaded, as specified by its ID.
+    org.oppia.proto.v1.structure.LocalizedExplorationIdDto exploration_language_pack = 10;
+
+    // Indicates that a question language pack should be downloaded, as specified by its ID.
+    org.oppia.proto.v1.structure.LocalizedQuestionIdDto question_language_pack = 11;
+  }
+}

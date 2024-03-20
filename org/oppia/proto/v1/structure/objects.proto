@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.structure;
+
+option java_package = "org.oppia.proto.v1.structure";
+option java_multiple_files = true;
+
+// TODO: Figure out how to cleanly organize and version this file's protos. Some are specific to
+//  rule inputs, some are used as solution answers, and some can correspond to both. Perhaps
+//  structures should be duplicated such that there are distinct answer & input proto files, with
+//  all protos versioned by the state proto structure version. This probably has the cleaner typing
+//  even if it is slightly duplicative. That being said, some core structures could easily be
+//  isolated and shared (such as fractions & normalized point). More thought is needed here.
+
+// Proto message representing a single fraction or mixed number.
+message FractionDto {
+  // Whether the fraction is negative.
+  bool is_negative = 1;
+
+  // The whole number part of the fraction.
+  uint32 whole_number = 2;
+
+  // The numerator of the fraction.
+  uint32 numerator = 3;
+
+  // The denominator of the fraction.
+  uint32 denominator = 4;
+}
+
+// Proto representing a single content ID for an HTML field. This content ID is used to map HTML
+// fields to their corresponding translations and voiceovers (see e.g. the WrittenTranslations
+// substructure of the corresponding State).
+message TranslatableHtmlContentIdDto {
+  // The content ID for the HTML field, which is unique within a given State.
+  string content_id = 1;
+}
+
+// Proto representing a set of TranslatableHtmlContentIds.
+message SetOfTranslatableHtmlContentIdsDto {
+  // The set of content IDs.
+  repeated TranslatableHtmlContentIdDto content_ids = 1;
+}
+
+// Proto representing a list of SetOfTranslatableHtmlContentIds.
+message ListOfSetsOfTranslatableHtmlContentIdsDto {
+  // The sets of content IDs.
+  repeated SetOfTranslatableHtmlContentIdsDto content_id_sets = 1;
+}
+
+// Proto representing a 2D point for the ImageRegion interaction type.
+message NormalizedPoint2dDto {
+  // Relative x-coordinate of the point within the image. This lies within the range [0, 1] and
+  // measures horizontal distance (with the left boundary of the image as the origin).
+  double x = 1;
+
+  // Relative y-coordinate of the point within the image. This lies within the range [0, 1] and
+  // measures vertical distance (with the top boundary of the image as the origin).
+  double y = 2;
+}
+
+// Proto representing a ratio object in list form, e.g. [1,2,3] for 1:2:3.
+message RatioExpressionDto {
+  // List of components in the ratio. The list is expected to have more than one element.
+  repeated uint32 components = 1;
+}
+
+// Proto representing a translatable set of normalized strings. This arises in the context of rules,
+// which may check the learner's answer against one of a given set of strings. The corresponding
+// replacement strings for a different language can be found in the WrittenTranslations structure of
+// the containing State.
+message TranslatableSetOfNormalizedStringDto {
+  // The content ID corresponding to this set of normalized strings where the activity's
+  // translations should include a list of translated strings corresponding to this content ID.
+  string content_id = 1;
+}
+
+// Proto representing an image that is overlaid with labeled regions.
+message ImageWithRegionsDto {
+
+  // The filepath of the image, which will be prefixed with '[exploration_id]/assets'.
+  string image_file_path = 1;
+
+  // The labeled regions of this image.
+  repeated LabeledRegionDto labeled_regions = 2;
+
+  // Proto representing a labeled region of the image.
+  message LabeledRegionDto {
+    // The name of the region's label.
+    string label = 1;
+
+    // The type of the region.
+    oneof region_type {
+      // A rectangle that is normalized so that its boundary coordinates are within the range [0,1],
+      // where 0 corresponds to one end of the image and 1 to the other.
+      NormalizedRectangle2dDto normalized_rectangle_2d = 2;
+    }
+
+    // Proto representing a 2D rectangle defined using normalized coordinates relative to the image.
+    // The origin of the coordinate system is at the top left of the image. The x-coordinate
+    // measures horizontal distance (to the right), and the y-coordinate measures vertical distance
+    // (downwards).
+    message NormalizedRectangle2dDto {
+      // The top-left corner of the rectangle, in normalized coordinates.
+      NormalizedPoint2dDto top_left = 1;
+
+      // The bottom-right corner of the rectangle, in normalized coordinates.
+      NormalizedPoint2dDto bottom_right = 2;
+    }
+  }
+}

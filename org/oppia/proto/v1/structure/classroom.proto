@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.structure;
+
+import "org/oppia/proto/v1/structure/languages.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
+
+option java_package = "org.oppia.proto.v1.structure";
+option java_multiple_files = true;
+
+// Represents the summary of a classroom whose topics are available to the user to view and possibly
+// download. Note tha topics are considered the primary top-level learning 'unit' even though
+// they're organized categorically into classrooms.
+message ClassroomDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = CLASSROOM_PROTO_VERSION;
+
+  // The version defining the internal structure of this message.
+  org.oppia.proto.v1.versions.ClassroomProtoVersion proto_version = 1;
+
+  // The globally unique ID of the classroom.
+  string id = 2;
+
+  // The localizable name of the classroom.
+  SubtitledTextDto name = 3;
+
+  // The list of topics contained within this classroom. These topics do not have to be available
+  // for the local client to download (instead, this list will comprise of all published or planned
+  // topics for the classroom).
+  repeated string topic_ids = 4;
+
+  // The localized text, images, and voiceovers of this classroom.
+  ContentLocalizationsDto localizations = 5;
+}

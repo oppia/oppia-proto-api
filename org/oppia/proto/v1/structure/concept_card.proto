@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package org.oppia.proto.v1.structure;
+
+import "org/oppia/proto/v1/structure/languages.proto";
+import "org/oppia/proto/v1/versions/structure_versions.proto";
+
+option java_package = "org.oppia.proto.v1.structure";
+option java_multiple_files = true;
+
+// Represents a single concept card that can be displayed for a specific skill. Skills are expected
+// to have exactly one concept card associated with them. Concept cards provide a lightweight
+// reminder experience for learners that can help them get unstuck when they might have forgotten
+// aspects of a certain skill that they need to demonstrate in a practice session or exploration.
+message ConceptCardDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = CONCEPT_CARD_PROTO_VERSION;
+
+  // The version defining the internal structure of this message.
+  org.oppia.proto.v1.versions.ConceptCardProtoVersion proto_version = 1;
+
+  // The ID corresponding to the skill this concept is representing.
+  string skill_id = 2;
+
+  // A localizable description for the skill.
+  SubtitledTextDto description = 3;
+
+  // The localizable explanation of the skill that is to be shown in the concept card.
+  SubtitledTextDto explanation = 4;
+
+  // A list of worked examples to present to the learner.
+  repeated WorkedExampleDto worked_examples = 5;
+
+  // The default localized text, images, and voiceovers of this concept card.
+  ContentLocalizationDto default_localization = 6;
+
+  // The version of the contents of this concept card (which corresponds to the 'version' field for
+  // the concept card's skill on the server).
+  uint32 content_version = 7;
+
+  // Represents a worked example (which provides a sample question and answer for the learner to
+  // read and learn from).
+  message WorkedExampleDto {
+    option (org.oppia.proto.v1.versions.structure_proto_version_type) = CONCEPT_CARD_PROTO_VERSION;
+
+    // The localizable question for this worked example.
+    SubtitledTextDto question = 1;
+
+    // The localizable explanation for how to solve this worked example.
+    SubtitledTextDto explanation = 2;
+  }
+}
+
+// Represents a localized language pack corresponding to both a single concept card and a single
+// language.
+message ConceptCardLanguagePackDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = CONCEPT_CARD_PROTO_VERSION;
+
+  // The version defining the internal structure of this message.
+  org.oppia.proto.v1.versions.ConceptCardProtoVersion proto_version = 1;
+
+  // The ID of the pack.
+  LocalizedConceptCardIdDto id = 2;
+
+  // The language-specific localized text, images, and voiceovers of this concept card.
+  ContentLocalizationDto localization = 3;
+
+  // The version of the pack's contents (e.g. specific translations).
+  uint32 content_version = 4;
+}
+
+// Represents the identifier for a localized concept card, either indicating the concept card's
+// default language, or referencing a language pack for the concept card.
+message LocalizedConceptCardIdDto {
+  // This proto message type is shared among multiple protos, so it has no direct migration pathway.
+  // Changes here should be carefully done in a way that does not break compatibility or assumptions
+  // across all relevant proto versions, or the proto should be duplicated according to whichever
+  // proto requires alterations.
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+
+  // The ID corresponding to the skill the concept card is representing.
+  string skill_id = 1;
+
+  // The language being localized either as the default for the concept card, or provided by a
+  // language pack.
+  LanguageType language = 2;
+}
