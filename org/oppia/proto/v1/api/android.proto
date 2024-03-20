@@ -392,6 +392,9 @@ message ClientCompatibilityContextDto {
 
   // The latest proto version for images that the client can support.
   org.oppia.proto.v1.versions.ImageProtoVersion image_proto_version = 10;
+
+  // The latest proto version for classrooms that the client can support.
+  org.oppia.proto.v1.versions.ClassroomProtoVersion classroom_proto_version = 11;
 }
 
 // Details about a versione dstructure that's compatible with the local client. This can be used
