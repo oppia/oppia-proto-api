@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package org.oppia.proto.v1.api;
 
+import "org/oppia/proto/v1/structure/classroom.proto";
 import "org/oppia/proto/v1/structure/concept_card.proto";
 import "org/oppia/proto/v1/structure/exploration.proto";
 import "org/oppia/proto/v1/structure/languages.proto";
@@ -101,6 +102,11 @@ message TopicListResponseDto {
 
   // A list of all topics that will be available to the client to install in the future.
   repeated FutureTopicDto future_topics = 3;
+
+  // A list of available classrooms for learning. Clients may opt to only show topics that
+  // correspond to a classroom, and it is possible for a topic to belong to more than one classroom
+  // simultaneously.
+  repeated org.oppia.proto.v1.structure.ClassroomDto classrooms = 4;
 
   // A topic that's available to & compatible with the local client.
   message AvailableTopicDto {

@@ -7,6 +7,7 @@ load("//defs:defs.bzl", "define_buildifier_tests", "oppia_proto_library")
 oppia_proto_library(
     name = "structure_proto",
     srcs = [
+        "classroom.proto",
         "concept_card.proto",
         "exploration.proto",
         "image.proto",

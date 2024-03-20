@@ -126,6 +126,18 @@ message ImageProtoVersion {
   uint32 version = 1;
 }
 
+// Represents the version of the proto structures for classrooms. This structure is never expected
+// to change.
+//
+// See the README for details on how these versions are meant to be used.
+message ClassroomProtoVersion {
+  option (structure_proto_version_type) = UNVERSIONED_STRUCTURE_PROTO;
+  option (latest_structure_proto_version) = 1;
+
+  // The numeric version corresponding to the containing proto's structure.
+  uint32 version = 1;
+}
+
 // Represents the type of versioning corresponding to a structure proto message.
 enum StructureProtoVersionType {
   // The default version type (that is, unspecified and not corresponding to any versioning scheme).
@@ -159,4 +171,7 @@ enum StructureProtoVersionType {
 
   // Indicates that the proto is bound by ImageProtoVersion.
   IMAGE_PROTO_VERSION = 9;
+
+  // Indicates that the proto is bound by ClassroomProtoVersion.
+  CLASSROOM_PROTO_VERSION = 10;
 }
