@@ -27,6 +27,9 @@ message StateDto {
   // The interaction of the state (which must be interacted with by the learner in order to
   // proceed).
   InteractionInstanceDto interaction = 3;
+
+  // The ID of the skill to which the question of this state is pedagogically associated.
+  string linked_skill_id = 4;
 }
 
 // Represents an instance of a single interaction within a state. Note that interactions are
