@@ -9,7 +9,6 @@ load("@rules_proto//proto:defs.bzl", "proto_library")
 
 # Configured lint warnings for Buildifier linter tests & autofixing configuration.
 BUILDIFIER_LINT_WARNINGS = [
-    "+out-of-order-load",
     "+unsorted-dict-items",
 ]
 

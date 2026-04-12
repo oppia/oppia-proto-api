@@ -5,50 +5,51 @@ Defines third-party dependencies and their versions.
 # Note to developers: Please keep this dict sorted by key to make it easier to find dependencies.
 MAVEN_DEPENDENCY_VERSIONS = {
     "bazel_gazelle": {
-        "sha": "de69a09dc70417580aabf20a28619bb3ef60d038470c7cf8442fafcf627c21cb",
+        "sha": "92329a7dbb26d0beacc43da669211546ea6627582793f4dd5f28837fde3a5c08",
         "url": "https://github.com/bazelbuild/bazel-gazelle/releases/download/v{0}/bazel-gazelle-v{0}.tar.gz",
-        "version": "0.24.0",
+        "version": "0.50.0",
     },
     "com_github_bazelbuild_buildtools": {
-        "sha": "ae34c344514e08c23e90da0e2d6cb700fcd28e80c02e23e4d5715dddcb42f7b3",
+        "sha": "f3b800e9f6ca60bdef3709440f393348f7c18a29f30814288a7326285c80aab9",
         "strip_prefix": "buildtools-{0}",
-        "url": "https://github.com/bazelbuild/buildtools/archive/refs/tags/{0}.tar.gz",
-        "version": "4.2.2",
+        "url": "https://github.com/bazelbuild/buildtools/archive/refs/tags/v{0}.tar.gz",
+        "version": "8.5.1",
     },
     "com_google_protobuf": {
-        "sha": "c6003e1d2e7fefa78a3039f19f383b4f3a61e81be8c19356f85b6461998ad3db",
+        "sha": "6fbe2e6f703bcd3a246529c2cab586ca12a98c4e641f5f71d51fde09eb48e9e7",
         "strip_prefix": "protobuf-{0}",
-        "url": "https://github.com/protocolbuffers/protobuf/archive/v{0}.tar.gz",
-        "version": "3.17.3",
+        "url": "https://github.com/protocolbuffers/protobuf/releases/download/v{0}/protobuf-{0}.tar.gz",
+        "version": "27.1",
     },
     "io_bazel_rules_go": {
-        "sha": "8e968b5fcea1d2d64071872b12737bbb5514524ee5f0a4f54f5920266c261acb",
+        "sha": "86d3dc8f59d253524f933aaf2f3c05896cb0b605fc35b460c0b4b039996124c6",
         "url": "https://github.com/bazelbuild/rules_go/releases/download/v{0}/rules_go-v{0}.zip",
-        "version": "0.28.0",  # Last version compatible with Bazel 4.0.0.
+        "version": "0.60.0",
     },
     "rules_buf": {
-        "sha": "523a4e06f0746661e092d083757263a249fedca535bd6dd819a8c50de074731a",
+        "sha": "4a024a411996967c3a3f49b04765bd016169a2c79be3dc78aa62bfa2643850ef",
         "strip_prefix": "rules_buf-{0}",
-        "url": "https://github.com/bufbuild/rules_buf/archive/refs/tags/v{0}.zip",
-        "version": "0.1.1",
+        "url": "https://github.com/bufbuild/rules_buf/releases/download/v{0}/rules_buf-{0}.tar.gz",
+        "version": "0.5.2",
     },
     "rules_java": {
-        "sha": "220b87d8cfabd22d1c6d8e3cdb4249abd4c93dcc152e0667db061fb1b957ee68",
+        "sha": "4018e97c93f97680f1650ffd2a7530245b864ac543fd24fae8c02ba447cb2864",
         "url": "https://github.com/bazelbuild/rules_java/releases/download/{0}/rules_java-{0}.tar.gz",
-        "version": "0.1.1",
+        "version": "7.3.1",
     },
     "rules_proto": {
-        "sha": "e017528fd1c91c5a33f15493e3a398181a9e821a804eb7ff5acdd1d2d6c2b18d",
+        "sha": "14a225870ab4e91869652cfd69ef2028277fc1dc4910d65d353b62d6e0ae21f4",
         "strip_prefix": "rules_proto-{0}",
-        "url": "https://github.com/bazelbuild/rules_proto/archive/refs/tags/{0}.tar.gz",
-        "version": "4.0.0-3.20.0",
+        "url": "https://github.com/bazelbuild/rules_proto/releases/download/{0}/rules_proto-{0}.tar.gz",
+        "version": "7.1.0",
     },
     "rules_python": {
-        "sha": "934c9ceb552e84577b0faf1e5a2f0450314985b4d8712b2b70717dc679fdc01b",
+        "sha": "c68bdc4fbec25de5b5493b8819cfc877c4ea299c0dcb15c244c5a00208cde311",
+        "strip_prefix": "rules_python-{0}",
         "url": "https://github.com/bazelbuild/rules_python/releases/download/{0}/rules_python-{0}.tar.gz",
-        "version": "0.3.0",
+        "version": "0.31.0",
     },
 }
 
 BUF_VERSION = "1.14.0"
-GO_VERSION = "1.17.2"
+GO_VERSION = "1.23.0"

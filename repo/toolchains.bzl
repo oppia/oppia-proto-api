@@ -9,7 +9,8 @@ load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
 load("@rules_buf//buf:repositories.bzl", "rules_buf_dependencies", "rules_buf_toolchains")
 load("@rules_java//java:repositories.bzl", "rules_java_dependencies", "rules_java_toolchains")
-load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies")
+load("@rules_proto//proto:setup.bzl", "rules_proto_setup")
 load("//repo:versions.bzl", "BUF_VERSION", "GO_VERSION")
 
 def initializeToolchainsForWorkspace():
@@ -33,7 +34,7 @@ def initializeToolchainsForWorkspace():
 
     # Set up the toolchains for rules_proto.
     rules_proto_dependencies()
-    rules_proto_toolchains()
+    rules_proto_setup()
 
     # Set up the toolchains for rules_java.
     rules_java_dependencies()
