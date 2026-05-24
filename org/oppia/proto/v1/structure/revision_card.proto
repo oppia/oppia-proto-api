@@ -27,7 +27,9 @@ message RevisionCardDto {
   // The localizable title of the revision card.
   SubtitledTextDto title = 3;
 
-  // The main content of this revision card.
+  // This represents the legacy single-block representation of a revision card. It is no longer
+  // populated for revision cards sourced as study guides; 'sections' should be used instead. It is
+  // retained only for backward compatibility with older clients.
   SubtitledTextDto content = 4;
 
   // The default localized text, images, and voiceovers of this revision card.
@@ -35,6 +37,24 @@ message RevisionCardDto {
 
   // The version of the revision card's contents.
   uint32 content_version = 6;
+
+  // The ordered list of study guide sections that make up this revision card. Each section is a
+  // heading and content pair. This is the current representation of revision card content and
+  // supersedes the single 'content' field above.
+  repeated StudyGuideSectionDto sections = 7;
+}
+
+// Represents a single section of a study guide: a heading paired with its content. Study guides are
+// the sectioned representation of revision cards, allowing content to be split into smaller,
+// easier-to-read and easier-to-translate parts.
+message StudyGuideSectionDto {
+  option (org.oppia.proto.v1.versions.structure_proto_version_type) = REVISION_CARD_PROTO_VERSION;
+
+  // The localizable heading shown at the top of the section.
+  SubtitledTextDto heading = 1;
+
+  // The localizable main content shown under the heading.
+  SubtitledTextDto content = 2;
 }
 
 // Represents a localized language pack corresponding to both a single revision card and a single
