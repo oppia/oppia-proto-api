@@ -27,21 +27,19 @@ message RevisionCardDto {
   // The localizable title of the revision card.
   SubtitledTextDto title = 3;
 
-  // This represents the legacy single-block representation of a revision card. It is no longer
-  // populated for revision cards sourced as study guides; 'sections' should be used instead. It is
-  // retained only for backward compatibility with older clients.
-  SubtitledTextDto content = 4;
+  // Reserved for the old single-block revision card content field.
+  reserved 4;
+  reserved "content";
+
+  // The ordered list of study guide sections that make up this revision card. Each section is a
+  // heading and content pair.
+  repeated StudyGuideSectionDto sections = 7;
 
   // The default localized text, images, and voiceovers of this revision card.
   ContentLocalizationDto default_localization = 5;
 
   // The version of the revision card's contents.
   uint32 content_version = 6;
-
-  // The ordered list of study guide sections that make up this revision card. Each section is a
-  // heading and content pair. This is the current representation of revision card content and
-  // supersedes the single 'content' field above.
-  repeated StudyGuideSectionDto sections = 7;
 }
 
 // Represents a single section of a study guide: a heading paired with its content. Study guides are
