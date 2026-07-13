@@ -16,10 +16,10 @@ MAVEN_DEPENDENCY_VERSIONS = {
         "version": "8.5.1",
     },
     "com_google_protobuf": {
-        "sha": "6fbe2e6f703bcd3a246529c2cab586ca12a98c4e641f5f71d51fde09eb48e9e7",
+        "sha": "7c3ebd7aaedd86fa5dc479a0fda803f602caaf78d8aff7ce83b89e1b8ae7442a",
         "strip_prefix": "protobuf-{0}",
         "url": "https://github.com/protocolbuffers/protobuf/releases/download/v{0}/protobuf-{0}.tar.gz",
-        "version": "27.1",
+        "version": "28.3",
     },
     "io_bazel_rules_go": {
         "sha": "86d3dc8f59d253524f933aaf2f3c05896cb0b605fc35b460c0b4b039996124c6",
