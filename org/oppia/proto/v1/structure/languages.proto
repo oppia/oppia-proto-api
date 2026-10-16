@@ -48,6 +48,9 @@ enum LanguageType {
 
   // Corresponds to the creole language Naija that's predominately used in Nigeria.
   NIGERIAN_PIDGIN = 7;
+
+  // Corresponds to es-419 Spanish (that is, Latin American Spanish).
+  LATIN_AMERICAN_SPANISH = 8;
 }
 
 // Represents a block of (subtitled) text. This structure is used for content strings so that they
